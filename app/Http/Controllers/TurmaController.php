@@ -1,10 +1,13 @@
 <?php
 
-namespace ufop-faltas\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Storage;
+use App\News;
 use Excel;
-
+use Input;
 class TurmaController extends Controller
 {
     /**
@@ -23,13 +26,33 @@ class TurmaController extends Controller
         return view('sobre');
     }
 
+    public function import_page(){
+      return view ('criarturma');
+    }
+/*
+    public functionn insert_news(){
+      $News = new News;
+      $News->ano = $request->ano;
+      $News->semestre = $request->ano;
+      $News->ano = $request->ano;
+      $News->ano = $request->ano;
+      $News->ano = $request->ano;
+      $News->ano = $request->ano;
+      $News->ano = $request->ano;
+
+    }
+*/
     public function import_csv_file()
     {
-      Excel::load(input::file('csv_file'), function($reader) {
-        $reader->each(function($sheet){
-          Classs::firstOrCreate($sheet->toArray());
-          return $sheet;
-        });
-      });
+
+      Excel::load(Input::file('file'), function ($reader) {
+        $reader->each(function($sheet) {
+         foreach ($sheet->toArray() as $row) {
+            User::firstOrCreate($row);
+         }
+     });
+});
+
+
     }
 }

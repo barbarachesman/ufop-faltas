@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('nome');
             $table->char('cpf', 11)->unique();
             $table->string('email')->unique();
+            $table->char('id_grupo');
+            $table->string('grupo');
             $table->rememberToken();
             $table->timestamps();
         });

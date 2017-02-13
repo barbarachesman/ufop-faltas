@@ -11,7 +11,7 @@
 @section('conteudo')
     <div class='col-lg-12'>
        <p>
-           Crie alguma coisa incrível :)
+          UFOP FALTAS
        </p>
     </div>
 @endsection

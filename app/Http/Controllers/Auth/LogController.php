@@ -165,7 +165,7 @@ class LogController extends Controller
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => ucwords(strtolower($userData->nomecompleto)),
-                    'grupo' =>$userData->id_grupo,
+                    'id_grupo' =>$userData->id_grupo,
                 ]);
 
                 Event::fire(new NewUserCreated($user));
@@ -176,12 +176,13 @@ class LogController extends Controller
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => ucwords(strtolower($userData->nomecompleto)),
-                    'grupo' =>$userData->id_grupo,
+                    'id_grupo' =>$userData->id_grupo,
+                    'ou' =>$userData->ou,
                 ]);
 
                 Event::fire(new NewUserCreated($user));
             }
-            else return redirect()->back()->withErrors(['credentials' => 'Você não permissão para usar o sistema.']);
+            else return redirect()->back()->withErrors(['credentials' => 'Você não tem permissão para usar o sistema.']);
         }
 
         // Se o usuário selecionou a opção de ser lembrado,

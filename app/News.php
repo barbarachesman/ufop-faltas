@@ -5,11 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Classs extends Model
+class News extends Model
 {
-
     protected $fillable = [
-        'nome', 'matricula', 'curso',
+        'ano', 'semestre', 'coddisciplina','matricula','nome','curso','turma','email'
     ];
 
 }

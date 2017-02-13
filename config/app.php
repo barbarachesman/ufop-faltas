@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        'Maatwebsite\Excel\ExcelServiceProvider',
 
         /*
          * Package Service Providers...
@@ -172,7 +173,8 @@ return [
         //
 
         /*
-         * Application Service Providers...
+         * Application Service Pr
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,oviders...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -230,6 +232,9 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
+
 
     ],
 

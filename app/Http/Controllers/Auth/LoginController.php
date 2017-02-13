@@ -1,4 +1,4 @@
-<?php
+ufo<?php
 
 namespace App\Http\Controllers\Auth;
 
@@ -64,19 +64,24 @@ class LoginController extends Controller
      */
     private function isPermitted($group)
     {
-        return true;
+        //return true;
         $permitted = false;
 
         // Se pertencer à algum grupo vinculado ao campus, está liberado
         switch ($group) {
-            case 712: // Biblioteca ICEA
-            case 714: // ICEA
+          //  case 712: // Biblioteca ICEA
+          //  case 714: // ICEA
             case 715: // DECEA
             case 716: // DEENP
             case 7126: // DECOM - Ouro Preto
             case 71130: // DECSI
             case 71481: // DEELT
-                $permitted = false;
+            case 7236:  //Sistemas
+            case 7217:  //Elétrica
+            case 7215:  //Produção
+            case 7213:  //Computação
+
+                $permitted = true;
                 break;
         }
 
@@ -95,7 +100,7 @@ class LoginController extends Controller
         // Componentes do corpo da requisição
         $requestBody['user'] = $input['username'];
         $requestBody['password'] = $input['password'];
-        $requestBody['attributes'] = ["cpf", "nomecompleto", "email", "id_grupo"]; // Atributos que devem ser retornados em caso autenticação confirmada
+        $requestBody['attributes'] = ["cpf", "nomecompleto", "email", "id_grupo", "grupo"]; // Atributos que devem ser retornados em caso autenticação confirmada
 
         // Chamada de autenticação para a LDAPI
         $httpClient = new Client();
@@ -145,12 +150,13 @@ class LoginController extends Controller
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => ucwords(strtolower($userData->nomecompleto)),
-                    'grupo' =>$userData->id_grupo,
+                    'id_grupo' =>$userData->id_grupo,
+                    'grupo' =>$userData->grupo,
                 ]);
 
                 Event::fire(new NewUserCreated($user));
             }
-            else return redirect()->back()->withErrors(['credentials' => 'Você não permissão para usar o sistema.']);
+            else return redirect()->back()->withErrors(['credentials' => 'Você não tem permissão para usar o sistema.']);
         }
 
         // Se o usuário selecionou a opção de ser lembrado,
