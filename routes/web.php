@@ -15,8 +15,11 @@
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'PagesController@home']);
     Route::get('logs', ['as' => 'logs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
-    Route::get('criarturma', 'TurmaController@import_csv_file');
-    Route::get('visualizarturma', ['as' => 'visualizarturma', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
+
+    Route::get('criarturma', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
+    Route::post('importarturma', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
+    Route::get('visualizarturma', ['as' => 'visualizarTurma', 'uses' => 'TurmaController@index']);
+
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
 });
 

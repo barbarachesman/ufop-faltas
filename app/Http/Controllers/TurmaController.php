@@ -2,57 +2,100 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CriarTurmaRequest;
+use App\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Storage;
-use App\News;
-use Excel;
-use Input;
+use Maatwebsite\Excel\Facades\Excel;
+
 class TurmaController extends Controller
 {
     /**
-     * Renderiza a página inicial do sistema.
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function home()
+    public function index()
     {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
         return view('criarturma');
     }
 
     /**
-     * Renderiza a view contento informações sobre o sistema.
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function sobre()
+    public function store(Request $request)
     {
-        return view('sobre');
+        //
     }
 
-    public function import_page(){
-      return view ('criarturma');
-    }
-/*
-    public functionn insert_news(){
-      $News = new News;
-      $News->ano = $request->ano;
-      $News->semestre = $request->ano;
-      $News->ano = $request->ano;
-      $News->ano = $request->ano;
-      $News->ano = $request->ano;
-      $News->ano = $request->ano;
-      $News->ano = $request->ano;
-
-    }
-*/
-    public function import_csv_file()
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
+        //
+    }
 
-      Excel::load(Input::file('file'), function ($reader) {
-        $reader->each(function($sheet) {
-         foreach ($sheet->toArray() as $row) {
-            User::firstOrCreate($row);
-         }
-     });
-});
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function importCSV(CriarTurmaRequest $request)
+    {
+        Excel::load($request->file('file'), function ($reader) {
+            $reader->each(
+                function($sheet) {
+                    Usuario::firstOrCreate($sheet->toArray());
+                }
+            );
+        });
+
+        return redirect()->route('home');
     }
 }

@@ -14,7 +14,7 @@
                 </a>
 
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('criarturma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
+                    <li><a href="{{ route('criarTurma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
                     <li><a href="#"><i class="fa fa-th-list"></i> <span>Visualizar</span></a></li>
                 </ul>
             </li>
