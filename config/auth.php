@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'aluno',
+        'passwords' => 'usuarios',
     ],
 
     /*
@@ -36,14 +36,19 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'aluno' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'usuarios',
+        ],
+
+        'professor' => [
+            'driver' => 'session',
+            'provider' => 'usuarios',
         ],
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'usuarios',
         ],
     ],
 
@@ -65,7 +70,7 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'usuarios' => [
             'driver' => 'eloquent',
             'model' => App\Usuario::class,
         ],
