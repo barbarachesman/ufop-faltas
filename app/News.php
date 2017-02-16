@@ -2,13 +2,30 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class News extends Model
+class Usuario extends Authenticatable
 {
+    use Notifiable;
+
+    protected $table = "usuarios";
+
+    /**
+     * Atributos que podem ser atribuídos em massa, ou seja, que podem ser usados no método User::create()
+     *
+     * @var array
+     */
     protected $fillable = [
-        'ano', 'semestre', 'coddisciplina','matricula','nome','curso','turma','email'
+        'nome', 'email', 'cpf','id_grupo','grupo'
     ];
 
+    /**
+     * Atributos que serão omitidos caso a instância seja convertida em um array.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'cpf', 'remember_token',
+    ];
 }

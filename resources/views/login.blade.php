@@ -24,7 +24,7 @@
 <body class="hold-transition login-page skin-ufop guest">
 <div class="login-box">
     <div class="login-logo">
-        <i class="fa fa-desktop"></i> UFOP Faltas
+        <i class="fa fa-graduation-cap"></i> UFOP Faltas
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
@@ -32,7 +32,6 @@
         <div class="form">
             <form class="form" action="{{ route('login') }}" method="post">
                 {{ csrf_field() }}
-
                 <div class="input-group {{ $errors->has('credentials') || $errors->has('username') ? ' has-error' : '' }}">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                     <input data-mask="000.000.000-00" data-mask-reverse="true" type="text" name="username" class="form-control" minlength="11" maxlength="14" placeholder="CPF do Minha UFOP" required autofocus data-toggle="tooltip" data-placement="right" title="CPF do Minha UFOP" >
