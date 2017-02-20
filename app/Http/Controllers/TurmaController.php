@@ -111,7 +111,7 @@ class TurmaController extends Controller
     {
         Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
 
-        Excel::load($request->file('file'), function ($reader) {
+        $callback = Excel::load($request->file('file'), function ($reader) {
 
             $alunos = $reader->get()->toArray();
             $turma = null; // sinaliza se a turma já foi criada ou não
@@ -128,7 +128,7 @@ class TurmaController extends Controller
 
                     $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
 
-                    if(is_null($disciplina)) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+                    if(is_null($disciplina)) return 1;
                     else
                     {
                         $turma = Turma::firstOrCreate([
@@ -178,9 +178,12 @@ class TurmaController extends Controller
                     'turma_id' => $turma->id
                 ]);
             }
+
+            return 0;
         });
 
-        return redirect()->route('home');
+        if($callback) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+        else return redirect()->route('home');
     }
 
     public function getAlunoDetails($campo, $valor, $grupo)

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Periodo extends Model
 {
+
+    public $timestamps = false;
+
     protected $hidden = [
         'id',
     ];
