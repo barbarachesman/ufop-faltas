@@ -128,7 +128,7 @@ class TurmaController extends Controller
 
                     $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
 
-                    if(is_null($disciplina)) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+                    if(is_null($disciplina)) return redirect()->route('importarTurma')->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
                     else
                     {
                         $turma = Turma::firstOrCreate([
