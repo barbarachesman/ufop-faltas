@@ -60,7 +60,7 @@ class LoginController extends Controller
      */
     private function isPermitted($group)
     {
-        $level = false;
+        $permitted = false;
 
         // Se pertencer à algum grupo vinculado ao campus, está liberado
         switch ($group) {
@@ -69,19 +69,17 @@ class LoginController extends Controller
             case 715: // DECEA
             case 716: // DEENP
             case 7126: // DECOM - Ouro Preto
-            case 71130: // DECSI
-            case 71481: // DEELT
-                $level = 1;
-                break;
             case 7236:  //Sistemas
             case 7217:  //Elétrica
             case 7215:  //Produção
             case 7213:  //Computação
-                $level = 2;
+            case 71130: // DECSI
+            case 71481: // DEELT
+                $permitted = true;
                 break;
         }
 
-        return $level;
+        return $permitted;
     }
     /**
      * Realiza o processo de login de usuário.
@@ -139,19 +137,15 @@ class LoginController extends Controller
             // Recupera os atributos retornados pelo servidor de autenticação
             $userData = json_decode($response->getBody()->getContents());
 
-            // Verifica se ele tem permissão de uso e caso tenha, qual ;e o seu nível
-            $userLevel = $this->isPermitted($userData->id_grupo);
-
             // Verificar se ele pertence a algum grupo que é permitido de usar o sistema, por exemplo
-            if($userLevel)
+            if($this->isPermitted($userData->id_grupo))
             { // Se for permitido, então cria-se um novo usuário
                 $user = Usuario::create([
                     'cpf' => $userData->cpf,
                     'email' => $userData->email,
                     'nome' => ucwords(strtolower($userData->nomecompleto)),
-                    'id_grupo' => $userData->id_grupo,
-                    'grupo' => $userData->grupo,
-                    'nivel' => $userLevel,
+                    'grupo_id' => $userData->id_grupo,
+                    'grupo_nome' => $userData->grupo
                 ]);
 
                 event(new NewUserCreated($user));
@@ -160,7 +154,7 @@ class LoginController extends Controller
         }
 
         // Define qual é a guard a ser usada de acordo com o nível do usuário
-        if($user->nivel == 1) $guard = 'professor';
+        if($user->isProfessor()) $guard = 'professor';
         else $guard = 'aluno';
 
         // Se o usuário selecionou a opção de ser lembrado,
