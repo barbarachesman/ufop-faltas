@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('logs', ['as' => 'logs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
 
     // Rotas específicas para professores
-    Route::group(['middleware' => 'auth:professor'], function (){
+    Route::group(['middleware' => 'auth:aluno'], function (){
         Route::get('criarturma', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
         Route::post('importarturma', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
         Route::get('visualizarturma', ['as' => 'visualizarTurma', 'uses' => 'TurmaController@index']);
