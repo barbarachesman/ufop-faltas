@@ -15,6 +15,9 @@ require('laravel-elixir-vue-2');
 
 elixir(function(mix) {
 
+    // Imagens
+    mix.copy('resources/assets/img', 'public/img');
+
     // Fontes
     mix.copy('resources/assets/fonts', 'public/fonts');
 
