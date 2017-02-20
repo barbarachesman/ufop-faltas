@@ -66,4 +66,9 @@ class Usuario extends Authenticatable
                 return false;
         }
     }
+
+    public function encarregado()
+    {
+        return $this->hasMany('App\Encarregado', 'professor_id');
+    }
 }
