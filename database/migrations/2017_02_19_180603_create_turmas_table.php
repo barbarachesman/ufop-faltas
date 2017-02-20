@@ -17,6 +17,7 @@ class CreateTurmasTable extends Migration
             $table->increments('id');
             $table->integer('disciplina_id')->unsigned();
             $table->integer('periodo_id')->unsigned();
+            $table->string('codigo');
             $table->boolean('finalizada');
 
             $table->foreign('disciplina_id')
