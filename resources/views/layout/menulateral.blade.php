@@ -9,13 +9,13 @@
             <li class="header text-center">MENU</li>
             <li class="treeview">
                 <a href="">
-                    <i class="fa fa-hand-paper-o"></i><span>Turmas</span>
+                    <i class="fa fa-users"></i><span>Turmas</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
 
                 <ul class="treeview-menu">
                     <li><a href="{{ route('criarTurma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
-                    <li><a href="#"><i class="fa fa-th-list"></i> <span>Visualizar</span></a></li>
+                    <li><a href="{{ route('visualizarTurma') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
                 </ul>
             </li>
             <li><a href="{{ route('logs') }}"><i class="fa fa-database" aria-hidden="true"></i><span>Chamada</span></a></li>

@@ -145,7 +145,7 @@ class LoginController extends Controller
                     'email' => $userData->email,
                     'nome' => ucwords(strtolower($userData->nomecompleto)),
                     'grupo_id' => $userData->id_grupo,
-                    'grupo_nome' => $userData->grupo
+                    'grupo_nome' => ucwords(strtolower($userData->grupo))
                 ]);
 
                 event(new NewUserCreated($user));
