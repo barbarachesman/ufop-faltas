@@ -32,9 +32,9 @@
                             <td>{!! $encarregado->turma->periodo->periodo !!}</td>
                             <td>
                                 @if($encarregado->turma->finalizada)
-                                    <span class="text-success">Ativa</span>
-                                @else
                                     <span class="text-danger">Finalizada</span>
+                                @else
+                                    <span class="text-success">Ativa</span>
                                 @endif
                             </td>
                         </tr>
