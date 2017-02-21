@@ -18,9 +18,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Rotas específicas para professores
     Route::group(['middleware' => 'auth:aluno'], function (){
-        Route::get('criarturma', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
-        Route::post('importarturma', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
-        Route::get('visualizarturma', ['as' => 'visualizarTurma', 'uses' => 'TurmaController@index']);
+
+        // Rotas envolvendo turmas
+        Route::group(['prefix' => 'turma'], function (){
+            Route::get('/', ['as' => 'visualizarTurmas', 'uses' => 'TurmaController@index']);
+            Route::get('criar', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
+            Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
+            Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show']);
+        });
     });
 
     // Rotas específicas para alunos

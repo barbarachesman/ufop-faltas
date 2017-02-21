@@ -49,14 +49,14 @@ class TurmaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Renderiza a view com os detalhes da turma, mostrando todos os alunos nela matriculado
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Turma $turma Turma a ser exibida
      */
-    public function show($id)
+    public function show(Turma $turma)
     {
-        //
+        $alunos = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
+        return view('turma.show')->with(['alunos' => $alunos, 'turma' => $turma]);
     }
 
     /**
@@ -152,7 +152,7 @@ class TurmaController extends Controller
                     {
                         // fallback de alunos não encontrados
                         $details['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
-                        $details['grupo'] = 'Não encontrado';
+                        $details['grupo'] = 'Nao encontrado';
                         $details['id_grupo'] = 0;
 
                         // Registra no log que um aluno não foi encontrado.

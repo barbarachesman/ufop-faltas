@@ -23,6 +23,8 @@ elixir(function(mix) {
 
     // Plugins Javascript
     mix.copy('resources/assets/js/jQueryMask', 'public/js/plugins/jQueryMask');
+    mix.copy('resources/assets/js/datatables', 'public/js/plugins/datatables');
+    mix.copy('resources/assets/js/toastr', 'public/js/plugins/toastr');
 
     // CSS que não funcionam em conjunto
     // TODO verificar se usando SASS e LESS o erro é resolvido

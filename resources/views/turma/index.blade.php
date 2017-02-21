@@ -20,6 +20,7 @@
                         <th>Ano</th>
                         <th>Período</th>
                         <th>Status</th>
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,7 @@
                                     <span class="text-success">Ativa</span>
                                 @endif
                             </td>
+                            <td><a href="{{ route('detalheTurma', $encarregado->turma->id) }}" class="btn btn-ufop btn-xs" role="button"><i class="fa fa-search"></i> Visualizar</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -48,6 +50,7 @@
                         <th>Ano</th>
                         <th>Período</th>
                         <th>Status</th>
+                        <th>Ação</th>
                     </tr>
                 </tfoot>
             </table>
