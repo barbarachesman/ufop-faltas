@@ -46,16 +46,17 @@
 @section('conteudo')
     <div class="col-md-12">
         <div class="box box-primary-ufop">
-            <div class="box-body text-center">
+            <div class="box-header"><h3 class="box-title">Atualmente {{ $alunos->count() }} alunos estão matriculados</h3></div>
+            <div class="box-body">
                 <div class="table">
-                    <table id="table" class="table table-bordered table-hover table-responsive table-striped">
+                    <table id="table" class="table table-bordered table-hover table-responsive table-striped text-center">
                         <thead>
-                        <tr>
-                            <th class="text-center">Aluno</th>
-                            <th class="text-center">E-mail</th>
-                            <th class="text-center">Curso</th>
-                            <th class="text-center">Ação</th>
-                        </tr>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>E-mail</th>
+                                <th>Curso</th>
+                                <th>Ação</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($alunos as $matriculado)
@@ -63,17 +64,19 @@
                                 <td>{!! $matriculado->aluno->nome !!}</td>
                                 <td>{!! $matriculado->aluno->email !!}</td>
                                 <td>{!! $matriculado->aluno->grupo_nome !!}</td>
-                                <td><a href="#" class="btn btn-danger btn-xs" role="button"><i class="fa fa-trash"></i> Desmatricular</a></td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-xs" role="button"><i class="fa fa-trash"></i> Desmatricular</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <th class="text-center">Aluno</th>
-                            <th class="text-center">E-mail</th>
-                            <th class="text-center">Curso</th>
-                            <th class="text-center">Ação</th>
-                        </tr>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>E-mail</th>
+                                <th>Curso</th>
+                                <th>Ação</th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -82,6 +85,7 @@
 
                 <div class="text-center">
                     <a class="btn btn-ufop" role="button" href="#"><i class="fa fa-pencil-square-o"></i> Gerenciar Faltas</a>
+                    <a class="btn btn-primary" role="button" href="#"><i class="fa fa-lock"></i> Finalizar Turma</a>
                 </div>
             </div>
         </div>

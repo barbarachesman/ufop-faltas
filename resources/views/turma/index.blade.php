@@ -64,11 +64,13 @@
                                 <td>{!! $encarregado->turma->periodo->ano !!}</td>
                                 <td>{!! $encarregado->turma->periodo->periodo !!}</td>
                                 <td>
+                                    <span class="text-bold
                                     @if($encarregado->turma->finalizada)
-                                        <span class="text-danger">Finalizada</span>
+                                        text-danger">Finalizada
                                     @else
-                                        <span class="text-success">Ativa</span>
+                                        text-success">Ativa
                                     @endif
+                                    </span>
                                 </td>
                                 <td><a href="{{ route('detalheTurma', $encarregado->turma->id) }}" class="btn btn-ufop btn-xs" role="button"><i class="fa fa-search"></i> Visualizar</a></td>
                             </tr>
