@@ -65,7 +65,7 @@
                                 <td>{!! $matriculado->aluno->email !!}</td>
                                 <td>{!! $matriculado->aluno->grupo_nome !!}</td>
                                 <td>
-                                    <a href="{{ route('desmatricularAluno', [$matriculado->aluno->id, $turma->id]) }}" class="btn btn-danger btn-xs" role="button"><i class="fa fa-trash"></i> Desmatricular</a>
+                                    <a href="{{ route('desmatricularAluno', [$matriculado->aluno->id, $turma->id]) }}" class="btn btn-danger btn-xs" role="button"><i class="fa fa-times"></i> Desmatricular</a>
                                 </td>
                             </tr>
                         @endforeach
