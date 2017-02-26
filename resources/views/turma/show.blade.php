@@ -85,7 +85,9 @@
 
                 <div class="text-center">
                     <a class="btn btn-ufop" role="button" href="#"><i class="fa fa-pencil-square-o"></i> Gerenciar Faltas</a>
-                    <a class="btn bg-black" role="button" href="#"><i class="fa fa-lock"></i> Finalizar Turma</a>
+                    @if(!$turma->finalizada)
+                        <a class="btn bg-black" role="button" href="#"><i class="fa fa-lock"></i> Finalizar Turma</a>
+                    @endif
                 </div>
             </div>
         </div>
