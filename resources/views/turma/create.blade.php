@@ -19,32 +19,34 @@
 @endpush
 
 @section('conteudo')
-    <div class='col-md-12'>
-        <div class="box box-primary-ufop">
-            <div class="box-body">
-                <form id="importarturma" class="form-horizontal" method="POST" action="{{ route('importarTurma') }}" enctype="multipart/form-data">
-                    {!! csrf_field() !!}
-                    <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
-                        <label for="file" class="col-sm-2 control-label">Selecione o arquivo CSV</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control" id="file" name="file" >
-                            @if($errors->has('file') || $errors->has('disciplina'))
-                                <p class="text-help text-danger">
-                                    @if($errors->has('file'))
-                                        {!! $errors->first('file') !!}
-                                    @else
-                                        {!! $errors->first('disciplina') !!}
-                                    @endif
-                                </p>
-                            @endif
+    <div class="row">
+        <div class='col-md-12'>
+            <div class="box box-primary-ufop">
+                <div class="box-body">
+                    <form id="importarturma" class="form-horizontal" method="POST" action="{{ route('importarTurma') }}" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
+                            <label for="file" class="col-sm-2 control-label">Selecione o arquivo CSV</label>
+                            <div class="col-sm-10">
+                                <input type="file" class="form-control" id="file" name="file" >
+                                @if($errors->has('file') || $errors->has('disciplina'))
+                                    <p class="text-help text-danger">
+                                        @if($errors->has('file'))
+                                            {!! $errors->first('file') !!}
+                                        @else
+                                            {!! $errors->first('disciplina') !!}
+                                        @endif
+                                    </p>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="text-center">
-                            <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Importar</button>
+                        <div class="form-group">
+                            <div class="text-center">
+                                <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Importar</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
