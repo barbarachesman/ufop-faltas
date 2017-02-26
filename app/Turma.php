@@ -45,4 +45,13 @@ class Turma extends Model
     {
         return $this->hasMany('App\Matriculado', 'turma_id');
     }
+
+    /**
+     * Recupera todas as faltas de uma turma
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function faltas()
+    {
+        return $this->hasMany('App\Falta');
+    }
 }

@@ -67,8 +67,21 @@ class Usuario extends Authenticatable
         }
     }
 
+    /**
+     * Recupera as turmas os quais o usuário está encarregado de lecionar
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function encarregado()
     {
         return $this->hasMany('App\Encarregado', 'professor_id');
+    }
+
+    /**
+     * Recupera todas as faltas relacionadas ao usuário
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function faltas()
+    {
+        return $this->hasMany('App\Falta');
     }
 }
