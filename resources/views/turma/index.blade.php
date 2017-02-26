@@ -39,55 +39,57 @@
 @endpush
 
 @section('conteudo')
-    <div class="col-md-12">
-        <div class="box box-primary-ufop">
-            <div class="box-body">
-                <div class="table">
-                    <table id="table" class="table table-bordered table-hover table-responsive table-striped text-center">
-                        <thead>
-                        <tr>
-                            <th>Código da Disciplina</th>
-                            <th>Disciplina</th>
-                            <th>Turma</th>
-                            <th>Ano</th>
-                            <th>Período</th>
-                            <th>Status</th>
-                            <th>Ação</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($turmas as $encarregado)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary-ufop">
+                <div class="box-body">
+                    <div class="table">
+                        <table id="table" class="table table-bordered table-hover table-responsive table-striped text-center">
+                            <thead>
                             <tr>
-                                <td>{!! $encarregado->turma->disciplina->codigo !!}</td>
-                                <td>{!! $encarregado->turma->disciplina->nome !!}</td>
-                                <td>{!! $encarregado->turma->codigo !!}</td>
-                                <td>{!! $encarregado->turma->periodo->ano !!}</td>
-                                <td>{!! $encarregado->turma->periodo->periodo !!}</td>
-                                <td>
+                                <th>Código da Disciplina</th>
+                                <th>Disciplina</th>
+                                <th>Turma</th>
+                                <th>Ano</th>
+                                <th>Período</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($turmas as $encarregado)
+                                <tr>
+                                    <td>{!! $encarregado->turma->disciplina->codigo !!}</td>
+                                    <td>{!! $encarregado->turma->disciplina->nome !!}</td>
+                                    <td>{!! $encarregado->turma->codigo !!}</td>
+                                    <td>{!! $encarregado->turma->periodo->ano !!}</td>
+                                    <td>{!! $encarregado->turma->periodo->periodo !!}</td>
+                                    <td>
                                     <span class="text-bold
                                     @if($encarregado->turma->finalizada)
-                                        text-danger">Finalizada
-                                    @else
-                                        text-success">Ativa
-                                    @endif
+                                            text-danger">Finalizada
+                                        @else
+                                            text-success">Ativa
+                                        @endif
                                     </span>
-                                </td>
-                                <td><a href="{{ route('detalheTurma', $encarregado->turma->id) }}" class="btn btn-ufop btn-xs" role="button"><i class="fa fa-search"></i> Visualizar</a></td>
+                                    </td>
+                                    <td><a href="{{ route('detalheTurma', $encarregado->turma->id) }}" class="btn btn-ufop btn-xs" role="button"><i class="fa fa-search"></i> Visualizar</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Código da Disciplina</th>
+                                <th>Disciplina</th>
+                                <th>Turma</th>
+                                <th>Ano</th>
+                                <th>Período</th>
+                                <th>Status</th>
+                                <th>Ação</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Código da Disciplina</th>
-                            <th>Disciplina</th>
-                            <th>Turma</th>
-                            <th>Ano</th>
-                            <th>Período</th>
-                            <th>Status</th>
-                            <th>Ação</th>
-                        </tr>
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
