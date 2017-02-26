@@ -159,13 +159,19 @@ class TurmaController extends Controller
                         event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
                     }
 
-                    $usuario = Usuario::firstOrCreate([
+                    $usuario = Usuario::Create([
                         'cpf' => $details['cpf'],
                         'grupo_nome' => ucwords(strtolower($details['grupo'])),
                         'grupo_id' => $details['id_grupo'],
                         'nome' => ucwords(strtolower($aluno['nome'])),
-                        'email' => $aluno['email']
+                        'email' => $aluno['email'],
+                        'matricula' => $aluno['matricula']
                     ]);
+                }
+                else if(is_null($usuario->matricula)) // Para alunos que entraram no sistema antes de ser cadastrado pelo professor
+                { // Atualiza-se a sua matricula
+                    $usuario->matricula = $aluno['matricula'];
+                    $usuario->save();
                 }
 
                 $matricula = Matriculado::firstOrCreate([
