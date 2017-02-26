@@ -28,6 +28,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('finalizar/{turma}', ['as' => 'finalizarTurma', 'uses' => 'TurmaController@finalizar'])->middleware('can:manipular_turma,turma');
         });
 
+        // Rotas envolvendo faltas
+        Route::group(['prefix' => 'falta'], function (){
+            Route::get('{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
+        });
+
         Route::group(['prefix' => 'aluno'], function (){
             Route::get('desmatricular/{aluno}/{turma}', ['as' => 'desmatricularAluno', 'uses' => 'AlunoController@desmatricular'])->middleware('can:manipular_turma,turma');
         });
