@@ -44,50 +44,52 @@
 @endpush
 
 @section('conteudo')
-    <div class="col-md-12">
-        <div class="box box-primary-ufop">
-            <div class="box-header"><h3 class="box-title">Atualmente {{ $alunos->count() }} alunos estão matriculados</h3></div>
-            <div class="box-body">
-                <div class="table">
-                    <table id="table" class="table table-bordered table-hover table-responsive table-striped text-center">
-                        <thead>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary-ufop">
+                <div class="box-header"><h3 class="box-title">Atualmente {{ $alunos->count() }} alunos estão matriculados</h3></div>
+                <div class="box-body">
+                    <div class="table">
+                        <table id="table" class="table table-bordered table-hover table-responsive table-striped text-center">
+                            <thead>
                             <tr>
                                 <th>Aluno</th>
                                 <th>E-mail</th>
                                 <th>Curso</th>
                                 <th>Ação</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($alunos as $matriculado)
-                            <tr>
-                                <td>{!! $matriculado->aluno->nome !!}</td>
-                                <td>{!! $matriculado->aluno->email !!}</td>
-                                <td>{!! $matriculado->aluno->grupo_nome !!}</td>
-                                <td>
-                                    <a href="{{ route('desmatricularAluno', [$matriculado->aluno->id, $turma->id]) }}" class="btn btn-danger btn-xs" role="button"><i class="fa fa-times"></i> Desmatricular</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
+                            </thead>
+                            <tbody>
+                            @foreach($alunos as $matriculado)
+                                <tr>
+                                    <td>{!! $matriculado->aluno->nome !!}</td>
+                                    <td>{!! $matriculado->aluno->email !!}</td>
+                                    <td>{!! $matriculado->aluno->grupo_nome !!}</td>
+                                    <td>
+                                        <a href="{{ route('desmatricularAluno', [$matriculado->aluno->id, $turma->id]) }}" class="btn btn-danger btn-xs" role="button"><i class="fa fa-times"></i> Desmatricular</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
                             <tr>
                                 <th>Aluno</th>
                                 <th>E-mail</th>
                                 <th>Curso</th>
                                 <th>Ação</th>
                             </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                            </tfoot>
+                        </table>
+                    </div>
 
-                <br />
+                    <br />
 
-                <div class="text-center">
-                    <a class="btn btn-ufop" role="button" href="#"><i class="fa fa-pencil-square-o"></i> Gerenciar Faltas</a>
-                    @if(!$turma->finalizada)
-                        <a class="btn bg-black" role="button" href="{{ route('finalizarTurma', $turma->id) }}"><i class="fa fa-lock"></i> Finalizar Turma</a>
-                    @endif
+                    <div class="text-center">
+                        <a class="btn btn-ufop" role="button" href="{{ route('visualizarFaltas', $turma->id) }}"><i class="fa fa-search"></i> Visualizar Faltas</a>
+                        @if(!$turma->finalizada)
+                            <a class="btn bg-black" role="button" href="{{ route('finalizarTurma', $turma->id) }}"><i class="fa fa-lock"></i> Finalizar Turma</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
