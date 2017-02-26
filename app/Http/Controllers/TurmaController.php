@@ -111,88 +111,95 @@ class TurmaController extends Controller
     {
         Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
 
-        $callback = Excel::load($request->file('file'), function ($reader) {
+        // Transforma o CSV da turma em um array associativo (dicionário)
+        $alunos = Excel::load($request->file('file'))->get()->toArray();
+        $callback = $this->parseTurma($alunos);
 
-            $alunos = $reader->get()->toArray();
-            $turma = null; // sinaliza se a turma já foi criada ou não
-
-            foreach ($alunos as $aluno)
-            {
-                // Criação da turma na primeira iteração
-                if(is_null($turma))
-                {
-                    $periodo = Periodo::firstOrCreate([
-                        'ano' => $aluno['ano'],
-                        'periodo' => $aluno['semestre']
-                    ]);
-
-                    $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
-
-                    if(is_null($disciplina)) return 1;
-                    else
-                    {
-                        $turma = Turma::firstOrCreate([
-                            'disciplina_id' => $disciplina->id,
-                            'periodo_id' => $periodo->id,
-                            'codigo' => $aluno['turma'],
-                            'finalizada' => false
-                        ]);
-                    }
-                }
-
-                // Verifica se o usuário existe
-                $usuario = Usuario::where('nome', $aluno['nome'])->first();
-
-                // Se ele não existir, então deve ser criado
-                if(is_null($usuario))
-                {
-                    // Obtém as informações necessárias para a criação
-                    $details = $this->getAlunoDetails('nomecompleto', $aluno['nome'], $aluno['curso']);
-                    if(is_null($details))
-                    {
-                        // fallback de alunos não encontrados
-                        $details['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
-                        $details['grupo'] = 'Nao encontrado';
-                        $details['id_grupo'] = 0;
-
-                        // Registra no log que um aluno não foi encontrado.
-                        event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
-                    }
-
-                    $usuario = Usuario::Create([
-                        'cpf' => $details['cpf'],
-                        'grupo_nome' => ucwords(strtolower($details['grupo'])),
-                        'grupo_id' => $details['id_grupo'],
-                        'nome' => ucwords(strtolower($aluno['nome'])),
-                        'email' => $aluno['email'],
-                        'matricula' => $aluno['matricula']
-                    ]);
-                }
-                else if(is_null($usuario->matricula)) // Para alunos que entraram no sistema antes de ser cadastrado pelo professor
-                { // Atualiza-se a sua matricula
-                    $usuario->matricula = $aluno['matricula'];
-                    $usuario->save();
-                }
-
-                $matricula = Matriculado::firstOrCreate([
-                    'aluno_id' => $usuario->id,
-                    'turma_id' => $turma->id
-                ]);
-
-                $encarregado = Encarregado::firstOrCreate([
-                    'professor_id' => auth()->id(),
-                    'turma_id' => $turma->id
-                ]);
-            }
-
-            return 0;
-        });
-
-        if($callback) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
-        else return redirect()->route('home');
+        if($callback == false) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+        else return redirect()->route('visualizarTurmas');
     }
 
-    public function getAlunoDetails($campo, $valor, $grupo)
+    /**
+     * @param array $alunos Array contendo as informações dos alunos
+     * @return boolean True se a turma for decodificada com sucesso e False caso contrário
+     */
+    private function parseTurma($alunos)
+    {
+        $turma = null; // sinaliza se a turma já foi criada ou não
+
+        foreach ($alunos as $aluno)
+        {
+            // Criação da turma na primeira iteração
+            if(is_null($turma))
+            {
+                $periodo = Periodo::firstOrCreate([
+                    'ano' => $aluno['ano'],
+                    'periodo' => $aluno['semestre']
+                ]);
+
+                $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
+
+                if(is_null($disciplina)) return false;
+                else
+                {
+                    $turma = Turma::firstOrCreate([
+                        'disciplina_id' => $disciplina->id,
+                        'periodo_id' => $periodo->id,
+                        'codigo' => $aluno['turma'],
+                        'finalizada' => false
+                    ]);
+                }
+            }
+
+            // Verifica se o usuário existe
+            $usuario = Usuario::where('nome', $aluno['nome'])->first();
+
+            // Se ele não existir, então deve ser criado
+            if(is_null($usuario))
+            {
+                // Obtém as informações necessárias para a criação
+                $details = $this->getAlunoDetails('nomecompleto', $aluno['nome'], $aluno['curso']);
+                if(is_null($details))
+                {
+                    // fallback de alunos não encontrados
+                    $details['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
+                    $details['grupo'] = 'Nao encontrado';
+                    $details['id_grupo'] = 0;
+
+                    // Registra no log que um aluno não foi encontrado.
+                    event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
+                }
+
+                $usuario = Usuario::Create([
+                    'cpf' => $details['cpf'],
+                    'grupo_nome' => ucwords(strtolower($details['grupo'])),
+                    'grupo_id' => $details['id_grupo'],
+                    'nome' => ucwords(strtolower($aluno['nome'])),
+                    'email' => $aluno['email'],
+                    'matricula' => $aluno['matricula']
+                ]);
+            }
+            else if(is_null($usuario->matricula)) // Para alunos que entraram no sistema antes de ser cadastrado pelo professor
+            { // Atualiza-se a sua matricula
+                $usuario->matricula = $aluno['matricula'];
+                $usuario->save();
+            }
+
+            $matricula = Matriculado::firstOrCreate([
+                'aluno_id' => $usuario->id,
+                'turma_id' => $turma->id
+            ]);
+
+            $encarregado = Encarregado::firstOrCreate([
+                'professor_id' => auth()->id(),
+                'turma_id' => $turma->id
+            ]);
+        }
+
+        return true;
+    }
+
+    private function getAlunoDetails($campo, $valor, $grupo)
     {
         $httpClient = new Client(['verify' => false]);
 
