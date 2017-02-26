@@ -23,8 +23,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'turma'], function (){
             Route::get('/', ['as' => 'visualizarTurmas', 'uses' => 'TurmaController@index']);
             Route::get('criar', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
-            Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
-            Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show']);
+            Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importarCSV']);
+            Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show'])->middleware('can:manipular_turma,turma');
+            Route::get('finalizar/{turma}', ['as' => 'finalizarTurma', 'uses' => 'TurmaController@finalizar'])->middleware('can:manipular_turma,turma');
+        });
+
+        Route::group(['prefix' => 'aluno'], function (){
+            Route::get('desmatricular/{aluno}/{turma}', ['as' => 'desmatricularAluno', 'uses' => 'AlunoController@desmatricular'])->middleware('can:manipular_turma,turma');
         });
     });
 

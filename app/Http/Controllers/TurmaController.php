@@ -107,7 +107,7 @@ class TurmaController extends Controller
      * @param CriarTurmaRequest $request Requisição HTTP com os campos do formulário validos.
      * @return \Illuminate\Http\RedirectResponse Para a página anterior em caso de erro ou para a listagem das turmas.
      */
-    public function importCSV(CriarTurmaRequest $request)
+    public function importarCSV(CriarTurmaRequest $request)
     {
         Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
 
@@ -158,22 +158,22 @@ class TurmaController extends Controller
             if(is_null($usuario))
             {
                 // Obtém as informações necessárias para a criação
-                $details = $this->getAlunoDetails('nomecompleto', $aluno['nome'], $aluno['curso']);
-                if(is_null($details))
+                $detalhesDoAluno = $this->obterDetalhesDeAluno('nomecompleto', $aluno['nome'], $aluno['curso']);
+                if(is_null($detalhesDoAluno))
                 {
                     // fallback de alunos não encontrados
-                    $details['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
-                    $details['grupo'] = 'Nao encontrado';
-                    $details['id_grupo'] = 0;
+                    $detalhesDoAluno['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
+                    $detalhesDoAluno['grupo'] = 'Nao encontrado';
+                    $detalhesDoAluno['id_grupo'] = 0;
 
                     // Registra no log que um aluno não foi encontrado.
                     event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
                 }
 
                 $usuario = Usuario::Create([
-                    'cpf' => $details['cpf'],
-                    'grupo_nome' => ucwords(strtolower($details['grupo'])),
-                    'grupo_id' => $details['id_grupo'],
+                    'cpf' => $detalhesDoAluno['cpf'],
+                    'grupo_nome' => ucwords(strtolower($detalhesDoAluno['grupo'])),
+                    'grupo_id' => $detalhesDoAluno['id_grupo'],
                     'nome' => ucwords(strtolower($aluno['nome'])),
                     'email' => $aluno['email'],
                     'matricula' => $aluno['matricula']
@@ -199,35 +199,42 @@ class TurmaController extends Controller
         return true;
     }
 
-    private function getAlunoDetails($campo, $valor, $grupo)
+    /**
+     * Obtém os detalhes do aluno necessários para a criação de uma nova instância de usuário através da LDAPI.
+     * @param mixed $campo Nome do campo usado na procura do aluno
+     * @param mixed $valor Valor do campo escolhido
+     * @param int $grupo Grupo o qual o aluno pertence
+     * @return null|array Null se o aluno não for encotrado ou um Array com os detalhes se for encontrado
+     */
+    private function obterDetalhesDeAluno($campo, $valor, $grupo)
     {
         $httpClient = new Client(['verify' => false]);
 
         // Componentes do corpo da requisição
-        $requestBody['baseConnector'] = "and";
-        $requestBody['attributes'] = ["cpf", "grupo", "id_grupo"]; // Atributos que devem ser retornados
-        $requestBody['searchBase'] = "ou=People,dc=ufop,dc=br";
-        $requestBody['filters'][0] = [$campo => ["equals", $valor]];
+        $corpoDaRequisicao['baseConnector'] = "and";
+        $corpoDaRequisicao['attributes'] = ["cpf", "grupo", "id_grupo"]; // Atributos que devem ser retornados
+        $corpoDaRequisicao['searchBase'] = "ou=People,dc=ufop,dc=br";
+        $corpoDaRequisicao['filters'][0] = [$campo => ["equals", $valor]];
 
         try
         {
-            $response = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.searchUrl'), [
+            $resposta = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.searchUrl'), [
                 "auth" => [config('ldapi.user'), config('ldapi.password'), "Basic"],
-                "body" => json_encode($requestBody),
+                "body" => json_encode($corpoDaRequisicao),
                 "headers" => [
                     "Content-type" => "application/json",
                 ],
             ]);
         }
         catch (\Exception $ex) {
-            $responseBody = $ex->getMessage();
-            event(new AlunoSearchError($responseBody)); // Registra no log que ocorreu um erro durante a comunicação com a LDAPI
+            $corpoDaResposta = $ex->getMessage();
+            event(new AlunoSearchError($corpoDaResposta)); // Registra no log que ocorreu um erro durante a comunicação com a LDAPI
             return null;
         }
 
-        $result = json_decode($response->getBody()->getContents(), true);
-        if($result['count'] == 0) return null;
-        else if($result['count'] == 1) return $result['result'][0];
+        $resultado = json_decode($resposta->getBody()->getContents(), true);
+        if($resultado['count'] == 0) return null;
+        else if($resultado['count'] == 1) return $resultado['result'][0];
         else // Tratamento de pessoas com nomes iguais somente para cursos do ICEA
         {
             $id_grupo = null;
@@ -252,9 +259,21 @@ class TurmaController extends Controller
             $aluno = null;
 
             // Busca pelo resultado que pertença ao mesmo grupo do aluno informado no CSV
-            foreach ($result['result'] as $possivelAluno) if($possivelAluno['id_grupo'] == $id_grupo) $aluno = $possivelAluno;
+            foreach ($resultado['result'] as $possivelAluno) if($possivelAluno['id_grupo'] == $id_grupo) $aluno = $possivelAluno;
 
             return $aluno;
         }
+    }
+
+    /**
+     * Finaliza uma turma.
+     * @param Turma $turma Instância da turma a ser finalizada
+     * @return \Illuminate\Http\RedirectResponse Página anterior
+     */
+    public function finalizar(Turma $turma)
+    {
+        $turma->finalizada = true;
+        $turma->save();
+        return back();
     }
 }
