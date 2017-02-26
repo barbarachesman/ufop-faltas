@@ -18,7 +18,7 @@ class CreateFaltasTable extends Migration
             $table->integer('turma_id')->unsigned();
             $table->date('data');
 
-            $table->primary(['aluno_id', 'turma_id']);
+            $table->primary(['aluno_id', 'turma_id', 'data']);
 
             $table->foreign('aluno_id')
                 ->references('id')->on('usuarios')
