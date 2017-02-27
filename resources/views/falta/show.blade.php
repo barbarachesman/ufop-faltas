@@ -88,11 +88,14 @@
                             </tbody>
                         </table>
                     @endif
-                    @can('manipular_turma', $turma)
-                        <div class="text-center">
-                            <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}"><i class="fa fa-pencil-square-o"></i> Gerenciar faltas</a>
-                        </div>
-                    @endcan
+                    <div class="text-center">
+                        <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+                        @can('manipular_turma', $turma)
+                            <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}">
+                                <i class="fa fa-pencil-square-o"></i> Gerenciar faltas
+                            </a>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>
