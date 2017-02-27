@@ -57,23 +57,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($turmas as $encarregado)
+                            @foreach($turmas as $vinculo)
                                 <tr>
-                                    <td>{!! $encarregado->turma->disciplina->codigo !!}</td>
-                                    <td>{!! $encarregado->turma->disciplina->nome !!}</td>
-                                    <td>{!! $encarregado->turma->codigo !!}</td>
-                                    <td>{!! $encarregado->turma->periodo->ano !!}</td>
-                                    <td>{!! $encarregado->turma->periodo->periodo !!}</td>
+                                    <td>{!! $vinculo->turma->disciplina->codigo !!}</td>
+                                    <td>{!! $vinculo->turma->disciplina->nome !!}</td>
+                                    <td>{!! $vinculo->turma->codigo !!}</td>
+                                    <td>{!! $vinculo->turma->periodo->ano !!}</td>
+                                    <td>{!! $vinculo->turma->periodo->periodo !!}</td>
                                     <td>
                                     <span class="text-bold
-                                    @if($encarregado->turma->finalizada)
+                                    @if($vinculo->turma->finalizada)
                                             text-danger">Finalizada
                                         @else
                                             text-success">Ativa
                                         @endif
                                     </span>
                                     </td>
-                                    <td><a href="{{ route('detalheTurma', $encarregado->turma->id) }}" class="btn btn-ufop btn-xs" role="button"><i class="fa fa-search"></i> Visualizar</a></td>
+                                    <td>
+                                        @if(auth()->user()->isProfessor())
+                                            <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
+                                                <i class="fa fa-search"></i> Detalhes
+                                            </a>
+                                        @endif
+                                        <a href="{{ route('visualizarFaltas', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
+                                            <i class="fa fa-search-plus"></i> Visualizar diário
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
