@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Define se um usuário é administrador do sistema ou não
         Gate::define('administrar', function (Usuario $usuario){
-            return false;
+            return $usuario->isAdmin();
         });
 
         // Define se um usuário é professor ou não
@@ -44,17 +44,22 @@ class AuthServiceProvider extends ServiceProvider
 
         // Define se o usuário é capaz de manipular uma determinada turma
         Gate::define('manipular_turma', function (Usuario $usuario, Turma $turma) {
-            $podeManipular = false;
 
-            foreach ($usuario->encarregado as $turmaComoProfessor)
+            if($usuario->isAluno()) return true;
+            else
             {
-                if ($turmaComoProfessor->turma_id == $turma->id) {
-                    $podeManipular = true;
-                    break;
-                }
-            }
+                $podeManipular = false;
 
-            return $podeManipular;
+                foreach ($usuario->encarregado as $turmaComoProfessor)
+                {
+                    if ($turmaComoProfessor->turma_id == $turma->id) {
+                        $podeManipular = true;
+                        break;
+                    }
+                }
+
+                return $podeManipular;
+            }
         });
     }
 }
