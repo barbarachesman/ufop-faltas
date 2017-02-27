@@ -24,7 +24,7 @@
 <body class="hold-transition login-page skin-ufop guest">
 <div class="login-box">
     <div class="login-logo">
-        <i class="fa fa-graduation-cap"></i> Faltas
+        <i class="fa fa-graduation-cap"></i> {!! config('app.name') !!}
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
@@ -70,7 +70,7 @@
 
 <footer class="text-center">
     <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="https://github.com/jpmoura/ufop-boilerplate-laravel">UFOP Faltas</a></strong>.
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="https://github.com/jpmoura/ufop-boilerplate-laravel">{!! config('app.name') !!}</a></strong>.
 </footer>
 
 {!! HTML::script('js/app.js') !!}
