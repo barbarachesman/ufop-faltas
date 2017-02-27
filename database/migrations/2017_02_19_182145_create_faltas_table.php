@@ -14,10 +14,11 @@ class CreateFaltasTable extends Migration
     public function up()
     {
         Schema::create('faltas', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('aluno_id')->unsigned();
             $table->integer('turma_id')->unsigned();
             $table->date('data');
+
+            $table->primary(['aluno_id', 'turma_id', 'data']);
 
             $table->foreign('aluno_id')
                 ->references('id')->on('usuarios')

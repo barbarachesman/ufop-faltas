@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Turma;
+use App\Usuario;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,7 +25,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::model('turma', Turma::class);
+
+        Route::model('usuario', Usuario::class);
+        Route::model('aluno', Usuario::class);
+        Route::model('professor', Usuario::class);
 
         parent::boot();
     }

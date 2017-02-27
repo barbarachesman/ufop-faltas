@@ -18,9 +18,27 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Rotas específicas para professores
     Route::group(['middleware' => 'auth:aluno'], function (){
-        Route::get('criarturma', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
-        Route::post('importarturma', ['as' => 'importarTurma', 'uses' => 'TurmaController@importCSV']);
-        Route::get('visualizarturma', ['as' => 'visualizarTurma', 'uses' => 'TurmaController@index']);
+
+        // Rotas envolvendo turmas
+        Route::group(['prefix' => 'turma'], function (){
+            Route::get('/', ['as' => 'visualizarTurmas', 'uses' => 'TurmaController@index']);
+            Route::get('criar', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
+            Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importarCSV']);
+            Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show'])->middleware('can:manipular_turma,turma');
+            Route::get('finalizar/{turma}', ['as' => 'finalizarTurma', 'uses' => 'TurmaController@finalizar'])->middleware('can:manipular_turma,turma');
+        });
+
+        // Rotas envolvendo faltas
+        Route::group(['prefix' => 'falta'], function (){
+            Route::get('{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
+            Route::get('selecionar/{turma}', ['as' => 'selecionarFaltas', 'uses' => 'FaltaController@select']);
+            Route::post('gerenciar', ['as' => 'gerenciarFaltas', 'uses' => 'FaltaController@manage']);
+            Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
+        });
+
+        Route::group(['prefix' => 'aluno'], function (){
+            Route::get('desmatricular/{aluno}/{turma}', ['as' => 'desmatricularAluno', 'uses' => 'AlunoController@desmatricular'])->middleware('can:manipular_turma,turma');
+        });
     });
 
     // Rotas específicas para alunos

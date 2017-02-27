@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->integer('grupo_id');
             $table->string('grupo_nome');
+            $table->char('matricula', 9)->nullable();
             $table->rememberToken();
         });
     }

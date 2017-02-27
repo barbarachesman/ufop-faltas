@@ -22,7 +22,10 @@ elixir(function(mix) {
     mix.copy('resources/assets/fonts', 'public/fonts');
 
     // Plugins Javascript
+    mix.copy('resources/assets/js/jQueryUI', 'public/js/plugins/jQueryUI');
     mix.copy('resources/assets/js/jQueryMask', 'public/js/plugins/jQueryMask');
+    mix.copy('resources/assets/js/datatables', 'public/js/plugins/datatables');
+    mix.copy('resources/assets/js/toastr', 'public/js/plugins/toastr');
 
     // CSS que não funcionam em conjunto
     // TODO verificar se usando SASS e LESS o erro é resolvido

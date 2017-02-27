@@ -18,7 +18,6 @@ class CreateDisciplinasTable extends Migration
             $table->string('nome');
             $table->string('codigo');
             $table->boolean('maximo_faltas');
-
             $table->unique(['nome', 'codigo']);
         });
     }

@@ -18,6 +18,7 @@ class Turma extends Model
 
     /**
      * Obtém a disciplina relacionada a turma
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function disciplina()
@@ -27,10 +28,30 @@ class Turma extends Model
 
     /**
      * Obtém o período relacionado a turma
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function periodo()
     {
         return $this->belongsTo('App\Periodo');
+    }
+
+    /**
+     * Obtém todos os matriculados na turma
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function matriculados()
+    {
+        return $this->hasMany('App\Matriculado', 'turma_id');
+    }
+
+    /**
+     * Recupera todas as faltas de uma turma
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function faltas()
+    {
+        return $this->hasMany('App\Falta');
     }
 }
