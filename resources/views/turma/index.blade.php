@@ -74,7 +74,7 @@
                                     </span>
                                     </td>
                                     <td>
-                                        @if(auth()->user()->isProfessor())
+                                        @if(!auth()->user()->isAluno())
                                             <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
                                                 <i class="fa fa-search-plus"></i> Detalhes
                                             </a>
