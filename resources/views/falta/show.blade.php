@@ -56,7 +56,9 @@
                             <thead>
                             <tr>
                                 <th>Matrícula</th>
-                                <th>Aluno</th>
+                                @if(auth()->user()->isProfessor())
+                                    <th>Aluno</th>
+                                @endif
                                 @foreach($faltas as $falta)
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $falta->data)->format('d/m/Y') }}</th>
                                 @endforeach
@@ -66,7 +68,9 @@
                                 @foreach($matriculados as $matriculado)
                                     <tr>
                                         <td>{!! $matriculado->aluno->matricula !!}</td>
-                                        <td>{!! $matriculado->aluno->nome !!}</td>
+                                        @if(auth()->user()->isProfessor())
+                                            <td>{!! $matriculado->aluno->nome !!}</td>
+                                        @endif
                                             @foreach($faltas as $falta)
                                             <td>
                                                 <?php $presenca = true; ?>
