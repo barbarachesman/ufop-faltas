@@ -47,6 +47,15 @@ class Turma extends Model
     }
 
     /**
+     * Recupera todos os encarregados de lecionar a disciplina
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function encarregados()
+    {
+        return $this->hasMany('App\Encarregado');
+    }
+
+    /**
      * Recupera todas as faltas de uma turma
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

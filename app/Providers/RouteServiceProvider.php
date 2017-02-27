@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Disciplina;
+use App\Periodo;
 use App\Turma;
 use App\Usuario;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +32,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('usuario', Usuario::class);
         Route::model('aluno', Usuario::class);
         Route::model('professor', Usuario::class);
+        Route::model('disciplina', Disciplina::class);
+        Route::model('periodo', Periodo::class);
 
         parent::boot();
     }

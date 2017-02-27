@@ -18,7 +18,27 @@ Route::group(['middleware' => 'auth'], function () {
     // Rotas específicas para administradores
     Route::group(['middleware' => 'can:administrar'], function (){
 
+        // Manipulação de disciplinas
+        Route::group(['prefix' => 'disciplina'], function (){
+            Route::get('/', ['as' => 'visualizarDisciplinas', 'uses' => 'DisciplinaController@index']);
+            Route::get('detalhe/{disciplina}', ['as' => 'detalhesDisciplina', 'uses' => 'DisciplinaController@show']);
+            Route::get('editar/{disciplina}', ['as' => 'editarDisciplina', 'uses' => 'DisciplinaController@edit']);
+            Route::post('editar', ['as' => 'atualizarDisciplina', 'uses' => 'DisciplinaController@update']);
+            Route::get('criar', ['as' => 'criarDisciplina', 'uses' => 'DisciplinaController@create']);
+            Route::post('armazenar', ['as' => 'armazenarDisciplina', 'uses' => 'DisciplinaController@store']);
+            Route::get('deletar/{disciplina}', ['as' => 'apagarDisciplina', 'uses' => 'DisciplinaController@destroy']);
+        });
 
+        // Manipulação de períodos
+        Route::group(['prefix' => 'periodo'], function(){
+            Route::get('/', ['as' => 'visualizarPeriodos', 'uses' => 'PeriodoController@index']);
+            Route::get('detalhe{periodo}', ['as' => 'detalhesPeriodo', 'uses' => 'PeriodoController@show']);
+            Route::get('editar/{periodo}', ['as' => 'editarPeriodo', 'uses' => 'PeriodoController@edit']);
+            Route::post('editar', ['as' => 'atualizarPeriodo', 'uses' => 'PeriodoController@update']);
+            Route::get('criar', ['as' => 'adicionarPeriodo', 'uses' => 'PeriodoController@create']);
+            Route::post('armazenar', ['as' => 'armazenarPeriodo', 'uses' => 'PeriodoController@store']);
+            Route::get('deletar/{periodo}', ['as' => 'apagarPeriodo', 'uses' => 'PeriodoController@destroy']);
+        });
 
         Route::get('logs', ['as' => 'logs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
     });
