@@ -24,7 +24,7 @@
 <body class="hold-transition login-page skin-ufop guest">
 <div class="login-box">
     <div class="login-logo">
-        <i class="fa fa-graduation-cap"></i> UFOP Faltas
+        <i class="fa fa-graduation-cap"></i> Faltas
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
