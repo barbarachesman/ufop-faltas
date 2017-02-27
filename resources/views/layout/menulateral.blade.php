@@ -9,7 +9,7 @@
             <li class="header text-center">MENU</li>
             <li class="treeview {{ Route::is('criarTurma') || Route::is('visualizarTurmas') ? 'active' : '' }}">
                 <a href="">
-                    <i class="fa fa-users"></i><span>Turmas</span>
+                    <i class="fa fa-users"></i><span>Minhas Turmas</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
 
