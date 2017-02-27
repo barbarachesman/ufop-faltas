@@ -30,6 +30,15 @@ class Usuario extends Authenticatable
         'cpf', 'remember_token', 'grupo_id'
     ];
 
+    /**
+     * Determina se um usuário é administrador do sistema.
+     * @return bool True se for administrador e False caso contrário
+     */
+    public function isAdmin()
+    {
+        return false;
+    }
+
 
     /**
      * Verifica se o usuário é um professor baseado no ID do seu grupo.
