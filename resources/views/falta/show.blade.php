@@ -49,41 +49,44 @@
         <div class="col-md-12">
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <table id="table" class="table table-bordered table-striped table-responsive table-hover text-center">
-                        <thead>
-                        <tr>
-                            <th>Matrícula</th>
-                            <th>Aluno</th>
-                            @foreach($faltas as $falta)
-                                <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $falta->data)->format('d/m/Y') }}</th>
-                            @endforeach
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($matriculados as $matriculado)
-                                <tr>
-                                    <td>{!! $matriculado->aluno->matricula !!}</td>
-                                    <td>{!! $matriculado->aluno->nome !!}</td>
-                                        @foreach($faltas as $falta)
-                                        <td>
-                                            <?php $presenca = true; ?>
-                                            @if($falta->aluno->id == $matriculado->aluno_id)
-                                                <span class="text-danger text-bold"><i class="fa fa-times"></i> Faltou</span>
-                                                <?php $presenca = false; ?>
-                                                @break
-                                            @endif
-                                            @if($presenca)
-                                                <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
-                                            @endif
-                                        </td>
-                                        @endforeach
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    @if($faltas->isEmpty())
+                        <h3 class="text-center">Nenhuma falta registrada para essa turma</h3>
+                    @else
+                        <table id="table" class="table table-bordered table-striped table-responsive table-hover text-center">
+                            <thead>
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Aluno</th>
+                                @foreach($faltas as $falta)
+                                    <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $falta->data)->format('d/m/Y') }}</th>
+                                @endforeach
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($matriculados as $matriculado)
+                                    <tr>
+                                        <td>{!! $matriculado->aluno->matricula !!}</td>
+                                        <td>{!! $matriculado->aluno->nome !!}</td>
+                                            @foreach($faltas as $falta)
+                                            <td>
+                                                <?php $presenca = true; ?>
+                                                @if($falta->aluno->id == $matriculado->aluno_id)
+                                                    <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
+                                                    <?php $presenca = false; ?>
+                                                @endif
+                                                @if($presenca)
+                                                    <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                                @endif
+                                            </td>
+                                            @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                     @can('manipular_turma', $turma)
                         <div class="text-center">
-                            <a class="btn btn-ufop" role="button" href="#"><i class="fa fa-pencil-square-o"></i> Gerenciar faltas</a>
+                            <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}"><i class="fa fa-pencil-square-o"></i> Gerenciar faltas</a>
                         </div>
                     @endcan
                 </div>

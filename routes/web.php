@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
         // Rotas envolvendo faltas
         Route::group(['prefix' => 'falta'], function (){
             Route::get('{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
+            Route::get('selecionar/{turma}', ['as' => 'selecionarFaltas', 'uses' => 'FaltaController@select']);
+            Route::post('gerenciar', ['as' => 'gerenciarFaltas', 'uses' => 'FaltaController@manage']);
+            Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
         });
 
         Route::group(['prefix' => 'aluno'], function (){
