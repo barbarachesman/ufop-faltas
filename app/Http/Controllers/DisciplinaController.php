@@ -13,7 +13,7 @@ class DisciplinaController extends Controller
      */
     public function index()
     {
-        return view('disciplina.index')->with('disciplinas', Disciplina::all());
+        return view('disciplina.index')->with('disciplinas', Disciplina::all()->sortBy('codigo'));
     }
 
     /**
