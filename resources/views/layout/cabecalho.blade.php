@@ -5,7 +5,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><i class="fa fa-graduation-cap"></i></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><i class="fa fa-graduation-cap"></i> Faltas</span>
+        <span class="logo-lg"><i class="fa fa-graduation-cap"></i> {!! explode(' ' ,config('app.name'))[0] !!}</span>
     </a>
 
     <!-- Header Navbar -->
