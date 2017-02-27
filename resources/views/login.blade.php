@@ -45,8 +45,8 @@
                 <br />
 
                 <div class="text-center">
-                    <input type="checkbox" name="remember-me" />
-                    <label>Lembre-se de mim</label>
+                    <input id="remember" type="checkbox" name="remember-me" />
+                    <label for="remember">Lembre-se de mim</label>
                 </div>
 
                 @if($errors)
