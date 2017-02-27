@@ -27,6 +27,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('administrar', function (Usuario $usuario){
+            return false;
+        });
+
+        Gate::define('lecionar', function (Usuario $usuario){
+            return $usuario->isProfessor();
+        });
+
         // Define se o usuário é capaz de manipular uma determinada turma
         Gate::define('manipular_turma', function (Usuario $usuario, Turma $turma) {
             $podeManipular = false;
