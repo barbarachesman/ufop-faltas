@@ -56,7 +56,7 @@
                             <thead>
                             <tr>
                                 <th>Matrícula</th>
-                                @if(!auth()->user()->isProfessor())
+                                @if(!auth()->user()->isAluno())
                                     <th>Aluno</th>
                                 @endif
                                 @foreach($faltas as $falta)
@@ -67,7 +67,7 @@
                             <tbody>
                                 @foreach($matriculados as $matriculado)
                                     <tr>
-                                        <td>{!! $matriculado->aluno->matricula !!}</td>
+                                        <td>{!! $matriculado->aluno->matricula ? $matriculado->aluno->matricula : 'Desconhecida' !!}</td>
                                         @if(!auth()->user()->isAluno())
                                             <td>{!! $matriculado->aluno->nome !!}</td>
                                         @endif

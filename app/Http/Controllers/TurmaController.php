@@ -18,34 +18,34 @@ use Maatwebsite\Excel\Facades\Excel;
 class TurmaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Recupera a lista de turmas relacionadas com usuário de acordo com o seu nível.
      *
      */
     public function index()
     {
-        $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->where('professor_id', auth()->id())->get();
+        if(auth()->user()->isAdmin())
+        {
+            $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->get();
+        }
+        else if(auth()->user()->isProfessor())
+        {
+            $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->where('professor_id', auth()->id())->get();
+        }
+        else
+        {
+            $turmas = Matriculado::with('turma', 'turma.disciplina', 'turma.periodo')->where('aluno_id', auth()->id())->get();
+        }
+
         return view('turma.index')->with(['turmas' => $turmas]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Renderiza a view de criação de turmas.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
         return view('turma.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -57,40 +57,6 @@ class TurmaController extends Controller
     {
         $alunos = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
         return view('turma.show')->with(['alunos' => $alunos, 'turma' => $turma]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /**
