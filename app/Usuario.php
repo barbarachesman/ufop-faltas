@@ -36,7 +36,7 @@ class Usuario extends Authenticatable
      */
     public function isAdmin()
     {
-        return false;
+        return true;
     }
 
 
