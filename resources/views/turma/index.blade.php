@@ -76,11 +76,11 @@
                                     <td>
                                         @if(auth()->user()->isProfessor())
                                             <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
-                                                <i class="fa fa-search"></i> Detalhes
+                                                <i class="fa fa-search-plus"></i> Detalhes
                                             </a>
                                         @endif
                                         <a href="{{ route('visualizarFaltas', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
-                                            <i class="fa fa-search-plus"></i> Visualizar diário
+                                            <i class="fa fa-calendar"></i> Visualizar diário
                                         </a>
                                     </td>
                                 </tr>
