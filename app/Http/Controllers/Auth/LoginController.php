@@ -154,7 +154,8 @@ class LoginController extends Controller
         }
 
         // Define qual é a guard a ser usada de acordo com o nível do usuário
-        if($user->isProfessor()) $guard = 'professor';
+        if($user->isAdmin()) $guard = 'administrador';
+        else if($user->isProfessor()) $guard = 'professor';
         else $guard = 'aluno';
 
         // Se o usuário selecionou a opção de ser lembrado,
