@@ -11,8 +11,12 @@
                 <li><a href="{{ route('logs') }}"><i class="fa fa-database" aria-hidden="true"></i><span>Logs</span></a></li>
             @endcan
 
-            @can('lecionar')
-                <li class="header text-center">PROFESSOR</li>
+            @cannot('administrar')
+                @if(auth()->user()->isProfessor())
+                    <li class="header text-center">PROFESSOR</li>
+                @else
+                    <li class="header text-center">ALUNO</li>
+                @endif
                 <li class="treeview {{ Route::is('criarTurma') || Route::is('visualizarTurmas') ? 'active' : '' }}">
                     <a href="">
                         <i class="fa fa-users"></i><span>Minhas Turmas</span>
@@ -20,15 +24,13 @@
                     </a>
 
                     <ul class="treeview-menu">
-                        <li class="{{ Route::is('criarTurma') ? 'active' : '' }}"><a href="{{ route('criarTurma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
+                        @can('lecionar')
+                            <li class="{{ Route::is('criarTurma') ? 'active' : '' }}"><a href="{{ route('criarTurma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
+                        @endcan
                         <li class="{{ Route::is('visualizarTurmas') ? 'active' : '' }}"><a href="{{ route('visualizarTurmas') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
                     </ul>
                 </li>
-            @endcan
-
-            @can('assistir_aula')
-                <li class="header text-center">ALUNO</li>
-            @endcan
+            @endcannot
 
             <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
         </ul>
