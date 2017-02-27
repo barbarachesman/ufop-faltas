@@ -14,10 +14,17 @@
 // Rotas para usuários autenticados
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'PagesController@home']);
-    Route::get('logs', ['as' => 'logs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
+
+    // Rotas específicas para administradores
+    Route::group(['middleware' => 'can:administrar'], function (){
+
+
+
+        Route::get('logs', ['as' => 'logs', 'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index']);
+    });
 
     // Rotas específicas para professores
-    Route::group(['middleware' => 'auth:aluno'], function (){
+    Route::group(['middleware' => 'can:lecionar'], function (){
 
         // Rotas envolvendo turmas
         Route::group(['prefix' => 'turma'], function (){
@@ -42,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Rotas específicas para alunos
-    Route::group(['middleware' => 'auth:aluno'], function (){
+    Route::group(['middleware' => 'can:assistir_aula'], function (){
 
     });
 

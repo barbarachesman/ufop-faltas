@@ -153,14 +153,9 @@ class LoginController extends Controller
             else return redirect()->back()->withErrors(['credentials' => 'Você não tem permissão para usar o sistema.']);
         }
 
-        // Define qual é a guard a ser usada de acordo com o nível do usuário
-        if($user->isAdmin()) $guard = 'administrador';
-        else if($user->isProfessor()) $guard = 'professor';
-        else $guard = 'aluno';
-
         // Se o usuário selecionou a opção de ser lembrado,
-        if(isset($input['remember-me'])) auth()->guard($guard)->login($user, true); // Então ele deve ser lembrado
-        else auth()->guard($guard)->login($user); // Senão é um login ordinário
+        if(isset($input['remember-me'])) auth()->login($user, true); // Então ele deve ser lembrado
+        else auth()->login($user); // Senão é um login ordinário
 
         // Redireciona para a página pretendida ou para a página inicial do sistema
         return redirect()->intended('/');
