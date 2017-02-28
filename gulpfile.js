@@ -36,7 +36,8 @@ elixir(function(mix) {
     mix.styles([
         'adminLTE/AdminLTE.min.css',
         'adminLTE/skins/skin-ufop.css',
-        'ufop.css'
+        'ufop.css',
+        'toastr/toastr.min.css'
     ], 'public/css/app.css', 'resources/assets/css/'); // Destino, path dos arquivos informados
 
     // Concatena todos os JavaScripts
