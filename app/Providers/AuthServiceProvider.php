@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
         // Define se o usuário é capaz de manipular uma determinada turma
         Gate::define('manipular_turma', function (Usuario $usuario, Turma $turma) {
 
-            if($usuario->isAluno()) return true;
+            if($usuario->isAdmin()) return true;
             else
             {
                 $podeManipular = false;
