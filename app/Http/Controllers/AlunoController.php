@@ -18,8 +18,20 @@ class AlunoController extends Controller
     {
         /* Como o Eloquent não dá suporte a chave compostas, é necessário usar a classe DB para excluir 'manualmente' */
 
-        $faltasDoAluno = DB::table('faltas')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
-        $desmatriculado = DB::table('matriculados')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
+        try
+        {
+            DB::table('faltas')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
+            DB::table('matriculados')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Aluno ' . $aluno->nome . ' desmatriculado com sucesso');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao desmatricular aluno: ' . $ex->getMessage());
+        }
+
 
         return redirect()->route('detalheTurma', $turma->id);
     }
