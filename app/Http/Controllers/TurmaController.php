@@ -12,7 +12,6 @@ use App\Periodo;
 use App\Turma;
 use App\Usuario;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TurmaController extends Controller
@@ -81,8 +80,20 @@ class TurmaController extends Controller
         $alunos = Excel::load($request->file('file'))->get()->toArray();
         $callback = $this->parseTurma($alunos);
 
-        if($callback == false) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
-        else return redirect()->route('visualizarTurmas');
+        if($callback == false)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao importar turma: A disciplina não existe! Entre em contato com o administrador.');
+
+            return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+        }
+        else
+        {
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Turma importada com sucesso.');
+
+            return redirect()->route('visualizarTurmas');
+        }
     }
 
     /**
@@ -239,7 +250,21 @@ class TurmaController extends Controller
     public function finalizar(Turma $turma)
     {
         $turma->finalizada = true;
-        $turma->save();
+
+        try
+        {
+            $turma->save();
+
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Turma finalizada com sucesso');
+
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao finalizar turma: ' . $ex->getMessage());
+        }
+
         return back();
     }
 }
