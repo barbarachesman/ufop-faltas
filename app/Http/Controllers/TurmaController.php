@@ -255,7 +255,7 @@ class TurmaController extends Controller
         {
             $turma->save();
 
-            session()->flash('tipo', 'error');
+            session()->flash('tipo', 'success');
             session()->flash('mensagem', 'Turma finalizada com sucesso');
 
         }
