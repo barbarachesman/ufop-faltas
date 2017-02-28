@@ -36,7 +36,7 @@ class Usuario extends Authenticatable
      */
     public function isAdmin()
     {
-        return true;
+        return $this->administrador;
     }
 
 
