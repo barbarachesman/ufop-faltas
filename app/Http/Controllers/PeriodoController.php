@@ -34,8 +34,22 @@ class PeriodoController extends Controller
      */
     public function store(CriarPeriodoRequest $request)
     {
-        Periodo::create($request->all());
-        return redirect()->route('visualizarPeriodos');
+        try
+        {
+            Periodo::create($request->all());
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Período criado com sucesso');
+
+            return redirect()->route('visualizarPeriodos');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao criar período: ' . $ex->getMessage());
+
+            return back()->withInput($request->all());
+        }
     }
 
     /**
@@ -65,8 +79,20 @@ class PeriodoController extends Controller
      */
     public function update(AtualizarPeriodoRequest $request)
     {
-        $periodo = Periodo::find($request->get('id'));
-        $periodo->update($request->all());
+        try
+        {
+            $periodo = Periodo::find($request->get('id'));
+            $periodo->update($request->all());
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Período atualizado com sucesso.');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao atualizar o período: ' . $ex->getMessage());
+        }
+
         return back();
     }
 
@@ -79,10 +105,17 @@ class PeriodoController extends Controller
         try
         {
             $periodo->delete();
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Período apagado com sucesso.');
+
             return redirect()->route('visualizarPeriodos');
         }
         catch (\Exception $ex)
         {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao apagar o período: ' . $ex->getMessage());
+
             return back()->withErrors(['periodo' => $ex->getMessage()]);
         }
     }
