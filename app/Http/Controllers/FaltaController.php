@@ -86,22 +86,35 @@ class FaltaController extends Controller
 
             foreach ($datas as $data) // Para cada data
             {
+                try
+                {
+                    // Se o conteúdo do array na posição do aluno em uma data for igual a 'falta', significa que ele faltou naquele dia
+                    if($form['falta'][$matriculado][$data] == "falta")
+                    {
+                        Falta::updateOrCreate([
+                            'aluno_id' => $matriculado,
+                            'turma_id' => $form['turma'],
+                            'data' => Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d')
+                        ]);
+                    }
+                    else // Senão é uma presença e se a falta existir nessa data, ela deve ser excluída
+                    {
+                        DB::table('faltas')->where('turma_id', $form['turma'])->where('aluno_id', $matriculado)->where('data', Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d'))->delete();
+                    }
+                }
+                catch (\Exception $ex)
+                {
+                    session()->flash('tipo', 'error');
+                    session()->flash('mensagem', 'Erro ao atualizar faltas: ' . $ex->getMessage());
 
-                // Se o conteúdo do array na posição do aluno em uma data for igual a 'falta', significa que ele faltou naquele dia
-                if($form['falta'][$matriculado][$data] == "falta")
-                {
-                    Falta::updateOrCreate([
-                        'aluno_id' => $matriculado,
-                        'turma_id' => $form['turma'],
-                        'data' => Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d')
-                    ]);
+                    return back();
                 }
-                else // Senão é uma presença e se a falta existir nessa data, ela deve ser excluída
-                {
-                    DB::table('faltas')->where('turma_id', $form['turma'])->where('aluno_id', $matriculado)->where('data', Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d'))->delete();
-                }
+
             }
         }
+
+        session()->flash('tipo', 'success');
+        session()->flash('mensagem', 'Faltas atualizadas com sucesso.');
 
         return redirect()->route('visualizarFaltas', $form['turma']);
     }
