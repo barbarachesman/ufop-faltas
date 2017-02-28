@@ -46,7 +46,7 @@ class Usuario extends Authenticatable
      */
     public function isProfessor()
     {
-        switch ($this->grupo_nome)
+        switch ($this->grupo_id)
         {
             case 715: // DECEA
             case 716: // DEENP
