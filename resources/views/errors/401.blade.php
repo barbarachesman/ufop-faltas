@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('title')
+@section('titulo')
     Erro 401
 @endsection
 
