@@ -32,8 +32,22 @@ class DisciplinaController extends Controller
      */
     public function store(CriarDisciplinaRequest $request)
     {
-        Disciplina::create($request->all());
-        return redirect()->route('visualizarDisciplinas');
+        try
+        {
+            Disciplina::create($request->all());
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Disciplina criada com sucesso');
+
+            return redirect()->route('visualizarDisciplinas');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao criar disciplina: ' . $ex->getMessage());
+
+            return back()->withInput($request->all());
+        }
     }
 
     /**
@@ -65,6 +79,10 @@ class DisciplinaController extends Controller
     {
         $disciplina = Disciplina::find($request->get('id'));
         $disciplina->update($request->all());
+
+        session()->flash('tipo', 'success');
+        session()->flash('mensagem', 'Disciplina editada com sucesso');
+
         return back();
     }
 
@@ -78,10 +96,17 @@ class DisciplinaController extends Controller
         try
         {
             $disciplina->delete();
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Disciplina removida com sucesso');
+
             return back();
         }
         catch (\Exception $ex)
         {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao apagar a disciplina: ' . $ex->getMessage());
+
             return back()->withErrors(['disciplina' => $ex->getMessage()]);
         }
     }
