@@ -32,7 +32,6 @@ class AlunoController extends Controller
             session()->flash('mensagem', 'Erro ao desmatricular aluno: ' . $ex->getMessage());
         }
 
-
         return redirect()->route('detalheTurma', $turma->id);
     }
 }
