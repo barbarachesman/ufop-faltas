@@ -45,7 +45,9 @@ elixir(function(mix) {
         'bootstrap/bootstrap.min.js',
         'adminLTE/app.min.js',
         'slimScroll/jquery.slimscroll.min.js',
-        'fastclick/fastclick.min.js'
+        'fastclick/fastclick.min.js',
+        'toastr/toastr.min.js',
+        'toastr/toastr.options.js'
     ], 'public/js/app.js', 'resources/assets/js/'); // Destino, path dos arquivos informados
 
     // Versiona os arquivos gerados
