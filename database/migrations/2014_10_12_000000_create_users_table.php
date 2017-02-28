@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('grupo_id');
             $table->string('grupo_nome');
             $table->char('matricula', 9)->nullable();
+            $table->boolean('administrador')->nullable();
             $table->rememberToken();
         });
     }
