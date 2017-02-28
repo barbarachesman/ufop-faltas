@@ -77,11 +77,19 @@ class DisciplinaController extends Controller
      */
     public function update(AtualizarDisciplinasRequest $request)
     {
-        $disciplina = Disciplina::find($request->get('id'));
-        $disciplina->update($request->all());
+        try
+        {
+            $disciplina = Disciplina::find($request->get('id'));
+            $disciplina->update($request->all());
 
-        session()->flash('tipo', 'success');
-        session()->flash('mensagem', 'Disciplina editada com sucesso');
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Disciplina editada com sucesso');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao atualizar disciplina: ' . $ex->getMessage());
+        }
 
         return back();
     }
