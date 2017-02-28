@@ -16,4 +16,13 @@ class Periodo extends Model
     protected $fillable = [
         'ano', 'periodo',
     ];
+
+    /**
+     * Recupera as turmas relacionadas com o período
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function turmas()
+    {
+        return $this->hasMany('App\Turma');
+    }
 }

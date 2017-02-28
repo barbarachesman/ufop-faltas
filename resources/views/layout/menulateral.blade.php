@@ -19,6 +19,18 @@
                         <li class="{{ Route::is('visualizarDisciplinas') ? 'active' : '' }}"><a href="{{ route('visualizarDisciplinas') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
                     </ul>
                 </li>
+
+                <li class="treeview {{ Route::is('visualizarPeriodos') || Route::is('criarPeriodo') || Route::is('detalhesPeriodo') || Route::is('editarPeriodo') ? 'active' : '' }}">
+                    <a href="">
+                        <i class="fa fa-calendar-o"></i><span>Períodos</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+
+                    <ul class="treeview-menu">
+                        <li class="{{ Route::is('criarPeriodo') ? 'active' : '' }}"><a href="{{ route('criarPeriodo') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
+                        <li class="{{ Route::is('visualizarPeriodos') ? 'active' : '' }}"><a href="{{ route('visualizarPeriodos') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
+                    </ul>
+                </li>
                 <li><a href="{{ route('logs') }}"><i class="fa fa-database" aria-hidden="true"></i><span>Logs</span></a></li>
             @endcan
 

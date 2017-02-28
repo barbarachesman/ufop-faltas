@@ -32,10 +32,10 @@ Route::group(['middleware' => 'auth'], function () {
         // Manipulação de períodos
         Route::group(['prefix' => 'periodo'], function(){
             Route::get('/', ['as' => 'visualizarPeriodos', 'uses' => 'PeriodoController@index']);
-            Route::get('detalhe{periodo}', ['as' => 'detalhesPeriodo', 'uses' => 'PeriodoController@show']);
+            Route::get('detalhe/{periodo}', ['as' => 'detalhesPeriodo', 'uses' => 'PeriodoController@show']);
             Route::get('editar/{periodo}', ['as' => 'editarPeriodo', 'uses' => 'PeriodoController@edit']);
             Route::post('editar', ['as' => 'atualizarPeriodo', 'uses' => 'PeriodoController@update']);
-            Route::get('criar', ['as' => 'adicionarPeriodo', 'uses' => 'PeriodoController@create']);
+            Route::get('criar', ['as' => 'criarPeriodo', 'uses' => 'PeriodoController@create']);
             Route::post('armazenar', ['as' => 'armazenarPeriodo', 'uses' => 'PeriodoController@store']);
             Route::get('deletar/{periodo}', ['as' => 'apagarPeriodo', 'uses' => 'PeriodoController@destroy']);
         });
