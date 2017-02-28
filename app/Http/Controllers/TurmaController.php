@@ -162,12 +162,12 @@ class TurmaController extends Controller
                 $usuario->save();
             }
 
-            $matricula = Matriculado::firstOrCreate([
+            Matriculado::firstOrCreate([
                 'aluno_id' => $usuario->id,
                 'turma_id' => $turma->id
             ]);
 
-            $encarregado = Encarregado::firstOrCreate([
+            Encarregado::firstOrCreate([
                 'professor_id' => auth()->id(),
                 'turma_id' => $turma->id
             ]);
