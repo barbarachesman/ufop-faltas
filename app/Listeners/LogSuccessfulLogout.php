@@ -27,6 +27,11 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
+        if(is_null($event->user))
+        {
+            $event->user->cpf = 'Desconhecido';
+            $event->user->nome = 'Desconhecido';
+        }
         Log::info('Usuário realizou logout.', ['cpf' => $event->user->cpf, 'nome' => $event->user->nome]);
     }
 }

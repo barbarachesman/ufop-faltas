@@ -5,13 +5,8 @@
 @endsection
 
 @section('descricao')
-    Bem-vindo {!! Auth::user()->nome !!}, você está na página inicial.
+    Bem-vindo {!! auth()->user()->nome !!}, você está na página inicial.
 @endsection
 
 @section('conteudo')
-    <div class='col-lg-12'>
-       <p>
-          UFOP FALTAS
-       </p>
-    </div>
 @endsection

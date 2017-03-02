@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <title>UFOP Faltas - @yield('titulo')</title>
+    <title>{!! config('app.name') !!} - @yield('titulo')</title>
     <meta charset="UTF-8">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,6 +52,11 @@
 </div>
 
 {!! HTML::script('js/app.js') !!}
+@if(session()->has("tipo"))
+    <script>
+        toastr["{!! session('tipo') !!}"]("{!! session('mensagem') !!}");
+    </script>
+@endif
 
 {{-- Scripts específicos da página --}}
 @stack('extra-scripts')

@@ -1,47 +1,41 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Be right back.</title>
+<html lang="pt">
+<head>
+    <title>{!! config('app.name') !!} - Em Manutenção</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    {!! HTML::style('css/bootstrap/bootstrap.min.css') !!}
+    {!! HTML::style('css/font-awesome/font-awesome.min.css') !!}
+    {!! HTML::style('css/app.css') !!}
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+    {!! HTML::favicon('favicon.ico') !!}
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato', sans-serif;
-            }
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page skin-ufop guest">
+<div class="login-box">
+    <div class="login-logo">
+        <p class="text-bold"><i class="fa fa-refresh fa-spin fa-2x fa-fw"></i><br />Sistema em Manutenção.</p>
+        <p>Por favor<br>volte mais tarde.</p>
+    </div>
+</div>
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+<footer class="text-center">
+    <!-- Default to the left -->
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="https://github.com/jpmoura/ufop-boilerplate-laravel">{!! config('app.name') !!}</a></strong>.
+</footer>
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+{!! HTML::script('js/app.js') !!}
+{!! HTML::script('js/plugins/jQueryMask/jquery.mask.min.js') !!}
 
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Be right back.</div>
-            </div>
-        </div>
-    </body>
+</body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <title>UFOP Faltas - Login</title>
+    <title>{!! config('app.name') !!} - Login</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
 <body class="hold-transition login-page skin-ufop guest">
 <div class="login-box">
     <div class="login-logo">
-        <i class="fa fa-graduation-cap"></i> UFOP Faltas
+        <i class="fa fa-graduation-cap"></i> {!! config('app.name') !!}
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body ufop-border">
@@ -45,8 +45,8 @@
                 <br />
 
                 <div class="text-center">
-                    <input type="checkbox" name="remember-me" />
-                    <label>Lembre-se de mim</label>
+                    <input id="remember" type="checkbox" name="remember-me" />
+                    <label for="remember">Lembre-se de mim</label>
                 </div>
 
                 @if($errors)
@@ -70,7 +70,7 @@
 
 <footer class="text-center">
     <!-- Default to the left -->
-    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="https://github.com/jpmoura/ufop-boilerplate-laravel">UFOP Faltas</a></strong>.
+    <strong>Copyleft <i class="fa fa-creative-commons"></i> {{ date("Y") }} <a href="https://github.com/jpmoura/ufop-boilerplate-laravel">{!! config('app.name') !!}</a></strong>.
 </footer>
 
 {!! HTML::script('js/app.js') !!}

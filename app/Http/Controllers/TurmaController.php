@@ -12,25 +12,35 @@ use App\Periodo;
 use App\Turma;
 use App\Usuario;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TurmaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Recupera a lista de turmas relacionadas com usuário de acordo com o seu nível.
      *
      */
     public function index()
     {
-        $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->where('professor_id', auth()->id())->get();
+        if(auth()->user()->isAdmin())
+        {
+            $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->get();
+        }
+        else if(auth()->user()->isProfessor())
+        {
+            $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->where('professor_id', auth()->id())->get();
+        }
+        else
+        {
+            $turmas = Matriculado::with('turma', 'turma.disciplina', 'turma.periodo')->where('aluno_id', auth()->id())->get();
+        }
+
         return view('turma.index')->with(['turmas' => $turmas]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Renderiza a view de criação de turmas.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -38,59 +48,14 @@ class TurmaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Renderiza a view com os detalhes da turma, mostrando todos os alunos nela matriculado
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Turma $turma Turma a ser exibida
      */
-    public function store(Request $request)
+    public function show(Turma $turma)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $alunos = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
+        return view('turma.show')->with(['alunos' => $alunos, 'turma' => $turma]);
     }
 
     /**
@@ -107,114 +72,146 @@ class TurmaController extends Controller
      * @param CriarTurmaRequest $request Requisição HTTP com os campos do formulário validos.
      * @return \Illuminate\Http\RedirectResponse Para a página anterior em caso de erro ou para a listagem das turmas.
      */
-    public function importCSV(CriarTurmaRequest $request)
+    public function importarCSV(CriarTurmaRequest $request)
     {
         Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
 
-        $callback = Excel::load($request->file('file'), function ($reader) {
+        // Transforma o CSV da turma em um array associativo (dicionário)
+        $alunos = Excel::load($request->file('file'))->get()->toArray();
+        $callback = $this->parseTurma($alunos);
 
-            $alunos = $reader->get()->toArray();
-            $turma = null; // sinaliza se a turma já foi criada ou não
+        if($callback == false)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao importar turma: A disciplina não existe! Entre em contato com o administrador.');
 
-            foreach ($alunos as $aluno)
-            {
-                // Criação da turma na primeira iteração
-                if(is_null($turma))
-                {
-                    $periodo = Periodo::firstOrCreate([
-                        'ano' => $aluno['ano'],
-                        'periodo' => $aluno['semestre']
-                    ]);
+            return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
+        }
+        else
+        {
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Turma importada com sucesso.');
 
-                    $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
-
-                    if(is_null($disciplina)) return 1;
-                    else
-                    {
-                        $turma = Turma::firstOrCreate([
-                            'disciplina_id' => $disciplina->id,
-                            'periodo_id' => $periodo->id,
-                            'codigo' => $aluno['turma'],
-                            'finalizada' => false
-                        ]);
-                    }
-                }
-
-                // Verifica se o usuário existe
-                $usuario = Usuario::where('nome', $aluno['nome'])->first();
-
-                // Se ele não existir, então deve ser criado
-                if(is_null($usuario))
-                {
-                    // Obtém as informações necessárias para a criação
-                    $details = $this->getAlunoDetails('nomecompleto', $aluno['nome'], $aluno['curso']);
-                    if(is_null($details))
-                    {
-                        // fallback de alunos não encontrados
-                        $details['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
-                        $details['grupo'] = 'Não encontrado';
-                        $details['id_grupo'] = 0;
-
-                        // Registra no log que um aluno não foi encontrado.
-                        event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
-                    }
-
-                    $usuario = Usuario::firstOrCreate([
-                        'cpf' => $details['cpf'],
-                        'grupo_nome' => ucwords(strtolower($details['grupo'])),
-                        'grupo_id' => $details['id_grupo'],
-                        'nome' => ucwords(strtolower($aluno['nome'])),
-                        'email' => $aluno['email']
-                    ]);
-                }
-
-                $matricula = Matriculado::firstOrCreate([
-                    'aluno_id' => $usuario->id,
-                    'turma_id' => $turma->id
-                ]);
-
-                $encarregado = Encarregado::firstOrCreate([
-                    'professor_id' => auth()->id(),
-                    'turma_id' => $turma->id
-                ]);
-            }
-
-            return 0;
-        });
-
-        if($callback) return back()->withErrors(['disciplina' => 'A disciplina não existe. Entre em contato com o administrador para que seja cadastrada.']);
-        else return redirect()->route('home');
+            return redirect()->route('visualizarTurmas');
+        }
     }
 
-    public function getAlunoDetails($campo, $valor, $grupo)
+    /**
+     * @param array $alunos Array contendo as informações dos alunos
+     * @return boolean True se a turma for decodificada com sucesso e False caso contrário
+     */
+    private function parseTurma($alunos)
+    {
+        $turma = null; // sinaliza se a turma já foi criada ou não
+
+        foreach ($alunos as $aluno)
+        {
+            // Criação da turma na primeira iteração
+            if(is_null($turma))
+            {
+                $periodo = Periodo::firstOrCreate([
+                    'ano' => $aluno['ano'],
+                    'periodo' => $aluno['semestre']
+                ]);
+
+                $disciplina = Disciplina::where('codigo', $aluno['cod_disciplina'])->first();
+
+                if(is_null($disciplina)) return false;
+                else
+                {
+                    $turma = Turma::firstOrCreate([
+                        'disciplina_id' => $disciplina->id,
+                        'periodo_id' => $periodo->id,
+                        'codigo' => $aluno['turma'],
+                        'finalizada' => false
+                    ]);
+                }
+            }
+
+            // Verifica se o usuário existe
+            $usuario = Usuario::where('nome', $aluno['nome'])->first();
+
+            // Se ele não existir, então deve ser criado
+            if(is_null($usuario))
+            {
+                // Obtém as informações necessárias para a criação
+                $detalhesDoAluno = $this->obterDetalhesDeAluno('nomecompleto', $aluno['nome'], $aluno['curso']);
+                if(is_null($detalhesDoAluno))
+                {
+                    // fallback de alunos não encontrados
+                    $detalhesDoAluno['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
+                    $detalhesDoAluno['grupo'] = 'Nao encontrado';
+                    $detalhesDoAluno['id_grupo'] = 0;
+
+                    // Registra no log que um aluno não foi encontrado.
+                    event(new AlunoNotFoundEvent($aluno['nome'], $aluno['email'], $aluno['curso'], $aluno['matricula']));
+                }
+
+                $usuario = Usuario::Create([
+                    'cpf' => $detalhesDoAluno['cpf'],
+                    'grupo_nome' => ucwords(strtolower($detalhesDoAluno['grupo'])),
+                    'grupo_id' => $detalhesDoAluno['id_grupo'],
+                    'nome' => ucwords(strtolower($aluno['nome'])),
+                    'email' => $aluno['email'],
+                    'matricula' => $aluno['matricula']
+                ]);
+            }
+            else if(is_null($usuario->matricula)) // Para alunos que entraram no sistema antes de ser cadastrado pelo professor
+            { // Atualiza-se a sua matricula
+                $usuario->matricula = $aluno['matricula'];
+                $usuario->save();
+            }
+
+            Matriculado::firstOrCreate([
+                'aluno_id' => $usuario->id,
+                'turma_id' => $turma->id
+            ]);
+
+            Encarregado::firstOrCreate([
+                'professor_id' => auth()->id(),
+                'turma_id' => $turma->id
+            ]);
+        }
+
+        return true;
+    }
+
+    /**
+     * Obtém os detalhes do aluno necessários para a criação de uma nova instância de usuário através da LDAPI.
+     * @param mixed $campo Nome do campo usado na procura do aluno
+     * @param mixed $valor Valor do campo escolhido
+     * @param int $grupo Grupo o qual o aluno pertence
+     * @return null|array Null se o aluno não for encotrado ou um Array com os detalhes se for encontrado
+     */
+    private function obterDetalhesDeAluno($campo, $valor, $grupo)
     {
         $httpClient = new Client(['verify' => false]);
 
         // Componentes do corpo da requisição
-        $requestBody['baseConnector'] = "and";
-        $requestBody['attributes'] = ["cpf", "grupo", "id_grupo"]; // Atributos que devem ser retornados
-        $requestBody['searchBase'] = "ou=People,dc=ufop,dc=br";
-        $requestBody['filters'][0] = [$campo => ["equals", $valor]];
+        $corpoDaRequisicao['baseConnector'] = "and";
+        $corpoDaRequisicao['attributes'] = ["cpf", "grupo", "id_grupo"]; // Atributos que devem ser retornados
+        $corpoDaRequisicao['searchBase'] = "ou=People,dc=ufop,dc=br";
+        $corpoDaRequisicao['filters'][0] = [$campo => ["equals", $valor]];
 
         try
         {
-            $response = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.searchUrl'), [
+            $resposta = $httpClient->request(config('ldapi.requestMethod'), config('ldapi.searchUrl'), [
                 "auth" => [config('ldapi.user'), config('ldapi.password'), "Basic"],
-                "body" => json_encode($requestBody),
+                "body" => json_encode($corpoDaRequisicao),
                 "headers" => [
                     "Content-type" => "application/json",
                 ],
             ]);
         }
         catch (\Exception $ex) {
-            $responseBody = $ex->getMessage();
-            event(new AlunoSearchError($responseBody)); // Registra no log que ocorreu um erro durante a comunicação com a LDAPI
+            $corpoDaResposta = $ex->getMessage();
+            event(new AlunoSearchError($corpoDaResposta)); // Registra no log que ocorreu um erro durante a comunicação com a LDAPI
             return null;
         }
 
-        $result = json_decode($response->getBody()->getContents(), true);
-        if($result['count'] == 0) return null;
-        else if($result['count'] == 1) return $result['result'][0];
+        $resultado = json_decode($resposta->getBody()->getContents(), true);
+        if($resultado['count'] == 0) return null;
+        else if($resultado['count'] == 1) return $resultado['result'][0];
         else // Tratamento de pessoas com nomes iguais somente para cursos do ICEA
         {
             $id_grupo = null;
@@ -239,9 +236,35 @@ class TurmaController extends Controller
             $aluno = null;
 
             // Busca pelo resultado que pertença ao mesmo grupo do aluno informado no CSV
-            foreach ($result['result'] as $possivelAluno) if($possivelAluno['id_grupo'] == $id_grupo) $aluno = $possivelAluno;
+            foreach ($resultado['result'] as $possivelAluno) if($possivelAluno['id_grupo'] == $id_grupo) $aluno = $possivelAluno;
 
             return $aluno;
         }
+    }
+
+    /**
+     * Finaliza uma turma.
+     * @param Turma $turma Instância da turma a ser finalizada
+     * @return \Illuminate\Http\RedirectResponse Página anterior
+     */
+    public function finalizar(Turma $turma)
+    {
+        $turma->finalizada = true;
+
+        try
+        {
+            $turma->save();
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Turma finalizada com sucesso');
+
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao finalizar turma: ' . $ex->getMessage());
+        }
+
+        return back();
     }
 }
