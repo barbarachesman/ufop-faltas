@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Rotas envolvendo turmas
         Route::group(['prefix' => 'turma'], function (){
-            Route::get('/', ['as' => 'visualizarTurmas', 'uses' => 'TurmaController@index']);
+            Route::get('listar', ['as' => 'visualizarTurmasProfessor', 'uses' => 'TurmaController@index']);
             Route::get('criar', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
             Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importarCSV']);
             Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show'])->middleware('can:manipular_turma,turma');
@@ -70,8 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Rotas específicas para alunos
     Route::group(['middleware' => 'can:assistir_aula'], function (){
-        Route::get('turma', ['as' => 'visualizarTurmas', 'uses' => 'TurmaController@index']);
-        Route::get('falta/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
+        Route::get('turmas', ['as' => 'visualizarTurmasAluno', 'uses' => 'TurmaController@index']);
+        Route::get('faltas/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
     });
 
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
