@@ -40,17 +40,19 @@
                 @else
                     <li class="header text-center">ALUNO</li>
                 @endif
-                <li class="treeview {{ Route::is('criarTurma') || Route::is('visualizarTurmas') ? 'active' : '' }}">
+                <li class="treeview {{ Route::is('criarTurma') || Route::is('visualizarTurmasAluno') || Route::is('visualizarTurmasProfessor') ? 'active' : '' }}">
                     <a href="">
                         <i class="fa fa-users"></i><span>Minhas Turmas</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
                     <ul class="treeview-menu">
-                        @can('lecionar')
+                        @if(auth()->user()->isProfessor())
                             <li class="{{ Route::is('criarTurma') ? 'active' : '' }}"><a href="{{ route('criarTurma') }}"><i class="fa fa-plus"></i> <span>Criar</span></a></li>
-                        @endcan
-                        <li class="{{ Route::is('visualizarTurmas') ? 'active' : '' }}"><a href="{{ route('visualizarTurmas') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
+                            <li class="{{ Route::is('visualizarTurmasProfessor') ? 'active' : '' }}"><a href="{{ route('visualizarTurmasProfessor') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
+                        @else
+                            <li class="{{ Route::is('visualizarTurmasAluno') ? 'active' : '' }}"><a href="{{ route('visualizarTurmasAluno') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
+                        @endif
                     </ul>
                 </li>
             @endcannot
