@@ -71,8 +71,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Rotas específicas para alunos
     Route::group(['middleware' => 'can:assistir_aula'], function (){
         Route::get('turmas', ['as' => 'visualizarTurmasAluno', 'uses' => 'TurmaController@index']);
-        Route::get('faltas/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
     });
+
+    Route::get('faltas/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
 
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
 });
