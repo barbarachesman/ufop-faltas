@@ -113,15 +113,6 @@
                                     </tr>
                                 @endforeach
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Código da Turma</th>
-                                    <th>Disciplina</th>
-                                    <th>Código da Disciplina</th>
-                                    <th>Status</th>
-                                    <th>Professor(es)</th>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     @endif

@@ -86,17 +86,6 @@
                                 </tr>
                             @endforeach
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Código da Disciplina</th>
-                                <th>Disciplina</th>
-                                <th>Turma</th>
-                                <th>Ano</th>
-                                <th>Período</th>
-                                <th>Status</th>
-                                <th>Ação</th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

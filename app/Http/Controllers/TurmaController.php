@@ -92,7 +92,7 @@ class TurmaController extends Controller
             session()->flash('tipo', 'success');
             session()->flash('mensagem', 'Turma importada com sucesso.');
 
-            return redirect()->route('visualizarTurmas');
+            return redirect()->route('visualizarTurmasProfessor');
         }
     }
 

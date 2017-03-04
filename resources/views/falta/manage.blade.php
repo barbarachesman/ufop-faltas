@@ -1,11 +1,11 @@
 @extends('layout.base')
 
 @section('titulo')
-    Faltas da turma {{ $turma->codigo }} da disciplina {{ $turma->disciplina->codigo }}
+    Diário de Classe da turma {{ $turma->codigo }} 
 @endsection
 
 @section('descricao')
-    Essas são as faltas da turma {{ $turma->codigo }} da disciplina {{ $turma->disciplina->codigo }} {{ $turma->disciplina->nome }}
+    Essa é a lista de chamada da disciplina {{ $turma->disciplina->nome }}
 @endsection
 
 @section('mapa')

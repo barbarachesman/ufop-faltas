@@ -1,12 +1,13 @@
 @extends('layout.base')
 
 @section('titulo')
-    Faltas da turma {{ $turma->codigo }} da disciplina {{ $turma->disciplina->codigo }}
+    Diário de Classe da turma {{ $turma->codigo }}
 @endsection
 
 @section('descricao')
-    Essas são as faltas da turma {{ $turma->codigo }} da disciplina {{ $turma->disciplina->codigo }} {{ $turma->disciplina->nome }}
+    Essa é a lista de chamada da disciplina {{ $turma->disciplina->nome }}
 @endsection
+
 
 @section('mapa')
     <li><i class="fa fa-users"></i> Turmas</li>
@@ -57,7 +58,7 @@
                             <tr>
                                 <th>Matrícula</th>
                                 @if(!auth()->user()->isAluno())
-                                    <th>Aluno</th>
+                                <th>Aluno</th>
                                 @endif
                                 @foreach($faltas->keys() as $data)
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>

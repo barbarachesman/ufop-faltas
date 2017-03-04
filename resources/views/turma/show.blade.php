@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('titulo')
-    Detalhes Turma {!! $turma->codigo !!} de {!! $turma->disciplina->codigo !!}
+    Detalhes Turma {!! $turma->disciplina->codigo !!}
 @endsection
 
 @section('descricao')
