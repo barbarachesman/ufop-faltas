@@ -59,32 +59,35 @@
                                 @if(!auth()->user()->isAluno())
                                     <th>Aluno</th>
                                 @endif
-                                @foreach($faltas as $falta)
-                                    <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $falta->data)->format('d/m/Y') }}</th>
+                                @foreach($faltas->keys() as $data)
+                                    <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                 @endforeach
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($matriculados as $matriculado)
-                                    <tr>
-                                        <td>{!! $matriculado->aluno->matricula ? $matriculado->aluno->matricula : 'Desconhecida' !!}</td>
-                                        @if(!auth()->user()->isAluno())
-                                            <td>{!! $matriculado->aluno->nome !!}</td>
-                                        @endif
-                                            @foreach($faltas as $falta)
-                                            <td>
-                                                <?php $presenca = true; ?>
+                            @foreach($matriculados as $matriculado)
+                                <tr>
+                                    <td>{!! $matriculado->aluno->matricula ? $matriculado->aluno->matricula : 'Desconhecida' !!}</td>
+                                    @if(!auth()->user()->isAluno())
+                                        <td>{!! $matriculado->aluno->nome !!}</td>
+                                    @endif
+                                    @foreach($faltas->keys() as $data)
+                                        <td>
+                                            <?php $presenca = true; ?>
+                                            @foreach($faltas[$data]->values() as $falta)
                                                 @if($falta->aluno->id == $matriculado->aluno_id)
                                                     <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
                                                     <?php $presenca = false; ?>
+                                                    @break
                                                 @endif
-                                                @if($presenca)
-                                                    <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
-                                                @endif
-                                            </td>
                                             @endforeach
-                                    </tr>
-                                @endforeach
+                                            @if($presenca)
+                                                <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                            @endif
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     @endif
