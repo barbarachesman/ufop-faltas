@@ -14,6 +14,11 @@ class PagesController extends Controller
         return view('inicio');
     }
 
+    public function tutorial()
+    {
+        return view('tutorial');
+    }
+
     /**
      * Renderiza a view contento informações sobre o sistema.
      */
