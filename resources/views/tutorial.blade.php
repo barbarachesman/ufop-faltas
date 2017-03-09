@@ -38,7 +38,7 @@
               <h3 class="timeline-header no-border"><a href="#">Listar Turmas</a> Minhas Turmas > Listar Turmas</h3>
               <div class="timeline-body">
                 Cadastrada as turmas, o professor visualizará todas as turmas as quais ele é responsável.
-                Podendo obter detalhes de cada uma delas ou visualizar o diário.
+                Podendo obter detalhes dos dados de cada uma delas ou visualizar o diário.
               </div>
             </div>
           </li>
@@ -50,9 +50,10 @@
               <h3 class="timeline-header"><a href="#">Gerenciar Turmas</a> Minhas Turmas > Listar Turmas > Detalhes </h3>
 
               <div class="timeline-body">
-                Take me to your leader!
-                Switzerland is small and neutral!
-                We are more like Germany, ambitious and misunderstood!
+                O gerenciamento das turmas será feito a partir da seleção de determinada turma,
+                assim será apresentado os alunos matrículados e seus respectivos dados, permitindo que o professor desmatricule um aluno ou
+                finalize a turma, caso as aulas do período se encerrem. Nesta tela será possivel carregar um diário atualizado após diferentes ajustes
+                de matrícula, e assim automaticamente alunos serão adicionados ou excluídos de determinada turma.
               </div>
             </div>
           </li>
@@ -65,9 +66,8 @@
               <h3 class="timeline-header"><a href="#">Gerenciar Faltas</a> Minhas Turmas > Listar Turmas > Visualizar Diário > Gerenciar Faltas</h3>
 
               <div class="timeline-body">
-                Take me to your leader!
-                Switzerland is small and neutral!
-                We are more like Germany, ambitious and misunderstood!
+                O gerenciamento de faltas conta com o registro das faltas, podendo cadastrar faltas em um período de tempo ao mesmo tempo,
+                ou cadastrando somente uma chamada. Por exemplo, registrar faltas de uma semana inteira, ou somente de uma aula.
               </div>
             </div>
           </li>
@@ -80,9 +80,8 @@
               <h3 class="timeline-header"><a href="#">Visualizar Diário</a> Minhas Turmas > Listar Turmas > Visualizar Diário</h3>
 
               <div class="timeline-body">
-                Take me to your leader!
-                Switzerland is small and neutral!
-                We are more like Germany, ambitious and misunderstood!
+              Na apresentação do diário, o professor o acessa conforme a turma escolhida. De modo que liste o diário de todos as aulas
+              em que a chamada foi realizada. Em que cada linha representa a presença ou falta do aluno em determinado dia.
               </div>
             </div>
           </li>
@@ -96,12 +95,10 @@
 
             <div class="timeline-item">
 
-              <h3 class="timeline-header"><a href="#">Listar Turmas</a> uploaded new photos</h3>
+              <h3 class="timeline-header"><a href="#">Listar Turmas</a> Minhas Turmas > Listar Turmas</h3>
 
-              <div class="timeline-body">
-                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                <img src="http://placehold.it/150x100" alt="..." class="margin">
-              </div>
+              Nesta página são listadas todas as turmas que o aluno logado está matriculado. A partir da criação das turmas, automaticamente
+              o aluno é vínculado a turma e assim o aluno só precisa listar as turmas e consultar suas faltas.
             </div>
           </li>
           <li>
@@ -112,24 +109,18 @@
               <h3 class="timeline-header"><a href="#">Visualizar Faltas</a> shared a video</h3>
 
               <div class="timeline-body">
-                aijoidjas
+                Para cada turma em que o aluno está matrículado é possível visuallizar as faltas registradas para ele.
               </div>
             </div>
           </li>
           <li class="time-label">
                 <span class="bg-gray">
-                  Acesso Aluno - Recursos permitidos para discentes
+                  Vídeo de apresentação da plataforma - Diário de Classe
                 </span>
           </li>
           <li>
-            <i class="fa fa-th-list bg-blue"></i>
-
             <div class="timeline-item">
-
-              <h3 class="timeline-header"><a href="#">Video explicativo</a> uploaded new photos</h3>
-              <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen></iframe>
-              </div>
+                <img src="http://i.picasion.com/pic85/02cb79bee0bc42c0ab69203256ae8ab0.gif" alt="..." class="margin">
             </div>
           </li>
         </ul>

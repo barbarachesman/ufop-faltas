@@ -26,7 +26,7 @@
                     <form id="importarturma" class="form-horizontal" method="POST" action="{{ route('importarTurma') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
-                            <label for="file" class="col-sm-2 control-label">Selecione o arquivo CSV</label>
+                            <label for="file" class="col-sm-2 control-label">Selecione o diário da turma que deseja criar</label>
                             <div class="col-sm-10">
                                 <input type="file" class="form-control" id="file" name="file" >
                                 @if($errors->has('file') || $errors->has('disciplina'))
