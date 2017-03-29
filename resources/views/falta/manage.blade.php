@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('titulo')
-    Diário de Classe da turma {{ $turma->codigo }} 
+    Diário de Classe da turma {{ $turma->codigo }}
 @endsection
 
 @section('descricao')

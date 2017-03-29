@@ -56,8 +56,9 @@
                         <table id="table" class="table table-bordered table-striped table-responsive table-hover text-center">
                             <thead>
                             <tr>
+                            @if(!auth()->user()->isAluno())
                                 <th>Matrícula</th>
-                                @if(!auth()->user()->isAluno())
+
                                 <th>Aluno</th>
                                 @endif
                                 @foreach($faltas->keys() as $data)
@@ -68,25 +69,45 @@
                             <tbody>
                             @foreach($matriculados as $matriculado)
                                 <tr>
+                                @if(!auth()->user()->isAluno())
                                     <td>{!! $matriculado->aluno->matricula ? $matriculado->aluno->matricula : 'Desconhecida' !!}</td>
-                                    @if(!auth()->user()->isAluno())
-                                        <td>{!! $matriculado->aluno->nome !!}</td>
-                                    @endif
-                                    @foreach($faltas->keys() as $data)
-                                        <td>
-                                            <?php $presenca = true; ?>
-                                            @foreach($faltas[$data]->values() as $falta)
-                                                @if($falta->aluno->id == $matriculado->aluno_id)
-                                                    <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
-                                                    <?php $presenca = false; ?>
-                                                    @break
-                                                @endif
-                                            @endforeach
-                                            @if($presenca)
-                                                <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
-                                            @endif
-                                        </td>
-                                    @endforeach
+
+                                      <td>{!! $matriculado->aluno->nome !!}</td>
+                                      @endif
+                                      @if(auth()->user()->isAluno() and auth()->user()->id == $matriculado->aluno_id)
+                                      @foreach($faltas->keys() as $data)
+                                          <td>
+                                              <?php $presenca = true; ?>
+                                              @foreach($faltas[$data]->values() as $falta)
+                                                  @if($falta->aluno->id == $matriculado->aluno_id and (auth()->user()->isAluno() and auth()->user()->id == $matriculado->aluno_id))
+                                                      <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
+                                                      <?php $presenca = false; ?>
+                                                      @break
+                                                  @endif
+                                              @endforeach
+                                              @if($presenca and (auth()->user()->isAluno() and auth()->user()->id == $matriculado->aluno_id))
+                                                  <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                              @endif
+                                          </td>
+                                      @endforeach
+                                      @endif
+                                        @if(!auth()->user()->isAluno())
+                                      @foreach($faltas->keys() as $data)
+                                          <td>
+                                              <?php $presenca = true; ?>
+                                              @foreach($faltas[$data]->values() as $falta)
+                                                  @if($falta->aluno->id == $matriculado->aluno_id )
+                                                      <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
+                                                      <?php $presenca = false; ?>
+                                                      @break
+                                                  @endif
+                                              @endforeach
+                                              @if($presenca)
+                                                  <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                              @endif
+                                          </td>
+                                      @endforeach
+@endif
                                 </tr>
                             @endforeach
                             </tbody>
