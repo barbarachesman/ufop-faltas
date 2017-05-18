@@ -131,7 +131,7 @@ class TurmaController extends Controller
             // Verifica se o usuário existe
             $usuario = Usuario::where('nome', $aluno['nome'])->first();
 
-            // Se ele não existir, então deve ser criado
+            // Se ele não existir, então deve ser criado - Matriculado após criacao da turma
             if(is_null($usuario))
             {
                 // Obtém as informações necessárias para a criação
@@ -160,7 +160,21 @@ class TurmaController extends Controller
             { // Atualiza-se a sua matricula
                 $usuario->matricula = $aluno['matricula'];
                 $usuario->save();
+
+                $matriculados_atualmente = $alunos;
+                $matriculados_antigamente = $turma->matriculados;
+
+                // Retira os alunos que já estão matriculados
+                foreach($matriculados_antigamente as $antigo){
+                        foreach($matriculados_atualmente as $atual)
+                                if($antigo->aluno->matricula == $atual['matricula']) // Conferir se na leitura é retornado um array assosiativo (dicionário) onde cada aluno é uma posição do array e cada coluna é uma subposição do array de aluno
+                                        $matriculados_antigamente->forget($antigo); // Não tenho certeza sobre o parâmetro
+                }
+                foreach($matriculados_antigamente as $desmatriculados)
+                        $desmatriculados->delete();
             }
+
+
 
             Matriculado::firstOrCreate([
                 'aluno_id' => $usuario->id,
