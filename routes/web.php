@@ -50,7 +50,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'turma'], function (){
             Route::get('listar', ['as' => 'visualizarTurmasProfessor', 'uses' => 'TurmaController@index']);
             Route::get('criar', ['as' => 'criarTurma', 'uses' => 'TurmaController@create']);
+            Route::get('atualizar/{turma}', ['as' => 'atualizarTurma', 'uses' => 'TurmaController@edit']);
             Route::post('importar', ['as' => 'importarTurma', 'uses' => 'TurmaController@importarCSV']);
+            Route::post('atualizar', ['as' => 'importarAtualiza', 'uses' => 'TurmaController@atualizarTurma']);
             Route::get('detalhe/{turma}', ['as' => 'detalheTurma', 'uses' => 'TurmaController@show'])->middleware('can:manipular_turma,turma');
             Route::get('finalizar/{turma}', ['as' => 'finalizarTurma', 'uses' => 'TurmaController@finalizar'])->middleware('can:manipular_turma,turma');
         });

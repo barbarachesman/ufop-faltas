@@ -13,6 +13,7 @@ use App\Turma;
 use App\Usuario;
 use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class TurmaController extends Controller
 {
@@ -45,6 +46,11 @@ class TurmaController extends Controller
     public function create()
     {
         return view('turma.create');
+    }
+
+    public function edit(Turma $turma)
+    {
+        return view('turma.edit')->with('turma', $turma);
     }
 
     /**
@@ -161,17 +167,6 @@ class TurmaController extends Controller
                 $usuario->matricula = $aluno['matricula'];
                 $usuario->save();
 
-                $matriculados_atualmente = $alunos;
-                $matriculados_antigamente = $turma->matriculados;
-
-                // Retira os alunos que já estão matriculados
-                foreach($matriculados_antigamente as $antigo){
-                        foreach($matriculados_atualmente as $atual)
-                                if($antigo->aluno->matricula == $atual['matricula']) // Conferir se na leitura é retornado um array assosiativo (dicionário) onde cada aluno é uma posição do array e cada coluna é uma subposição do array de aluno
-                                        $matriculados_antigamente->forget($antigo); // Não tenho certeza sobre o parâmetro
-                }
-                foreach($matriculados_antigamente as $desmatriculados)
-                        $desmatriculados->delete();
             }
 
 
@@ -280,5 +275,51 @@ class TurmaController extends Controller
         }
 
         return back();
+    }
+
+    public static function desmatricular(Usuario $aluno, Turma $turma)
+    {
+
+        //dd($aluno);
+        try
+        {
+            DB::table('matriculados')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
+
+            session()->flash('tipo', 'success');
+            session()->flash('mensagem', 'Aluno ' . $aluno->nome . ' desmatriculado com sucesso');
+        }
+        catch (\Exception $ex)
+        {
+            session()->flash('tipo', 'error');
+            session()->flash('mensagem', 'Erro ao desmatricular aluno: ' . $ex->getMessage());
+        }
+
+        return back();
+    }
+
+    public function atualizarTurma(CriarTurmaRequest $request)
+    {
+        Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
+
+        $turma = Turma::find($request->get('turma'));
+
+        // Transforma o CSV da turma em um array associativo (dicionário)
+        $alunos = Excel::load($request->file('file'))->get()->toArray();
+        $matriculados_atualmente = $alunos;
+        $matriculados_antigamente = $turma->matriculados;
+
+        // Retira os alunos que já estão matriculados
+        foreach($matriculados_antigamente as $antigo){
+                foreach($matriculados_atualmente as $atual)
+                        if($antigo->aluno->matricula == $atual['matricula'])
+                                $matriculados_antigamente->forget($matriculados_antigamente->search($antigo));
+        }
+        foreach($matriculados_antigamente as $desmatriculados)
+                //$desmatriculados = $this->desmatricular($desmatriculados, $turma>id);
+                //dd($desmatriculados->aluno);
+                $this->desmatricular($desmatriculados->aluno, $turma);
+
+        return back();
+
     }
 }

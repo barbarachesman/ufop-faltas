@@ -78,6 +78,10 @@
                                             <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
                                                 <i class="fa fa-search-plus"></i> Detalhes
                                             </a>
+
+                                            <a href="{{ route('atualizarTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
+                                                <i class="fa fa-search-plus"></i> Atualizar
+                                            </a>
                                         @endif
                                         <a href="{{ route('visualizarFaltas', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
                                             <i class="fa fa-calendar"></i> Visualizar diário

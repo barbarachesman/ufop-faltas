@@ -79,6 +79,10 @@
                                             <a href="<?php echo e(route('detalheTurma', $vinculo->turma->id)); ?>" class="btn btn-ufop btn-xs" role="button">
                                                 <i class="fa fa-search-plus"></i> Detalhes
                                             </a>
+
+                                            <a href="<?php echo e(route('atualizarTurma', $vinculo->turma->id)); ?>" class="btn btn-ufop btn-xs" role="button">
+                                                <i class="fa fa-search-plus"></i> Atualizar
+                                            </a>
                                         <?php endif; ?>
                                         <a href="<?php echo e(route('visualizarFaltas', $vinculo->turma->id)); ?>" class="btn btn-ufop btn-xs" role="button">
                                             <i class="fa fa-calendar"></i> Visualizar diário
