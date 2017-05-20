@@ -305,6 +305,7 @@ class TurmaController extends Controller
 
         // Transforma o CSV da turma em um array associativo (dicionário)
         $alunos = Excel::load($request->file('file'))->get()->toArray();
+
         $matriculados_atualmente = $alunos;
         $matriculados_antigamente = $turma->matriculados;
 
@@ -313,11 +314,62 @@ class TurmaController extends Controller
                 foreach($matriculados_atualmente as $atual)
                         if($antigo->aluno->matricula == $atual['matricula'])
                                 $matriculados_antigamente->forget($matriculados_antigamente->search($antigo));
+
+                        $usuario = Usuario::where('nome', $atual['nome'])->first();
+
+                        // Se ele não existir, então deve ser criado - Matriculado após criacao da turma
+                        if(is_null($usuario))
+                        {
+                            // Obtém as informações necessárias para a criação
+                            $detalhesDoAluno = $this->obterDetalhesDeAluno('nomecompleto', $atual['nome'], $atual['curso']);
+                            if(is_null($detalhesDoAluno))
+                            {
+                                // fallback de alunos não encontrados
+                                $detalhesDoAluno['cpf'] = substr(uniqid(), 0, 11); // Uma string aleatória para o CPF
+                                $detalhesDoAluno['grupo'] = 'Nao encontrado';
+                                $detalhesDoAluno['id_grupo'] = 0;
+
+                                // Registra no log que um aluno não foi encontrado.
+                                event(new AlunoNotFoundEvent($atual['nome'], $atual['email'], $atual['curso'], $atual['matricula']));
+                            }
+                            $usuario = Usuario::updateOrCreate([
+                                'cpf' => $detalhesDoAluno['cpf'],
+                                'grupo_nome' => ucwords(strtolower($detalhesDoAluno['grupo'])),
+                                'grupo_id' => $detalhesDoAluno['id_grupo'],
+                                'nome' => ucwords(strtolower($atual['nome'])),
+                                'email' => $atual['email'],
+                                'matricula' => $atual['matricula']
+                              ]);
+
+                              Matriculado::updateOrCreate([
+                                  'aluno_id' => $usuario->id,
+                                  'turma_id' => $turma->id
+                              ]);
+                          }
+                          else if(is_null($usuario->matricula)) // Para alunos que entraram no sistema antes de ser cadastrado pelo professor
+                          { // Atualiza-se a sua matricula
+                              $usuario->matricula = $atual['matricula'];
+                              $usuario->save();
+
+                          }
+
+
+
+                          Matriculado::updateOrCreate([
+                              'aluno_id' => $usuario->id,
+                              'turma_id' => $turma->id
+                          ]);
+
+                          Encarregado::firstOrCreate([
+                              'professor_id' => auth()->id(),
+                              'turma_id' => $turma->id
+                          ]);
+
         }
         foreach($matriculados_antigamente as $desmatriculados)
-                //$desmatriculados = $this->desmatricular($desmatriculados, $turma>id);
-                //dd($desmatriculados->aluno);
                 $this->desmatricular($desmatriculados->aluno, $turma);
+
+
 
         return back();
 
