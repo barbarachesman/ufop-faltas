@@ -311,7 +311,7 @@ class TurmaController extends Controller
 
         // Retira os alunos que já estão matriculados
         foreach($matriculados_antigamente as $antigo){
-                foreach($matriculados_atualmente as $atual)
+                foreach($matriculados_atualmente as $atual){
                         if($antigo->aluno->matricula == $atual['matricula'])
                                 $matriculados_antigamente->forget($matriculados_antigamente->search($antigo));
 
@@ -370,7 +370,7 @@ class TurmaController extends Controller
                 $this->desmatricular($desmatriculados->aluno, $turma);
 
 
-
+}
         return back();
 
     }
