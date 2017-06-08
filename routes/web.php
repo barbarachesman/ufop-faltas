@@ -63,6 +63,16 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('selecionar/{turma}', ['as' => 'selecionarFaltas', 'uses' => 'FaltaController@select']);
             Route::post('gerenciar', ['as' => 'gerenciarFaltas', 'uses' => 'FaltaController@manage']);
             Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
+            Route::post('abono', ['as' => 'abonarFalta', 'uses' => 'AbonoController@store']);
+        });
+
+        // Rotas envolvendo abono
+        Route::group(['prefix' => 'abono'], function (){
+            Route::get('{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
+            Route::get('selecionar/{turma}', ['as' => 'selecionarFaltas', 'uses' => 'FaltaController@select']);
+            Route::post('gerenciar', ['as' => 'gerenciarFaltas', 'uses' => 'FaltaController@manage']);
+            Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
+            Route::post('criar', ['as' => 'abonarFalta', 'uses' => 'AbonoController@criarAbono']);
         });
 
         Route::group(['prefix' => 'aluno'], function (){
@@ -82,7 +92,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 Route::get('/tutorial', ['as' => 'tutorial', 'uses' => 'PagesController@tutorial']);
-Route::get('/abono', ['as' => 'abono', 'uses' => 'PagesController@abono']);
+Route::get('/abono', ['as' => 'abono', 'uses' => 'AbonoController@create']);
 Route::get('/login', ['as' => 'showLogin', 'uses' => 'Auth\LoginController@showLogin']);
 Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('/sair', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+Route::get('download', ['as' => 'download', 'uses' => 'FaltaController@download']);

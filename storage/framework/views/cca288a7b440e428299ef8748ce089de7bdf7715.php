@@ -36,7 +36,7 @@
         <div class='col-md-12'>
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <form id="importaratestado" class="form-horizontal" method="POST" action="<?php echo e(route('importarTurma')); ?>" enctype="multipart/form-data">
+                    <form id="importaratestado" class="form-horizontal" method="POST" action="<?php echo e(route('abonarFalta')); ?>" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
 
                         <div class="form-group <?php echo e($errors->has('file') || $errors->has('disciplina') ? 'has-error' : ''); ?>">
@@ -55,13 +55,17 @@
                                     </p>
                                 <?php endif; ?>
                             </div>
-                            <label for="file" class="col-sm-2 control-label">Dentre as faltas do calendário, selecione aquela referente ao abono anexado</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" value="<?php echo e(old('dataFalta')); ?>" minlength="10" maxlength="10" class="form-control datepicker" name="dataFalta" title="Dia inicial do intervalo" placeholder="Dia da falta no formato dd/mm/aaaa" required>
-                                </div>
-
-
+                            <label for="file" class="col-sm-2 control-label">Observação</label>
+                              <div class="col-sm-10">
+                                <textarea name="comment" cols='75' rows='3' name='texto' maxlength="250">Deixe aqui um comentário para o professor, se necessário...</textarea>
+                              </div>
+                            <label for="file" class="col-sm-2 control-label">Selecione aquela referente ao abono anexado</label>
+                            <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                  <input type="text" style="width:430px;font-size: 13px"  value="<?php echo e(old('dataFalta')); ?>" minlength="10" maxlength="10" class="form-control datepicker" name="dataFalta" title="Dia inicial do intervalo" placeholder="Dia da falta no formato dd/mm/aaaa" required>
+                            </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="text-center">

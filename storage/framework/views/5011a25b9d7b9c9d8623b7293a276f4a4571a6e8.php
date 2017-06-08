@@ -63,12 +63,15 @@
                                 <th>Matrícula</th>
 
                                 <th>Aluno</th>
-                                <?php endif; ?>
+
                                 <?php $__currentLoopData = $faltas->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                     <th><?php echo e(\Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y')); ?></th>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                <?php endif; ?>
                             </tr>
+
                             </thead>
+
                             <tbody>
                             <?php $__currentLoopData = $matriculados; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $matriculado): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                 <tr>
@@ -78,7 +81,9 @@
                                       <td><?php echo $matriculado->aluno->nome; ?></td>
                                       <?php endif; ?>
                                       <?php if(auth()->user()->isAluno() and auth()->user()->id == $matriculado->aluno_id): ?>
+                                      <tr>
                                       <?php $__currentLoopData = $faltas->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                        <th><?php echo e(\Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y')); ?></th>
                                           <td>
                                               <?php $presenca = true; ?>
                                               <?php $__currentLoopData = $faltas[$data]->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $falta): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
@@ -92,32 +97,44 @@
                                                   <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
                                               <?php endif; ?>
                                           </td>
+
+
+                                      </tr>
                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                    </tr>
+
                                       <?php endif; ?>
                                         <?php if(!auth()->user()->isAluno()): ?>
-                                      <?php $__currentLoopData = $faltas->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                          <td>
-                                              <?php $presenca = true; ?>
-                                              <?php $__currentLoopData = $faltas[$data]->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $falta): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                                  <?php if($falta->aluno->id == $matriculado->aluno_id ): ?>
-                                                      <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
-                                                      <?php $presenca = false; ?>
-                                                      <?php break; ?>
-                                                  <?php endif; ?>
+                                              <?php $__currentLoopData = $faltas->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                  <td>
+                                                      <?php $presenca = true; ?>
+                                                      <?php $__currentLoopData = $faltas[$data]->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $falta): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                          <?php if($falta->aluno->id == $matriculado->aluno_id ): ?>
+                                                              <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
+                                                              <?php $presenca = false; ?>
+                                                              <?php break; ?>
+                                                          <?php endif; ?>
+                                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                                                      <?php if($presenca): ?>
+                                                          <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                                      <?php endif; ?>
+                                                  </td>
                                               <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                              <?php if($presenca): ?>
-                                                  <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
                                               <?php endif; ?>
-                                          </td>
-                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-<?php endif; ?>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                             </tbody>
+                            <td>
+                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                <?php echo $qtde; ?>
+
+                            </td>
                         </table>
                     <?php endif; ?>
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+                        <a href="<?php echo e(url('download')); ?>"><button type="button" class="btn btn-info btn-sm pull-right">Download PDF</button></a>
+
                         <?php if (app('Illuminate\Contracts\Auth\Access\Gate')->check('manipular_turma', $turma)): ?>
                             <a class="btn btn-ufop" role="button" href="<?php echo e(route('selecionarFaltas', $turma->id)); ?>">
                                 <i class="fa fa-pencil-square-o"></i> Gerenciar faltas

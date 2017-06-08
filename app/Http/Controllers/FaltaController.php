@@ -118,4 +118,14 @@ class FaltaController extends Controller
 
         return redirect()->route('visualizarFaltas', $form['turma']);
     }
+
+
+
+    public function download()
+    {
+        $data = DB::table("faltas")->limit(10)->get();
+        view()->share('data',$data);
+        $pdf = Falta::loadView('falta.show');
+        return $pdf->download('pdf.pdfview');
+    }
 }

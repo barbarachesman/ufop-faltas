@@ -12,7 +12,9 @@
         "guzzlehttp/guzzle": "^6.2",
         "maatwebsite/excel": "~2.1.0",
         "barryvdh/laravel-debugbar": "^2.3",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "^1.22",
+        "appzcoder/crud-generator": "^2.0",
+        "barryvdh/laravel-dompdf": "^0.8.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

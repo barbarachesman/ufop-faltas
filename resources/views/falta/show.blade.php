@@ -60,12 +60,15 @@
                                 <th>Matrícula</th>
 
                                 <th>Aluno</th>
-                                @endif
+
                                 @foreach($faltas->keys() as $data)
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                 @endforeach
+                                @endif
                             </tr>
+
                             </thead>
+
                             <tbody>
                             @foreach($matriculados as $matriculado)
                                 <tr>
@@ -75,7 +78,9 @@
                                       <td>{!! $matriculado->aluno->nome !!}</td>
                                       @endif
                                       @if(auth()->user()->isAluno() and auth()->user()->id == $matriculado->aluno_id)
+                                      <tr>
                                       @foreach($faltas->keys() as $data)
+                                        <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                           <td>
                                               <?php $presenca = true; ?>
                                               @foreach($faltas[$data]->values() as $falta)
@@ -89,32 +94,43 @@
                                                   <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
                                               @endif
                                           </td>
+
+
+                                      </tr>
                                       @endforeach
+                                    </tr>
+
                                       @endif
                                         @if(!auth()->user()->isAluno())
-                                      @foreach($faltas->keys() as $data)
-                                          <td>
-                                              <?php $presenca = true; ?>
-                                              @foreach($faltas[$data]->values() as $falta)
-                                                  @if($falta->aluno->id == $matriculado->aluno_id )
-                                                      <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
-                                                      <?php $presenca = false; ?>
-                                                      @break
-                                                  @endif
+                                              @foreach($faltas->keys() as $data)
+                                                  <td>
+                                                      <?php $presenca = true; ?>
+                                                      @foreach($faltas[$data]->values() as $falta)
+                                                          @if($falta->aluno->id == $matriculado->aluno_id )
+                                                              <span class="text-danger text-bold"><i class="fa fa-times"></i> Ausente</span>
+                                                              <?php $presenca = false; ?>
+                                                              @break
+                                                          @endif
+                                                      @endforeach
+                                                      @if($presenca)
+                                                          <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
+                                                      @endif
+                                                  </td>
                                               @endforeach
-                                              @if($presenca)
-                                                  <span class="text-success text-bold"><i class="fa fa-check"></i> Presente</span>
                                               @endif
-                                          </td>
-                                      @endforeach
-@endif
                                 </tr>
                             @endforeach
                             </tbody>
+                            <td>
+                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                {!! $qtde !!}
+                            </td>
                         </table>
                     @endif
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+                        <a href="{{url('download')}}"><button type="button" class="btn btn-info btn-sm pull-right">Download PDF</button></a>
+
                         @can('manipular_turma', $turma)
                             <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}">
                                 <i class="fa fa-pencil-square-o"></i> Gerenciar faltas

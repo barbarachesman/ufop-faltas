@@ -353,8 +353,6 @@ class TurmaController extends Controller
 
                           }
 
-
-
                           Matriculado::updateOrCreate([
                               'aluno_id' => $usuario->id,
                               'turma_id' => $turma->id

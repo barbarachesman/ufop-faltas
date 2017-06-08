@@ -34,7 +34,7 @@
                         <div class="form-group {{ $errors->has('periodo') ? 'has-error' : '' }}">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="number" name="periodo" class="form-control" value="{{ old('periodo') }}" placeholder="Semestre (somente o número)" title="Semetre do período (somente o número)" required>
+                                <input type="number" name="periodo" class="form-control" value="{{ old('periodo') }}" placeholder="Semestre (somente o número)" title="Semestre do período (somente o número)" required>
                             </div>
                             @if($errors->has('periodo'))
                                 <p class="help-block">{!! $errors->first('periodo') !!}</p>
