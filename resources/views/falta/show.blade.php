@@ -64,8 +64,8 @@
                                 @foreach($faltas->keys() as $data)
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                 @endforeach
-                                @endif
                                 <th>Número de faltas</th>
+                                @endif
                             </tr>
 
                             </thead>
@@ -120,17 +120,28 @@
                                               @endforeach
                                               @endif
 
-
+                                              @if(!auth()->user()->isAluno())
                                                 <td>
                                                   <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
                                                     {!! $qtde !!}
                                                 </td>
+                                                @endif
                                 </tr>
 
                             @endforeach
                             </tbody>
 
+                            @if(auth()->user()->isAluno())
+                            <th>Número de faltas</th>
+                            <td>
+                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                {!! $qtde !!}
+                            </td>
+                            @endif
+
                         </table>
+
+
 
                     @endif
                     <div class="text-center">

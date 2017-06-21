@@ -24024,3 +24024,6 @@ Stack trace:
 #45 /var/www/html/ufop-faltas/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(117): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #46 /var/www/html/ufop-faltas/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #47 {main}  
+[2017-06-21 10:32:37] local.INFO: Usuário realizou logout. {"cpf":"12539788670","nome":"Barbara Chesman Almeida"} 
+[2017-06-21 10:32:47] local.INFO: Usuário realizou login. {"cpf":"14499327709","nome":"Rafael Bortoline Wanderley","lembrar":false} 
+[2017-06-21 10:36:01] local.INFO: Usuário realizou login. {"cpf":"12539788670","nome":"Barbara Chesman Almeida","lembrar":false} 

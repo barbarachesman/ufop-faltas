@@ -67,8 +67,8 @@
                                 <?php $__currentLoopData = $faltas->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                     <th><?php echo e(\Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y')); ?></th>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-                                <?php endif; ?>
                                 <th>Número de faltas</th>
+                                <?php endif; ?>
                             </tr>
 
                             </thead>
@@ -123,18 +123,30 @@
                                               <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                               <?php endif; ?>
 
-
+                                              <?php if(!auth()->user()->isAluno()): ?>
                                                 <td>
                                                   <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
                                                     <?php echo $qtde; ?>
 
                                                 </td>
+                                                <?php endif; ?>
                                 </tr>
 
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                             </tbody>
 
+                            <?php if(auth()->user()->isAluno()): ?>
+                            <th>Número de faltas</th>
+                            <td>
+                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                <?php echo $qtde; ?>
+
+                            </td>
+                            <?php endif; ?>
+
                         </table>
+
+
 
                     <?php endif; ?>
                     <div class="text-center">
