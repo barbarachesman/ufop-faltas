@@ -68,6 +68,7 @@
                                     <th><?php echo e(\Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y')); ?></th>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                 <?php endif; ?>
+                                <th>Número de faltas</th>
                             </tr>
 
                             </thead>
@@ -121,15 +122,20 @@
                                                   </td>
                                               <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                               <?php endif; ?>
+
+
+                                                <td>
+                                                  <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                                    <?php echo $qtde; ?>
+
+                                                </td>
                                 </tr>
+
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                             </tbody>
-                            <td>
-                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
-                                <?php echo $qtde; ?>
 
-                            </td>
                         </table>
+
                     <?php endif; ?>
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>

@@ -65,6 +65,7 @@
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                 @endforeach
                                 @endif
+                                <th>Número de faltas</th>
                             </tr>
 
                             </thead>
@@ -118,14 +119,19 @@
                                                   </td>
                                               @endforeach
                                               @endif
+
+
+                                                <td>
+                                                  <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                                    {!! $qtde !!}
+                                                </td>
                                 </tr>
+
                             @endforeach
                             </tbody>
-                            <td>
-                              <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
-                                {!! $qtde !!}
-                            </td>
+
                         </table>
+
                     @endif
                     <div class="text-center">
                         <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
