@@ -18,69 +18,44 @@
 <section class="content">
 <!-- Small boxes (Stat box) -->
 <div class="row">
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-aqua">
-<div class="inner">
-  <h3>10</h3>
-    Situação: 10/18
-    Status: Indefinido
-  <p>PROGRAMAÇÃO 1</p>
-</div>
-<div class="icon">
-  <i class="ion ion-bag"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
+@foreach($turmas as $vinculo)
+<?php $aluno = auth()->user()->id?>
+<?php $qtde = DB::table('faltas')->where('aluno_id', $aluno)->where('turma_id', $vinculo->turma->id)->count();?>
 <!-- ./col -->
 <div class="col-lg-3 col-xs-6">
 <!-- small box -->
-<div class="small-box bg-green">
+@if($qtde <= 18)
+<div class="small-box bg-gray">
+@endif
+@if($qtde > 18)
+<div class="small-box bg-ufop">
+@endif
 <div class="inner">
-  <h3>5</h3>
-    Situação: 18/18
-    Status: RF
-  <p>CALCULO NÚMERICO</p>
-</div>
-<div class="icon">
-  <i class="ion ion-stats-bars"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-yellow">
-<div class="inner">
-  <h3>0</h3>
-    Situação: 0/18
-    Status: Indefinido
-  <p>PROGRAMAÇÃO 2</p>
-</div>
-<div class="icon">
-  <i class="ion ion-person-add"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-red">
-<div class="inner">
-  <h3>1</h3>
-    Situação: 1/18
-    Status: Indefinido
-  <p>ALGÉBRA LINEAR</p>
+  <p><b>{!! $vinculo->turma->disciplina->nome !!}</b>
+    <br>
+  <p>Turma:
+    {!! $vinculo->turma->codigo !!}<br>
+  <p>Período:
+    {!! $vinculo->turma->periodo->ano !!}.{!! $vinculo->turma->periodo->periodo !!}<br>
+  <p>Situação:
+    @if($qtde <= 18)
+    Aprovado
+    @endif
+    @if($qtde > 18)
+    Reprovado
+    @endif
+    <p>Faltas:
+      {!! $qtde !!}
+
 </div>
 <div class="icon">
   <i class="ion ion-pie-graph"></i>
 </div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
+<a href="{{ route('visualizarFaltas', $vinculo->turma->id) }}" class="small-box-footer" role="button">
+    <i class="fa fa-calendar"></i> Visualizar diário
+</a>
 </div>
 </div>
 <!-- ./col -->
-</div>
+@endforeach
 @endsection

@@ -16,71 +16,47 @@
 <section class="content">
 <!-- Small boxes (Stat box) -->
 <div class="row">
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-aqua">
-<div class="inner">
-  <h3>10</h3>
-    Situação: 10/18
-    Status: Indefinido
-  <p>PROGRAMAÇÃO 1</p>
-</div>
-<div class="icon">
-  <i class="ion ion-bag"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
+<?php $__currentLoopData = $turmas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vinculo): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+<?php $aluno = auth()->user()->id?>
+<?php $qtde = DB::table('faltas')->where('aluno_id', $aluno)->where('turma_id', $vinculo->turma->id)->count();?>
 <!-- ./col -->
 <div class="col-lg-3 col-xs-6">
 <!-- small box -->
-<div class="small-box bg-green">
+<?php if($qtde <= 18): ?>
+<div class="small-box bg-gray">
+<?php endif; ?>
+<?php if($qtde > 18): ?>
+<div class="small-box bg-ufop">
+<?php endif; ?>
 <div class="inner">
-  <h3>5</h3>
-    Situação: 18/18
-    Status: RF
-  <p>CALCULO NÚMERICO</p>
-</div>
-<div class="icon">
-  <i class="ion ion-stats-bars"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-yellow">
-<div class="inner">
-  <h3>0</h3>
-    Situação: 0/18
-    Status: Indefinido
-  <p>PROGRAMAÇÃO 2</p>
-</div>
-<div class="icon">
-  <i class="ion ion-person-add"></i>
-</div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-<div class="col-lg-3 col-xs-6">
-<!-- small box -->
-<div class="small-box bg-red">
-<div class="inner">
-  <h3>1</h3>
-    Situação: 1/18
-    Status: Indefinido
-  <p>ALGÉBRA LINEAR</p>
+  <p><b><?php echo $vinculo->turma->disciplina->nome; ?></b>
+    <br>
+  <p>Turma:
+    <?php echo $vinculo->turma->codigo; ?><br>
+  <p>Período:
+    <?php echo $vinculo->turma->periodo->ano; ?>.<?php echo $vinculo->turma->periodo->periodo; ?><br>
+  <p>Situação:
+    <?php if($qtde <= 18): ?>
+    Aprovado
+    <?php endif; ?>
+    <?php if($qtde > 18): ?>
+    Reprovado
+    <?php endif; ?>
+    <p>Faltas:
+      <?php echo $qtde; ?>
+
+
 </div>
 <div class="icon">
   <i class="ion ion-pie-graph"></i>
 </div>
-<a href="#" class="small-box-footer">Ver diário <i class="fa fa-arrow-circle-right"></i></a>
+<a href="<?php echo e(route('visualizarFaltas', $vinculo->turma->id)); ?>" class="small-box-footer" role="button">
+    <i class="fa fa-calendar"></i> Visualizar diário
+</a>
 </div>
 </div>
 <!-- ./col -->
-</div>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layout.base', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

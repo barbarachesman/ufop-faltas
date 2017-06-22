@@ -56,7 +56,6 @@
                     </ul>
                 </li>
             <?php endif; ?>
-            <li><a href="<?php echo e(route('abono')); ?>"><i class="fa fa-book" aria-hidden="true"></i><span>Cadastrar Atestado</span></a></li>
             <li><a href="<?php echo e(route('tutorial')); ?>"><i class="fa fa-book" aria-hidden="true"></i><span>Tutorial</span></a></li>
             <li><a href="<?php echo e(route('logout')); ?>"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
         </ul>

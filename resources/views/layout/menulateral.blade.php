@@ -56,7 +56,6 @@
                     </ul>
                 </li>
             @endcannot
-            <li><a href="{{ route('abono') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Cadastrar Atestado</span></a></li>
             <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Tutorial</span></a></li>
             <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
         </ul>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('descricao')
-    Essa é a lista com todas as turmas as quais você é responsável.
+    Essa é a lista com todas as turmas as quais você está matriculado.    
 @endsection
 
 @push('extra-css')
@@ -53,7 +53,11 @@
                                 <th>Ano</th>
                                 <th>Período</th>
                                 <th>Status</th>
+                                @if(auth()->user()->isAluno())
+                                <th>Faltas</th>
+                                @endif
                                 <th>Ação</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -72,6 +76,13 @@
                                             text-success">Ativa
                                         @endif
                                     </span>
+
+                                    </td>
+
+                                    <td>
+                                      <?php $aluno = auth()->user()->id?>
+                                      <?php $qtde = DB::table('faltas')->where('aluno_id', $aluno)->where('turma_id', $vinculo->turma->id)->count();?>
+                                        {!! $qtde !!}
                                     </td>
                                     <td>
                                         @if(!auth()->user()->isAluno())
@@ -88,7 +99,9 @@
                                         </a>
                                     </td>
                                 </tr>
+
                             @endforeach
+
                             </tbody>
                         </table>
                     </div>

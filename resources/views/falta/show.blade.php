@@ -137,23 +137,35 @@
                               <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
                                 {!! $qtde !!}
                             </td>
-                            @endif
+
 
                         </table>
 
-
-
+                        @endif
                     @endif
-                    <div class="text-center">
-                        <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
-                        <a href="{{url('download')}}"><button type="button" class="btn btn-info btn-sm pull-right">Download PDF</button></a>
+                    
+                      <div class="text-center">
 
-                        @can('manipular_turma', $turma)
-                            <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}">
-                                <i class="fa fa-pencil-square-o"></i> Gerenciar faltas
-                            </a>
-                        @endcan
-                    </div>
+                          @if(auth()->user()->isAluno())
+                          <a class="btn btn-ufop" role="button" href="{{ route('abonarFalta', ['turma' => $turma, 'aluno' => auth()->id()]) }}">
+
+                          <i class="fa fa-pencil-square-o"></i> Solicitar Abono
+                          </a>
+                          @endif
+
+                          @if(!auth()->user()->isAluno())
+                          <a class="btn btn-info" role="button" href="{{url('download')}}">
+                          <i class="fa fa-arrow-down"></i> Relatório
+                          </a>
+                          @endif
+                          <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+
+                          @can('manipular_turma', $turma)
+                          <a class="btn btn-ufop" role="button" href="{{ route('selecionarFaltas', $turma->id) }}">
+                          <i class="fa fa-pencil-square-o"></i> Gerenciar faltas
+                          </a>
+                          @endcan
+                      </div>
                 </div>
             </div>
         </div>

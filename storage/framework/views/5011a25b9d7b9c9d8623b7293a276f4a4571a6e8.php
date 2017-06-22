@@ -142,23 +142,35 @@
                                 <?php echo $qtde; ?>
 
                             </td>
-                            <?php endif; ?>
+
 
                         </table>
 
-
-
-                    <?php endif; ?>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
-                        <a href="<?php echo e(url('download')); ?>"><button type="button" class="btn btn-info btn-sm pull-right">Download PDF</button></a>
-
-                        <?php if (app('Illuminate\Contracts\Auth\Access\Gate')->check('manipular_turma', $turma)): ?>
-                            <a class="btn btn-ufop" role="button" href="<?php echo e(route('selecionarFaltas', $turma->id)); ?>">
-                                <i class="fa fa-pencil-square-o"></i> Gerenciar faltas
-                            </a>
                         <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
+                    
+                      <div class="text-center">
+
+                          <?php if(auth()->user()->isAluno()): ?>
+                          <a class="btn btn-ufop" role="button" href="<?php echo e(route('abonarFalta', ['turma' => $turma, 'aluno' => auth()->id()])); ?>">
+
+                          <i class="fa fa-pencil-square-o"></i> Solicitar Abono
+                          </a>
+                          <?php endif; ?>
+
+                          <?php if(!auth()->user()->isAluno()): ?>
+                          <a class="btn btn-info" role="button" href="<?php echo e(url('download')); ?>">
+                          <i class="fa fa-arrow-down"></i> Relatório
+                          </a>
+                          <?php endif; ?>
+                          <button type="button" class="btn btn-warning" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+
+                          <?php if (app('Illuminate\Contracts\Auth\Access\Gate')->check('manipular_turma', $turma)): ?>
+                          <a class="btn btn-ufop" role="button" href="<?php echo e(route('selecionarFaltas', $turma->id)); ?>">
+                          <i class="fa fa-pencil-square-o"></i> Gerenciar faltas
+                          </a>
+                          <?php endif; ?>
+                      </div>
                 </div>
             </div>
         </div>

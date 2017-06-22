@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Falta;
 use App\Http\Requests\AtualizarFaltaRequest;
 use App\Http\Requests\GerenciarFaltaRequest;
+use App\Http\Requests\CriarAbonoRequest;
 use App\Matriculado;
 use App\Turma;
 use App\Usuario;
@@ -23,6 +24,15 @@ class FaltaController extends Controller
         $matriculados = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
 
         return view('falta.show')->with(['turma' => $turma, 'faltas' => $faltas, 'matriculados' => $matriculados]);
+    }
+
+    public function abono(Turma $turma, Matriculado $aluno)
+    {
+      $faltas = Falta::with('aluno')->where('turma_id', $turma->id)->get()->sortBy('data')->groupBy('data');
+      //$matriculados = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
+
+      return view('abono.show')->with(['turma' => $turma]);
+      //  return view('abono.show');
     }
 
     /**
@@ -127,5 +137,38 @@ class FaltaController extends Controller
         view()->share('data',$data);
         $pdf = Falta::loadView('falta.show');
         return $pdf->download('pdf.pdfview');
+    }
+
+    public function criarAbono(CriarAbonoRequest $request)
+    {
+        $form = $request->all();
+        $aluno = Usuario::find($form['turma']);
+        $turma = Turma::find($form['turma']);
+        $falta = Encarregado::find($form['encarregado']);
+
+        if(auth()->user()->can('', $turma))
+        {
+            $datas = array(); // Array com as datas que poderão ser manipuladas
+
+            // Obtém o intervalo de dias de acorco com a opção escolhida
+            if($form['opcao'] == 'dia') $datas[0] = $form['dataInicial'];
+            else
+            {
+                $dataCorrente = Carbon::createFromFormat('d/m/Y', $form['dataInicial']);
+                $dataFinal = Carbon::createFromFormat('d/m/Y', $form['dataFinal']);
+
+                while($dataCorrente <= $dataFinal)
+                {
+                    $datas[] = $dataCorrente->format('d/m/Y');
+                    $dataCorrente = $dataCorrente->addDay();
+                }
+            }
+
+            $faltas = Falta::where('turma_id', $form['turma'])->get();
+            $matriculados = Matriculado::with('aluno')->where('turma_id', $form['turma'])->get();
+
+            return view('falta.manage')->with(['datas' => $datas, 'faltas' => $faltas, 'matriculados' => $matriculados, 'turma' => $turma]);
+        }
+        else return abort(403);
     }
 }
