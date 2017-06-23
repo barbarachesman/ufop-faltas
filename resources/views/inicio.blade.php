@@ -25,9 +25,13 @@
 <div class="col-lg-3 col-xs-6">
 <!-- small box -->
 @if($qtde <= 18)
-<div class="small-box bg-gray">
+<div class="small-box bg-green">
 @endif
 @if($qtde > 18)
+<div class="small-box bg-ufop">
+@endif
+
+@if($qtde < 18 && $qtde >15)
 <div class="small-box bg-ufop">
 @endif
 <div class="inner">

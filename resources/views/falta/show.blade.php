@@ -143,7 +143,7 @@
 
                         @endif
                     @endif
-                    
+
                       <div class="text-center">
 
                           @if(auth()->user()->isAluno())

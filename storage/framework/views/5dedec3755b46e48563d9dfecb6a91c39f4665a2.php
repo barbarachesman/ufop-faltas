@@ -23,9 +23,13 @@
 <div class="col-lg-3 col-xs-6">
 <!-- small box -->
 <?php if($qtde <= 18): ?>
-<div class="small-box bg-gray">
+<div class="small-box bg-green">
 <?php endif; ?>
 <?php if($qtde > 18): ?>
+<div class="small-box bg-ufop">
+<?php endif; ?>
+
+<?php if($qtde < 18 && $qtde >15): ?>
 <div class="small-box bg-ufop">
 <?php endif; ?>
 <div class="inner">

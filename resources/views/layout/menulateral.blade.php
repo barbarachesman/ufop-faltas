@@ -54,8 +54,12 @@
                             <li class="{{ Route::is('visualizarTurmasAluno') ? 'active' : '' }}"><a href="{{ route('visualizarTurmasAluno') }}"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
                         @endif
                     </ul>
+
                 </li>
             @endcannot
+            @if(auth()->user()->isALuno())
+            <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Meus Abonos</span></a></li>
+            @endif
             <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Tutorial</span></a></li>
             <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
         </ul>

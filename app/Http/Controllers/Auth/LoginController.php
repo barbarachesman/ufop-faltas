@@ -53,6 +53,11 @@ class LoginController extends Controller
         return view('login');
     }
 
+    public function showHome()
+    {
+        return view('home');
+    }
+
     /**
      * Determina se um usuário é capaz de usar o sistema ou não baseado no seu grupo.
      * @param $group ID do grupo o qual o usuário pertence

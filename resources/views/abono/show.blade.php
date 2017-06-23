@@ -5,9 +5,8 @@
 @endsection
 
 @section('descricao')
-    Escolha o arquivo .pdf que contenha o atestado
-
-    Selecione as datas que deseja gerenciar as faltas da turma {{ $turma->codigo }} da disciplina {{ $turma->disciplina->nome }}
+    Escolha o arquivo .pdf que contenha o atestado e selecione escolha a falta que deseja abonar.
+    Disciplina {{ $turma->disciplina->nome }}
 @endsection
 
 @section('mapa')
@@ -56,11 +55,17 @@
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 <input type="text" value="{{ old('dataFinal') }}" minlength="10" maxlength="10" class="form-control datepicker" name="dataFinal" title="Dia final do intervalo" placeholder="Dia final do intervalo no formato dd/mm/aaaa">
                             </div>
+
+
                             @if($errors->has('dataFinal'))
                                 <div class="help-block">
                                     {!! $errors->first('dataFinal') !!}
                                 </div>
                             @endif
+                        </div>
+
+                        <div class="form-group" >
+                              <textarea name="comment" cols='75' rows='3' name='texto' maxlength="250">Deixe aqui um comentário para o professor, se necessário...</textarea>
                         </div>
 
                         <label for="dia" class="radio-inline">
@@ -79,27 +84,41 @@
                             </div>
                         @endif
 
-                        <div class="help-block">
-                            <p class="text-center">
-                                Se você selecionar apenas um dia, não é necessário preencher a segunda entrada relativa ao dia final do intervalo
-                            </p>
-                        </div>
 
-                        <div class="form-group text-center">
-                            <button type="button" class="btn btn-ufop" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
-                            <button type="reset" class="btn btn-warning"><i class="fa fa-eraser"></i> Limpar</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Selecionar</button>
-                        </div>
-
-                        <label for="file" class="col-sm-2 control-label">Observação</label>
-                          <div class="col-sm-10">
-                            <textarea name="comment" cols='75' rows='3' name='texto' maxlength="250">Deixe aqui um comentário para o professor, se necessário...</textarea>
-                          </div>
                     </div>
-                    <div class="form-group">
-                        <div class="text-center">
-                            <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Anexar</button>
+
+                    <form id="criarabono" class="form-horizontal" method="POST" action="{{ route('criarAbono', ['turma' => $turma, 'aluno' => auth()->id()]) }}" enctype="multipart/form-data">
+                        {!! csrf_field() !!}
+                        <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
+                            <label for="file" class="col-sm-2 control-label">Selecione o atestado</label>
+                            <div class="col-sm-10">
+                                <input type="file" class="form-control" id="file" name="file" >
+                                @if($errors->has('file') || $errors->has('disciplina'))
+                                    <p class="text-help text-danger">
+                                        @if($errors->has('file'))
+                                            {!! $errors->first('file') !!}
+                                        @else
+                                            {!! $errors->first('disciplina') !!}
+                                        @endif
+                                    </p>
+                                @endif
+                            </div>
                         </div>
+                        <div class="form-group">
+                        <br>
+                            <div class="text-center">
+                                <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Solicitar Abono</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <p class="text-left">
+                        Se você selecionar apenas um dia, não é necessário preencher a segunda entrada relativa ao dia final do intervalo
+                    </p>
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-ufop" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
+                        <button type="reset" class="btn btn-warning"><i class="fa fa-eraser"></i> Limpar</button>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Selecionar</button>
                     </div>
                 </form>
             </div>

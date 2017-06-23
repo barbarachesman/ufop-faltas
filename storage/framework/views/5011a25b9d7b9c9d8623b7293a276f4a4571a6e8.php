@@ -148,7 +148,7 @@
 
                         <?php endif; ?>
                     <?php endif; ?>
-                    
+
                       <div class="text-center">
 
                           <?php if(auth()->user()->isAluno()): ?>

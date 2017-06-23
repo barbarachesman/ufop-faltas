@@ -54,7 +54,11 @@
                             <li class="<?php echo e(Route::is('visualizarTurmasAluno') ? 'active' : ''); ?>"><a href="<?php echo e(route('visualizarTurmasAluno')); ?>"><i class="fa fa-th-list"></i> <span>Listar</span></a></li>
                         <?php endif; ?>
                     </ul>
+
                 </li>
+            <?php endif; ?>
+            <?php if(auth()->user()->isALuno()): ?>
+            <li><a href="<?php echo e(route('tutorial')); ?>"><i class="fa fa-book" aria-hidden="true"></i><span>Meus Abonos</span></a></li>
             <?php endif; ?>
             <li><a href="<?php echo e(route('tutorial')); ?>"><i class="fa fa-book" aria-hidden="true"></i><span>Tutorial</span></a></li>
             <li><a href="<?php echo e(route('logout')); ?>"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>
