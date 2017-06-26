@@ -56,7 +56,7 @@
 
 
                                 <div class="col-sm-10">
-                                    <input type="file" class="form-control" id="file" name="file" >
+                                    <input type="file" class="form-control" id="file" name="arquivo" >
                                     @if($errors->has('file') || $errors->has('disciplina'))
                                         <p class="text-help text-danger">
                                             @if($errors->has('file'))

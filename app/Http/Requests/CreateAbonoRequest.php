@@ -23,7 +23,7 @@ class CreateAbonoRequest extends FormRequest
             'dataInicial' => 'required',
             //'faltas_data_final' => 'required',
             'observacao' => 'required|max:100',
-            'file' => 'required|mimetypes:application/pdf'
+            'arquivo' => 'required|mimetypes:application/pdf'
         ];
     }
     public function messages()
@@ -34,8 +34,8 @@ class CreateAbonoRequest extends FormRequest
             'dataInicial.required' => 'O campo Data é obrigatório',
             'observacao.required' => 'O campo Justificativa é obrigatório',
             'observacao.max' => 'A justificativa deve conter no máximo :max caracteres',
-            'file.mimetypes' => 'O atestado deve ser do tipo PDF.',
-            'file.uploaded' => 'Ocorreu uma falha durante o envio do atestado.',
+            'arquivo.mimetypes' => 'O atestado deve ser do tipo PDF.',
+            'arquivo.uploaded' => 'Ocorreu uma falha durante o envio do atestado.',
         ];
     }
 }

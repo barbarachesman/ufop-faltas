@@ -9,7 +9,7 @@ class Abono extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'observacao', 'arquivo', 'faltas_aluno_id', 'faltas_turma_id', , 'faltas_data','faltas_data_final', 'status'
+        'observacao', 'arquivo', 'faltas_aluno_id', 'faltas_turma_id', 'faltas_data','faltas_data_final', 'status'
     ];
 
 

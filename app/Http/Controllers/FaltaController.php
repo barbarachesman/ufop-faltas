@@ -7,6 +7,7 @@ use App\Http\Requests\AtualizarFaltaRequest;
 use App\Http\Requests\GerenciarFaltaRequest;
 use App\Http\Requests\CreateAbonoRequest;
 use App\Matriculado;
+use App\Abono;
 use App\Turma;
 use App\Usuario;
 use Carbon\Carbon;
@@ -45,21 +46,25 @@ class FaltaController extends Controller
         //var_dump($file->move($destinationPath.DIRECTORY_SEPARATOR.'tmp'));
         var_dump($file->move($destinationPath, $fileName));
         */
-        $newRequest = Abono::create([
+
+        if( !is_null($form['dataFinal'])) $dataFinal = null; //"29/06/2017"
+        $dataFinal = date_create_from_format('d/m/Y', $form['dataFinal'])->format('Y-m-d H:i:s');
+
+        $novoAbono = Abono::create([
             'observacao' => $form['observacao'],
-            'faltas_aluno_id' => $form[' auth()->user()->id'],
+            'aluno_id' => auth()->id(),
             'faltas_turma_id' => $form['turma'],
-            'faltas_data' => ucwords(strtolower($form['dataInicial'])),
-            'faltas_data_final' => $form['dataFinal'],
+            'dataInicial' => $form['dataInicial'],
+            'dataFinal' => $dataFinal,
             'status' => '0',
-            'file' => $form['file']->store('abonos'),
+            'arquivo' => $form['arquivo']->store('abonos'),
         ]);
-        event(new RequestStored($newRequest, auth()->user()));
+        event(new RequestStored($novoAbono, auth()->user()));
         session()->flash('tipo', 'success');
         session()->flash('mensagem', 'Sua solicitação de abono foi enviada com sucesso. Você será notificado assim que o professor julgá-la.');
         // Envio de e-mail avisando que a requisição foi aprovada.
         $user = Ldapuser::where('cpf', $form['auth()->user()->cpf'])->first();
-        if(isset($user) && isset($user->email)) Mail::to($user->email)->queue(new RequestReceived($user, $newRequest));
+        if(isset($user) && isset($user->email)) Mail::to($user->email)->queue(new RequestReceived($user, $novoAbono));
         return redirect()->route('indexUserRequisicao');
     }
 
