@@ -9,17 +9,23 @@
    <meta name="description" content="">
    <meta name="author" content="">
 
-   <title>Sistema de Avaliação</title>
+   <title>Diário de Classe</title>
 
    <!-- Bootstrap Core CSS -->
-   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
    <!-- Custom CSS -->
-   <link href="agency/css/agency.min.css" rel="stylesheet">
    <link href="css/styles.css" rel="stylesheet">
+   {!! HTML::style('css/bootstrap/bootstrap.min.css') !!}
+   {!! HTML::style('css/font-awesome/font-awesome.min.css') !!}
+   {!! HTML::style('css/app.css') !!}
+   {!! HTML::style('css/agency.min.css') !!}
+
+   {!! HTML::style('css/styles.css') !!}
+
+   {!! HTML::favicon('favicon.ico') !!}
+   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
    <!-- Custom Fonts -->
-   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -38,7 +44,7 @@
 
    @include('layout.home.nav')
 
-   @include('layout.home.header')
+   <!--@include('layout.home.header')-->
 
    @include('layout.home.about')
 
@@ -61,14 +67,10 @@
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-   <!-- Bootstrap Core JavaScript -->
-   <script src="bootstrap/js/bootstrap.min.js"></script>
 
    <!-- Plugin JavaScript -->
    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
-   <!-- Custom Theme JavaScript -->
-   <script src="agency/js/agency.min.js"></script>
 
 </body>
 

@@ -87,7 +87,7 @@
 
                     </div>
 
-                    <form id="criarabono" class="form-horizontal" method="POST" action="{{ route('criarAbono', ['turma' => $turma, 'aluno' => auth()->id()]) }}" enctype="multipart/form-data">
+                    <form id="criarabno" class="form-horizontal" method="POST"  enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
                             <label for="file" class="col-sm-2 control-label">Selecione o atestado</label>

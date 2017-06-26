@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
             //Route::post('criar', ['as' => 'abonarFalta', 'uses' => 'AbonoController@criarAbono']);
             //Route::get('abono/{aluno}/{turma}', ['as' => 'abonarFalta', 'uses' => 'AbonoController@store']);
-            Route::get('abono/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@abono']);
+            //Route::get('abono/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@abono']);
             //Route::get('abono/{aluno}/{turma}', ['as' => 'abono', 'uses' => 'AbonoController@create']);
         });
 
