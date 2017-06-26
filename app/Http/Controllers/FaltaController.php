@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Falta;
 use App\Http\Requests\AtualizarFaltaRequest;
 use App\Http\Requests\GerenciarFaltaRequest;
-use App\Http\Requests\CriarAbonoRequest;
+use App\Http\Requests\CreateAbonoRequest;
 use App\Matriculado;
 use App\Turma;
 use App\Usuario;
@@ -31,6 +31,36 @@ class FaltaController extends Controller
       $faltas = Falta::with('aluno')->where('turma_id', $turma->id)->get()->sortBy('data')->groupBy('data');
 
       return view('abono.show')->with(['turma' => $turma]);
+    }
+
+    public function store(CreateAbonoRequest $request)
+    {//'observacao', 'arquivo', 'faltas_aluno_id', 'faltas_turma_id', , 'faltas_data','faltas_data_final', 'status'
+        $form = $request->all();
+        // Limpeza de CPF
+        //$form['usuario'] = RequisicaoController::cleanCPF($form['usuario']);
+        /*
+        $destinationPath = public_path().DIRECTORY_SEPARATOR.'files';
+        $fileName = '01.'.pathinfo('Hearthstone.desktop')['extension'];
+
+        //var_dump($file->move($destinationPath.DIRECTORY_SEPARATOR.'tmp'));
+        var_dump($file->move($destinationPath, $fileName));
+        */
+        $newRequest = Abono::create([
+            'observacao' => $form['observacao'],
+            'faltas_aluno_id' => $form[' auth()->user()->id'],
+            'faltas_turma_id' => $form['turma'],
+            'faltas_data' => ucwords(strtolower($form['dataInicial'])),
+            'faltas_data_final' => $form['dataFinal'],
+            'status' => '0',
+            'file' => $form['file']->store('abonos'),
+        ]);
+        event(new RequestStored($newRequest, auth()->user()));
+        session()->flash('tipo', 'success');
+        session()->flash('mensagem', 'Sua solicitação de abono foi enviada com sucesso. Você será notificado assim que o professor julgá-la.');
+        // Envio de e-mail avisando que a requisição foi aprovada.
+        $user = Ldapuser::where('cpf', $form['auth()->user()->cpf'])->first();
+        if(isset($user) && isset($user->email)) Mail::to($user->email)->queue(new RequestReceived($user, $newRequest));
+        return redirect()->route('indexUserRequisicao');
     }
 
     /**
@@ -137,7 +167,7 @@ class FaltaController extends Controller
         return $pdf->download('pdf.pdfview');
     }
 
-    public function criarAbono(CriarAbonoRequest $request)
+    public function criarAbono(CreateAbonoRequest $request)
     {
         $form = $request->all();
         $aluno = Usuario::find($form['turma']);

@@ -29,14 +29,47 @@
 @endpush
 
 
+@push('extra-scripts')
+{{-- Modal de loading --}}
+<script>
+    submitModal = function(){
+        $('#loadingModal').modal({backdrop: 'static', keyboard: false});
+        document.forms['criarabono'].submit();
+    }
+</script>
+@endpush
+
+
 @section('conteudo')
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary-ufop">
                 <div class="box-body">
-                    <form class="text-center" action="{{ route('gerenciarFaltas') }}" method="post">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="turma" value="{{ $turma->id }}" required>
+
+                        <form id="criarabono" class="text-center" method="POST"  action="{{ route('criarAbono') }}" enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+
+                            <input type="hidden" name="turma" value="{{ $turma->id }}" required>
+                            <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
+                                <div class="input-group" >
+                                  <label  class="col-sm-2 ">Selecione o atestado</label>
+
+
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control" id="file" name="file" >
+                                    @if($errors->has('file') || $errors->has('disciplina'))
+                                        <p class="text-help text-danger">
+                                            @if($errors->has('file'))
+                                                {!! $errors->first('file') !!}
+                                            @else
+                                                {!! $errors->first('disciplina') !!}
+                                            @endif
+                                        </p>
+                                    @endif
+                                </div>
+                              </div>
+                            </div>
+
 
                         <div class="form-group {{ $errors->has('diaInicial') ? 'has-error' : '' }}">
                             <div class="input-group">
@@ -65,7 +98,7 @@
                         </div>
 
                         <div class="form-group" >
-                              <textarea name="comment" cols='75' rows='3' name='texto' maxlength="250">Deixe aqui um comentário para o professor, se necessário...</textarea>
+                              <textarea name="observacao" cols='75' rows='3' name='texto' maxlength="250">Deixe aqui um comentário para o professor, se necessário...</textarea>
                         </div>
 
                         <label for="dia" class="radio-inline">
@@ -87,39 +120,23 @@
 
                     </div>
 
-                    <form id="criarabno" class="form-horizontal" method="POST"  enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                        <div class="form-group {{ $errors->has('file') || $errors->has('disciplina') ? 'has-error' : '' }}">
-                            <label for="file" class="col-sm-2 control-label">Selecione o atestado</label>
-                            <div class="col-sm-10">
-                                <input type="file" class="form-control" id="file" name="file" >
-                                @if($errors->has('file') || $errors->has('disciplina'))
-                                    <p class="text-help text-danger">
-                                        @if($errors->has('file'))
-                                            {!! $errors->first('file') !!}
-                                        @else
-                                            {!! $errors->first('disciplina') !!}
-                                        @endif
-                                    </p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group">
-                        <br>
-                            <div class="text-center">
-                                <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Solicitar Abono</button>
-                            </div>
-                        </div>
-                    </form>
+
 
                     <p class="text-left">
                         Se você selecionar apenas um dia, não é necessário preencher a segunda entrada relativa ao dia final do intervalo
                     </p>
+                    <div class="form-group">
+                    <br>
+                        <div class="text-center">
+                            <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Solicitar Abono</button>
+                        </div>
+                    </div>
                     <div class="form-group text-center">
                         <button type="button" class="btn btn-ufop" onclick="history.back()"><i class="fa fa-arrow-left"></i> Voltar</button>
                         <button type="reset" class="btn btn-warning"><i class="fa fa-eraser"></i> Limpar</button>
                         <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Selecionar</button>
                     </div>
+
                 </form>
             </div>
         </div>

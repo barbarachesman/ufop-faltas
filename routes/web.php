@@ -67,10 +67,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('selecionar/{turma}', ['as' => 'selecionarFaltas', 'uses' => 'FaltaController@select']);
             Route::post('gerenciar', ['as' => 'gerenciarFaltas', 'uses' => 'FaltaController@manage']);
             Route::post('atualizar', ['as' => 'atualizarFaltas', 'uses' => 'FaltaController@update']);
-            //Route::post('criar', ['as' => 'abonarFalta', 'uses' => 'AbonoController@criarAbono']);
-            //Route::get('abono/{aluno}/{turma}', ['as' => 'abonarFalta', 'uses' => 'AbonoController@store']);
-            //Route::get('abono/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@abono']);
-            //Route::get('abono/{aluno}/{turma}', ['as' => 'abono', 'uses' => 'AbonoController@create']);
         });
 
         Route::group(['prefix' => 'aluno'], function (){
@@ -85,10 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('faltas/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
     Route::get('falta/abono/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@abono']);
-    //Route::get('falta/abono/{turma}/{aluno}', ['as' => 'criarAbono', 'uses' => 'FaltaController@criarAbono']);
-
-
-
+    Route::post('abonar', ['as' => 'criarAbono', 'uses' => 'FaltaController@store']);
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
 });
 
