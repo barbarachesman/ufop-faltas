@@ -56,4 +56,9 @@ if(auth()->user()->isAdmin())
     {
         return view('sobre');
     }
+
+     public function index()
+     {
+         return view('home');
+     }
 }

@@ -85,10 +85,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
 });
 
+// System home
+Route::get('/', ['as' => '/', 'uses' => 'PagesController@index']);
+
 
 Route::get('/tutorial', ['as' => 'tutorial', 'uses' => 'PagesController@tutorial']);
 Route::get('/login', ['as' => 'showLogin', 'uses' => 'Auth\LoginController@showLogin']);
-Route::get('/home', ['as' => 'showHome', 'uses' => 'Auth\LoginController@showHome']);
+Route::get('/home', ['as' => 'showHome', 'uses' => 'Auth\LoginController@home']);
 Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('/sair', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 Route::get('download', ['as' => 'download', 'uses' => 'FaltaController@download']);

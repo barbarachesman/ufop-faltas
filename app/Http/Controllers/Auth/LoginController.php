@@ -53,7 +53,7 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function showHome()
+    public function home()
     {
         return view('home');
     }
