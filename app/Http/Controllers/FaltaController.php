@@ -53,12 +53,13 @@ class FaltaController extends Controller
         $novoAbono = Abono::create([
             'observacao' => $form['observacao'],
             'aluno_id' => auth()->id(),
-            'faltas_turma_id' => $form['turma'],
+            'turma_id' => $form['turma'],
             'dataInicial' => $form['dataInicial'],
             'dataFinal' => $dataFinal,
             'status' => '0',
             'arquivo' => $form['arquivo']->store('abonos'),
         ]);
+        dd($novoAbono);
         event(new RequestStored($novoAbono, auth()->user()));
         session()->flash('tipo', 'success');
         session()->flash('mensagem', 'Sua solicitação de abono foi enviada com sucesso. Você será notificado assim que o professor julgá-la.');
