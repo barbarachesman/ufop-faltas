@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e034f8c045e45657e9cf0e8ebada8216",
-    "content-hash": "aef563dd301c1804916e98bafcb22dc7",
+    "hash": "772cd2a58a3b04f4e17fa1c3394e00dd",
+    "content-hash": "18decf6a63a246d521d38fcb8a88dd51",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -874,6 +874,70 @@
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
             "time": "2016-12-13 14:23:36"
+        },
+        {
+            "name": "lavela/phpjasper",
+            "version": "v2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lavela/phpjasper.git",
+                "reference": "6c636126c81439d2b494ff52963d89ba55e7f0c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lavela/phpjasper/zipball/6c636126c81439d2b494ff52963d89ba55e7f0c1",
+                "reference": "6c636126c81439d2b494ff52963d89ba55e7f0c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JasperPHP": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Leandro Bitencourt",
+                    "email": "leandrocintrabitencourt@gmail.com",
+                    "homepage": "http://www.leandrobitencourt.zz.mu",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Daniel Rodrigues",
+                    "email": "danielrodrigues-ti@hotmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Jefferson Barreto",
+                    "email": "jefferson.barreto@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Derick Tan",
+                    "email": "derick.tan988@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Create Reports in PHP with JasperReports",
+            "homepage": "https://github.com/lavela/phpjasper",
+            "keywords": [
+                "jasper",
+                "jasperreports",
+                "java",
+                "json",
+                "pdf",
+                "php",
+                "reports",
+                "xml"
+            ],
+            "time": "2017-05-10 14:52:36"
         },
         {
             "name": "league/flysystem",

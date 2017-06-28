@@ -23,7 +23,7 @@ class PagesController extends Controller
      */
     public function home()
     {
-if(auth()->user()->isAdmin())
+      if(auth()->user()->isAdmin())
       {
           $turmas = Encarregado::with('turma', 'turma.disciplina', 'turma.periodo')->get();
       }
@@ -59,6 +59,6 @@ if(auth()->user()->isAdmin())
 
      public function index()
      {
-         return view('home');
+         return view('index');
      }
 }

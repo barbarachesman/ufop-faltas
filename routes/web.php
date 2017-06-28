@@ -11,6 +11,8 @@
 |
 */
 
+
+
 // Rotas para usuários autenticados
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'PagesController@home']);
@@ -91,7 +93,7 @@ Route::get('/', ['as' => '/', 'uses' => 'PagesController@index']);
 
 Route::get('/tutorial', ['as' => 'tutorial', 'uses' => 'PagesController@tutorial']);
 Route::get('/login', ['as' => 'showLogin', 'uses' => 'Auth\LoginController@showLogin']);
-Route::get('/home', ['as' => 'showHome', 'uses' => 'Auth\LoginController@home']);
+Route::get('/home', ['as' => 'home', 'uses' => 'PagesController@home']);
 Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('/sair', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 Route::get('download', ['as' => 'download', 'uses' => 'FaltaController@download']);

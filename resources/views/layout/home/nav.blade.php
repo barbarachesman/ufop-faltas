@@ -13,13 +13,13 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="navbar-collapse" id="bs-example-navbar-collapse-1">
            <ul class="nav navbar-nav navbar-right">
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#about">O Sistema</a>
+                    <a class="page-scroll" href="#about">O Diário</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#why">Por quê?</a>

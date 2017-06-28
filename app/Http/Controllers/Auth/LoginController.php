@@ -53,10 +53,6 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function home()
-    {
-        return view('home');
-    }
 
     /**
      * Determina se um usuário é capaz de usar o sistema ou não baseado no seu grupo.
@@ -163,6 +159,6 @@ class LoginController extends Controller
         else auth()->login($user); // Senão é um login ordinário
 
         // Redireciona para a página pretendida ou para a página inicial do sistema
-        return redirect()->intended('/');
+        return redirect()->intended('/home');
     }
 }

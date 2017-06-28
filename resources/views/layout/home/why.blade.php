@@ -5,11 +5,11 @@
       <div class="row">
          <div class="col-lg-12 text-center">
             <h2 class="section-heading">Por quê utilizar?</h2>
-            <h3 class="section-subheading text-muted">Todos juntos em busca da qualidade do ensino</h3>
+            <h3 class="section-subheading text-muted">Todos juntos em busca de um bom gerenciamento</h3>
          </div>
       </div>
       <div class="row text-center">
-         <div class="col-md-3">
+         <div class="col-md-4">
             <span class="fa-stack fa-4x">
                <i class="fa fa-circle fa-stack-2x text-primary"></i>
                <i class="fa fa-users fa-stack-1x fa-inverse"></i>
@@ -18,7 +18,7 @@
             <p class="text-muted">Atende as necessidades dos usuários qualquer seja o papel deles na universidade. Seja professor ou aluno, contribua para uma melhor experiência das atividades realizadas.</p>
          </div>
 
-         <div class="col-md-3">
+         <div class="col-md-4">
             <span class="fa-stack fa-4x">
                <i class="fa fa-circle fa-stack-2x text-primary"></i>
                <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
@@ -27,23 +27,15 @@
             <p class="text-muted">Você, usuário, não precisa perder tempo se cadastrando. A plataforma faz uso das mesmas credenciais da minhaUFOP. Basta informar seu CPF e senha e começar a utilizá-lo.</p>
          </div>
 
-         <div class="col-md-3">
+         <div class="col-md-4">
             <span class="fa-stack fa-4x">
                <i class="fa fa-circle fa-stack-2x text-primary"></i>
                <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
             </span>
-            <h4 class="service-heading">Interface simples e responsiva</h4>
-            <p class="text-muted">O Sistema de Avaliação busca trazer a melhor experiência de uso para seus usuários, fazendo uso de interfaces simples, limpas e responsivas.</p>
-         </div>
+            <h4 class="service-heading">Interface Simples e Responsiva</h4>
+            <p class="text-muted">O Sistema de Controle de Frequência busca trazer a melhor experiência de uso para seus usuários, fazendo uso de interfaces simples, limpas e responsivas.</p>
+            </div>
 
-         <div class="col-md-3">
-            <span class="fa-stack fa-4x">
-               <i class="fa fa-circle fa-stack-2x text-primary"></i>
-               <i class="fa fa-bar-chart fa-stack-1x fa-inverse"></i>
-            </span>
-            <h4 class="service-heading">Resultados amigáveis e significativos</h4>
-            <p class="text-muted">Receba feedbacks que sejam relevantes e de seu interesse. Analise os dados, identifique possíveis problemas e os contornem.</p>
-         </div>
       </div>
    </div>
 </section>

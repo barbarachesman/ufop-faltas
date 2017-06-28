@@ -21,10 +21,10 @@
                   <div class="timeline-panel">
                      <div class="timeline-heading">
                         <h4>Professor</h4>
-                        <h4 class="subheading">Disponibilize questionários</h4>
+                        <h4 class="subheading">Crie as turmas no sistema</h4>
                      </div>
                      <div class="timeline-body">
-                        <p class="text-muted">Defina e disponibilize questionários às turmas lecionadas ou alunos orientados.</p>
+                        <p class="text-muted">Registre e disponibilize as faltas às turmas lecionadas.</p>
                      </div>
                   </div>
                </li>
@@ -35,10 +35,10 @@
                   <div class="timeline-panel">
                      <div class="timeline-heading">
                         <h4>Aluno</h4>
-                        <h4 class="subheading">Respondam os questionários</h4>
+                        <h4 class="subheading">Acompanhem o número de faltas</h4>
                      </div>
                      <div class="timeline-body">
-                        <p class="text-muted">Dê suas opiniões a respeito das classes assistidas e orientações recebidas.</p>
+                        <p class="text-muted">Visitem a página para gerenciar suas faltas.</p>
                      </div>
                   </div>
                </li>
@@ -52,7 +52,7 @@
                         <h4 class="subheading">Analise os resultados</h4>
                      </div>
                      <div class="timeline-body">
-                        <p class="text-muted">Utilize o feedback para analise das opiniões dos alunos. Busque a melhora contínua do ensino.</p>
+                        <p class="text-muted">Analise o número de faltas e alerte os alunos da importância das aulas.</p>
                      </div>
                   </div>
                </li>
@@ -66,7 +66,7 @@
                         <h4 class="subheading">Visualize os resultados</h4>
                      </div>
                      <div class="timeline-body">
-                        <p class="text-muted">Busque por professores, entenda as metodologias deles, saiba o que os orientandos têm a dizer sobre eles.</p>
+                        <p class="text-muted">Verifique se não tem nenhum a atestado ou possível justificativa e solicite o abono pelo sistema.</p>
                      </div>
                   </div>
                </li>

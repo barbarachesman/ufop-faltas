@@ -14,7 +14,8 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "nesbot/carbon": "^1.22",
         "appzcoder/crud-generator": "^2.0",
-        "barryvdh/laravel-dompdf": "^0.8.0"
+        "barryvdh/laravel-dompdf": "^0.8.0",
+        "lavela/phpjasper": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -55,4 +56,9 @@
     "config": {
         "preferred-install": "dist"
     }
+    {
+    "require": {
+		"lavela/phpjasper": "2.*"
+    }
+
 }

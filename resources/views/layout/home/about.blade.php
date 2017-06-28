@@ -4,21 +4,24 @@
    <div class="container">
       <div class="row">
          <div class="col-lg-8 col-lg-offset-2 text-center">
-            <h2 class="section-heading">O SISTEMA</h2>
+            <h2 class="section-heading">O Diário</h2>
             <hr class="ufop"></hr>
             <p class="text-muted">
-               O Sistema de Avaliação possibilita a colaboração entre professores e alunos do ICEA para melhora do ensino no campus do ICEA.
+               O Sistema de Controle de faltas do ICEA possibilita a colaboração entre professores e alunos do ICEA para melhorar o gerenciamento da frequência acadêmica.
             </p>
+            <br>
+            <br>
+            <br>
             <div class="col-lg-5">
                <p class="text-muted">
                   <h5>Professores</h5>
-                  Recebam feedbacks significativos que contribuirão para o seu desenvolvimento como educador.
+                  Façam upload da planilha de alunos e comece a fazer chamadas de qualquer dispositivo.
                </p>
             </div>
             <div class="col-lg-5 col-lg-offset-2">
                <p class="text-muted">
                   <h5>Alunos</h5>
-                  Façam suas vozes serem ouvidas e contribuam conscientemente a fim de garantir a qualidade do ensino.
+                  Acompanhem o número de faltas e as gerenciem para não ser reprovado por faltas.
                </p>
             </div>
             {{-- <a href="#" data-toggle="modal" data-target="#searchModal" class="btn btn-default btn-xl btn-about">Procure</a> --}}
@@ -31,8 +34,8 @@
 <div class="container">
 <div class="row">
 <div class="col-lg-12 text-center">
-<h2 class="section-heading">O Sistema</h2>
-<h3 class="section-subheading text-muted">Todos juntos em busca da qualidade do ensino</h3>
+<h2 class="section-heading">O Diário</h2>
+<h3 class="section-subheading text-muted">Todos juntos em busca de um bom gerenciamento</h3>
 </div>
 </div>
 <div class="row text-center">
@@ -50,7 +53,7 @@
 <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
 </span>
 <h4 class="service-heading">Interface Simples e Responsiva</h4>
-<p class="text-muted">O Sistema de Avaliação busca trazer a melhor experiência de uso para seus usuários, fazendo uso de interfaces simples, limpas e responsivas.</p>
+<p class="text-muted">O Sistema de Controle de Frequência busca trazer a melhor experiência de uso para seus usuários, fazendo uso de interfaces simples, limpas e responsivas.</p>
 </div>
 <div class="col-md-4">
 <span class="fa-stack fa-4x">
