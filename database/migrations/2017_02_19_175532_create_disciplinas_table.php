@@ -17,8 +17,10 @@ class CreateDisciplinasTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('codigo');
-            $table->integer('maximo_faltas');
-            $table->unique(['nome', 'codigo']);
+            $table->integer('ch')->nullable();
+            $table->integer('teoria')->nullable();
+            $table->integer('pratica')->nullable();
+            $table->string('departamento');
         });
     }
 

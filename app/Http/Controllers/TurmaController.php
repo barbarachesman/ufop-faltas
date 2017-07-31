@@ -137,6 +137,7 @@ class TurmaController extends Controller
             // Verifica se o usuário existe
             $usuario = Usuario::where('nome', $aluno['nome'])->first();
 
+
             // Se ele não existir, então deve ser criado - Matriculado após criacao da turma
             if(is_null($usuario))
             {
@@ -168,7 +169,7 @@ class TurmaController extends Controller
                 $usuario->save();
 
             }
-            
+
             Matriculado::firstOrCreate([
                 'aluno_id' => $usuario->id,
                 'turma_id' => $turma->id
