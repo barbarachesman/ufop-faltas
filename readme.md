@@ -1,5 +1,6 @@
 # UFOP Faltas - Laravel 5.3
 
+![Screenshot](screenshot.png)
 https://www.overleaf.com/8052441qgdhcqmbdbwx
 
 Esse projeto se destina aqueles que desejam criar algum sistema dedicado a comunidade da [Universidade Federal de Ouro
@@ -51,7 +52,7 @@ O comando `composer install` é usado para realizar a instalação de todos os p
 que o mesmo funcione.
 
 O comando `npm install` é usado para instalar as bibliotecas necessárias para manipulação de
-*assets*  ou recursos do sistema como arquivos CSS, JavaScript, etc. Caso você esteja usando um sistema Windows para 
+*assets*  ou recursos do sistema como arquivos CSS, JavaScript, etc. Caso você esteja usando um sistema Windows para
 hospedar a aplicação, talvez seja necessário executar o comando `npm install --no-bin-links` ao invés do `npm install`
 devido algumas restrições do sistema operacional.
 

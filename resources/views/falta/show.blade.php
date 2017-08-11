@@ -154,7 +154,7 @@
                           @endif
 
                           @if(!auth()->user()->isAluno())
-                          <a class="btn btn-info" role="button" href="{{url('download')}}">
+                          <a class="btn btn-info" role="button" href="{{ route('pdfview', $turma->id) }}">
                           <i class="fa fa-arrow-down"></i> Relatório
                           </a>
                           @endif
