@@ -5,7 +5,12 @@
 @endsection
 
 @section('descricao')
-    Essa é a lista com todas as turmas as quais você está matriculado.    
+    @if(!auth()->user()->isAluno())
+    Essa é a lista com todas as turmas as quais você está lecionando.
+    @endif
+    @if(auth()->user()->isAluno())
+    Essa é a lista com todas as turmas as quais você está matriculado.
+    @endif
 @endsection
 
 @push('extra-css')
@@ -79,11 +84,13 @@
 
                                     </td>
 
+                                    @if(auth()->user()->isAluno())
                                     <td>
                                       <?php $aluno = auth()->user()->id?>
                                       <?php $qtde = DB::table('faltas')->where('aluno_id', $aluno)->where('turma_id', $vinculo->turma->id)->count();?>
                                         {!! $qtde !!}
                                     </td>
+                                    @endif
                                     <td>
                                         @if(!auth()->user()->isAluno())
                                             <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
