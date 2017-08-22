@@ -30,10 +30,10 @@ class CreateTurmasTable extends Migration
             $table->date('faltas_data');
             $table->date('faltas_data_final')->nullable();
 
-            $table->index(["faltas_aluno_id", "faltas_turma_id", "faltas_data"], 'fk_abonos_faltas1_idx');
+            $table->index(["faltas_aluno_id", "faltas_turma_id", "faltas_data"], 'fk_justificativas_faltas1_idx');
 
 
-            $table->foreign('faltas_aluno_id', 'fk_abonos_faltas1_idx')
+            $table->foreign('faltas_aluno_id', 'fk_justificativas_faltas1_idx')
                 ->references('aluno_id')->on('faltas')
                 ->onDelete('no action')
                 ->onUpdate('no action');

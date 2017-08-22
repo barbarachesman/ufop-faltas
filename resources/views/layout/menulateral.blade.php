@@ -58,7 +58,7 @@
                 </li>
             @endcannot
             @if(auth()->user()->isALuno())
-            <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Meus Abonos</span></a></li>
+            <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Meus Justificativas</span></a></li>
             @endif
             <li><a href="{{ route('tutorial') }}"><i class="fa fa-book" aria-hidden="true"></i><span>Tutorial</span></a></li>
             <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Sair</span></a></li>

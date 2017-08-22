@@ -34,7 +34,7 @@
 <script>
     submitModal = function(){
         $('#loadingModal').modal({backdrop: 'static', keyboard: false});
-        document.forms['criarabono'].submit();
+        document.forms['criarjustificativa'].submit();
     }
 </script>
 @endpush
@@ -46,7 +46,7 @@
             <div class="box box-primary-ufop">
                 <div class="box-body">
 
-                        <form id="criarabono" class="text-center" method="POST"  action="{{ route('criarAbono') }}" enctype="multipart/form-data">
+                        <form id="criarjustificativa" class="text-center" method="POST"  action="{{ route('criarJustificativa') }}" enctype="multipart/form-data">
                             {!! csrf_field() !!}
 
                             <input type="hidden" name="turma" value="{{ $turma->id }}" required>
@@ -128,7 +128,7 @@
                     <div class="form-group">
                     <br>
                         <div class="text-center">
-                            <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Solicitar Abono</button>
+                            <button type="button" onclick="submitModal();" class="btn btn-success"><i class="fa fa-upload"></i> Solicitar Justificativa</button>
                         </div>
                     </div>
                     <div class="form-group text-center">

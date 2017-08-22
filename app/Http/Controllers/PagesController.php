@@ -44,9 +44,9 @@ class PagesController extends Controller
         return view('tutorial');
     }
 
-    public function abono()
+    public function justificativa()
     {
-      return view('abono');
+      return view('justificativa');
     }
 
     /**

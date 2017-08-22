@@ -83,8 +83,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('faltas/{turma}', ['as' => 'visualizarFaltas', 'uses' => 'FaltaController@show']);
     Route::get('faltas/{turma}/pdfview',array('as'=>'pdfview','uses'=>'FaltaController@pdfview'));
-    Route::get('falta/abono/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@abono']);
-    Route::post('abonar', ['as' => 'criarAbono', 'uses' => 'FaltaController@store']);
+    Route::get('falta/justificativa/{turma}/{aluno}', ['as' => 'abonarFalta', 'uses' => 'FaltaController@justificativa']);
+    Route::post('abonar', ['as' => 'criarJustificativa', 'uses' => 'FaltaController@store']);
     Route::get('sobre', ['as' => 'sobre', 'uses' => 'PagesController@sobre']);
 });
 

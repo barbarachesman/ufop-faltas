@@ -149,7 +149,7 @@
                           @if(auth()->user()->isAluno())
                           <a class="btn btn-ufop" role="button" href="{{ route('abonarFalta', ['turma' => $turma, 'aluno' => auth()->id()]) }}">
 
-                          <i class="fa fa-pencil-square-o"></i> Solicitar Abono
+                          <i class="fa fa-pencil-square-o"></i> Solicitar Justificativa
                           </a>
                           @endif
 

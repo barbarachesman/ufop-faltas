@@ -33,7 +33,7 @@
                         <h4 class="subheading">Acompanhem o número de faltas e visualize os resultados</h4>
                      </div>
                      <div class="timeline-body">
-                        <p class="text-muted">Visitem a página para gerenciar suas faltas. Verifique se não tem nenhum a atestado ou possível justificativa e solicite o abono pelo sistema.</p>
+                        <p class="text-muted">Visitem a página para gerenciar suas faltas. Verifique se não tem nenhum a atestado ou possível justificativa e solicite o justificativa pelo sistema.</p>
                      </div>
                   </div>
                </li>

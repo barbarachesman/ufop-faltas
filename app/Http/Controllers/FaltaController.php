@@ -9,9 +9,9 @@ use Request;
 use PDF;
 use App\Http\Requests\AtualizarFaltaRequest;
 use App\Http\Requests\GerenciarFaltaRequest;
-use App\Http\Requests\CreateAbonoRequest;
+use App\Http\Requests\CreateJustificativaRequest;
 use App\Matriculado;
-use App\Abono;
+use App\Justificativa;
 use App\Turma;
 use App\Usuario;
 use Carbon\Carbon;
@@ -31,14 +31,14 @@ class FaltaController extends Controller
     return view('falta.show')->with(['turma' => $turma, 'faltas' => $faltas, 'matriculados' => $matriculados]);
   }
 
-  public function abono(Turma $turma, Matriculado $aluno)
+  public function justificativa(Turma $turma, Matriculado $aluno)
   {
     $faltas = Falta::with('aluno')->where('turma_id', $turma->id)->get()->sortBy('data')->groupBy('data');
 
-    return view('abono.show')->with(['turma' => $turma]);
+    return view('justificativa.show')->with(['turma' => $turma]);
   }
 
-  public function store(CreateAbonoRequest $request)
+  public function store(CreateJustificativaRequest $request)
   {//'observacao', 'arquivo', 'faltas_aluno_id', 'faltas_turma_id', , 'faltas_data','faltas_data_final', 'status'
     $form = $request->all();
     // Limpeza de CPF
@@ -54,22 +54,22 @@ class FaltaController extends Controller
     if( !is_null($form['dataFinal'])) $dataFinal = null; //"29/06/2017"
     $dataFinal = date_create_from_format('d/m/Y', $form['dataFinal'])->format('Y-m-d H:i:s');
 
-    $novoAbono = Abono::create([
+    $novoJustificativa = Justificativa::create([
       'observacao' => $form['observacao'],
       'aluno_id' => auth()->id(),
       'turma_id' => $form['turma'],
       'dataInicial' => $form['dataInicial'],
       'dataFinal' => $dataFinal,
       'status' => '0',
-      'arquivo' => $form['arquivo']->store('abonos'),
+      'arquivo' => $form['arquivo']->store('justificativas'),
     ]);
-    dd($novoAbono);
-    event(new RequestStored($novoAbono, auth()->user()));
+    dd($novoJustificativa);
+    event(new RequestStored($novoJustificativa, auth()->user()));
     session()->flash('tipo', 'success');
-    session()->flash('mensagem', 'Sua solicitação de abono foi enviada com sucesso. Você será notificado assim que o professor julgá-la.');
+    session()->flash('mensagem', 'Sua solicitação de justificativa foi enviada com sucesso. Você será notificado assim que o professor julgá-la.');
     // Envio de e-mail avisando que a requisição foi aprovada.
     $user = Ldapuser::where('cpf', $form['auth()->user()->cpf'])->first();
-    if(isset($user) && isset($user->email)) Mail::to($user->email)->queue(new RequestReceived($user, $novoAbono));
+    if(isset($user) && isset($user->email)) Mail::to($user->email)->queue(new RequestReceived($user, $novoJustificativa));
     return redirect()->route('indexUserRequisicao');
   }
 
@@ -187,7 +187,7 @@ class FaltaController extends Controller
 
 
 
-  public function criarAbono(CreateAbonoRequest $request)
+  public function criarJustificativa(CreateJustificativaRequest $request)
   {
     $form = $request->all();
     $aluno = Usuario::find($form['turma']);
