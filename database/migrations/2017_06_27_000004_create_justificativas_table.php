@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTurmasTable extends Migration
+class CreateJustificativasTable extends Migration
 {
     /**
      * Schema table name to migrate
