@@ -65,7 +65,7 @@
                                     <th>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data)->format('d/m/Y') }}</th>
                                 @endforeach
                                 <th>Número de faltas</th>
-                                @endif
+                            @endif
                             </tr>
 
                             </thead>
@@ -138,10 +138,10 @@
                                 {!! $qtde !!}
                             </td>
 
+                            @endif
 
                         </table>
 
-                        @endif
                     @endif
 
                       <div class="text-center">
