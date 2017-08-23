@@ -1,0 +1,318 @@
+@media screen and (min-width: 992px) {
+   .the-icons li {
+      width: 12.5%;
+   }
+}
+
+.text-primary {
+   color: rgb(150, 32, 56);
+}
+
+/*.the-buttons > li {
+float: left;
+height: 80px;
+padding: 10px;
+border: 1px solid #ddd;
+font-size: 12px;
+line-height: 1.25;
+text-align: center;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+margin: 0 -1px -1px 0;
+}
+
+.the-icons .glyphicon {
+display: block;
+margin: 5px auto;
+vertical-align: middle;
+margin-right: 3px;
+font-size: 24px;
+}*/
+
+/*.home-btn{
+width: 200px;
+}*/
+
+/*.the-icons li {
+float: left;
+width: 100px;
+height: 110px;
+padding: 10px;
+border: 1px solid #ddd;
+font-size: 12px;
+line-height: 1.25;
+text-align: center;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+margin: 0 auto;
+}*/
+
+/*.the-icons, .the-buttons {
+list-style:none;
+}
+
+.the-icons .glyphicon {
+display:inline;
+}*/
+
+/* bootstrap.css Overriding */
+
+.modal-open {
+   overflow: inherit;
+}
+
+.btn-primary-ufop:active:hover,
+.btn-primary-ufop .active:hover,
+.open > .dropdown-toggle .btn-primary-ufop:hover,
+.btn-primary-ufop:active:focus,
+.btn-primary-ufop .active:focus,
+.open > .dropdown-toggle .btn-primary-ufop:focus,
+.btn-primary-ufop:active .focus,
+.btn-primary-ufop .active .focus,
+.open > .dropdown-toggle .btn-primary-ufop .focus {
+   background-color: rgb(139, 20, 43);
+   border-color: rgb(139, 15, 40);
+   color: #fff;
+}
+
+.ufop{
+   max-width: 100px;
+   border-width: 2px;
+   border-color: rgb(139, 19, 43);
+}
+
+/* agency.css Overriding */
+
+.navbar-default .navbar-brand{
+   color: rgb(150, 32, 56);
+   font-family: "Kaushan Script", "Helvetica Neue", Helvetica, Arial, cursive
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-brand:active,
+.navbar-default .navbar-brand .active {
+   color: rgb(139, 19, 43);
+}
+
+a {
+   color: rgb(150, 32, 56);
+}
+
+a .btn{
+   color: white;
+}
+
+a:hover,
+a:focus,
+a:active,
+a.active {
+   color: rgb(139, 19, 43);
+}
+
+.navbar-default .nav li a:hover,
+.navbar-default .nav li a:focus {
+   color: rgb(150, 32, 56);
+   outline: 0
+}
+
+.navbar-default .navbar-nav>.active>a {
+   background-color: rgb(150, 32, 56);
+}
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+   background-color: rgb(139, 19, 43);
+}
+
+.btn-dashboard {
+   font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif
+
+}
+.btn-primary-ufop {
+   background-color: rgb(150, 32, 56);
+   border-color: rgb(150, 32, 56);
+   color: #fff;
+}
+
+.btn-primary-ufop:hover,
+.btn-primary-ufop:focus,
+.btn-primary-ufop:active,
+.btn-primary-ufop .active,
+.open .dropdown-toggle .btn-primary-ufop {
+   background-color: rgb(139, 20, 43);
+   border-color: rgb(139, 15, 40);
+   color: #fff;
+}
+
+.btn-xl {
+   background-color: rgb(150, 32, 56);
+   border-color: rgb(150, 32, 56);
+}
+
+.btn-xl:hover,
+.btn-xl:focus,
+.btn-xl:active,
+.btn-xl .active,
+.open .dropdown-toggle .btn-xl {
+   background-color: rgb(139, 20, 43);
+   border-color: rgb(139, 15, 40);
+}
+
+.btn-primary-ufop.disabled.focus, .btn-primary-ufop.disabled:focus, .btn-primary-ufop.disabled:hover, .btn-primary-ufop.focus[disabled], .btn-primary-ufop[disabled]:focus, .btn-primary-ufop[disabled]:hover, fieldset[disabled] .btn-primary-ufop.focus, fieldset[disabled] .btn-primary-ufop:focus, fieldset[disabled] .btn-primary-ufop:hover {
+   background-color: rgb(139, 20, 43);
+   border-color: rgb(139, 15, 40);
+}
+
+.timeline>li .timeline-image {
+   background-color: rgb(139, 20, 43);
+}
+
+ul.social-buttons li a:hover,
+ul.social-buttons li a:focus,
+ul.social-buttons li a:active {
+   background-color: rgb(139, 20, 43);
+}
+
+/*#portfolio .portfolio-item .portfolio-link .portfolio-hover {
+background: rgba(139, 20, 43, .9);
+}*/
+
+header .intro-text {
+   padding-top: 600px;
+   padding-bottom: 50px;
+}
+
+::-moz-selection {
+   background-color: rgb(150, 32, 56);
+   color: #fff;
+}
+
+::selection {
+   background-color: rgb(150, 32, 56);
+   color: #fff;
+}
+
+.navbar-default .navbar-toggle {
+   background-color: rgb(150, 32, 56);
+   border-color: rgb(150, 32, 56);
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+   background-color: rgb(139, 20, 43);
+}
+
+.timeline:before {
+   background: rgb(150, 32, 56);
+}
+
+.timeline > li .timeline-image {
+   border: 7px solid #ddd;
+
+}
+
+.form-control{
+   border-radius: 2px;
+}
+
+.input-group .input-group-addon {
+   border-radius: 4px;
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+   background-color: #eee;
+   border: 1px solid #ccc;
+}
+
+.btn-default {
+   color: #333;
+   background-color: #fff;
+   border-color: #ccc;
+}
+
+.modal {
+   background: none;
+}
+
+.contains-buttons .panel-title{
+   padding-top: 5px;
+}
+
+/* AdminLTE.css overriding */
+
+/*.content-wrapper, .right-side {
+background-color: #fff;
+}*/
+
+div .fixed{
+   position: fixed;
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+
+.table-ufop > thead > tr > th {
+   border-bottom: 2px solid rgb(150, 32, 56);
+   vertical-align: middle;
+}
+
+.table > tbody > tr > td {
+   vertical-align: middle;
+}
+
+.table > thead > tr > th {
+   vertical-align: middle;
+}
+
+.table-col-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-col-condensed > tfoot > tr > td, .table-col-condensed > tfoot > tr > th, .table-col-condensed > thead > tr > td, .table-col-condensed > thead > tr > th {
+   padding-left: 5px;
+   padding-right: 5px;
+}
+
+.hr-ufop{
+   border: 1px solid rgb(150, 32, 56);
+}
+
+.panel-ufop{
+   border: 1px solid rgb(150, 32, 56);
+}
+
+.panel-survey{
+   background-color: #F5F5F5;
+}
+
+.dynamic-input-group{
+   padding-top: 2px;
+}
+
+.btn-div{
+   text-align: right;
+   padding-bottom: 15px;
+}
+
+.remove-question{
+   color: gray;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+   background-color: rgb(139, 20, 43);
+   border-color: rgb(139, 15, 40);
+}
+
+.span-error{
+   color: red;
+}
+
+.pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+   z-index: 2;
+   color: rgb(139, 15, 40);
+   background-color: #eee;
+   border-color: #ddd;
+
+}
+
+/*table{
+border-collapse: separate;
+empty-cells:hide;
+}*/

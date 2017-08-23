@@ -1,0 +1,34 @@
+ul.bar-legend{
+   list-style: none;
+   position: relative;
+}
+
+ul.bar-legend li {
+   padding-left: 10px;
+   /*-webkit-transition: background-color 200ms ease-in-out;
+   -moz-transition: background-color 200ms ease-in-out;
+   -o-transition: background-color 200ms ease-in-out;
+   transition: background-color 200ms ease-in-out;*/
+}
+
+ul.bar-legend li span {
+   display: block;
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 22px;
+   height: 22px;
+   border-radius: 5px;
+}
+
+/*.chart-area > *{
+   float:left
+}*/
+
+/*#col-legend{
+
+}
+
+#legend-text{
+   padding-left: 6px;
+}*/
