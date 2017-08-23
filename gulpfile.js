@@ -31,6 +31,7 @@ elixir(function(mix) {
     // TODO verificar se usando SASS e LESS o erro é resolvido
     mix.copy('resources/assets/css/bootstrap', 'public/css/bootstrap');
     mix.copy('resources/assets/css/font-awesome', 'public/css/font-awesome');
+    mix.copy('resources/assets/css', 'public/css');
 
     // Concatena todos os CSSs em um único arquivo
     mix.styles([
