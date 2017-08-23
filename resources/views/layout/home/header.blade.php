@@ -6,7 +6,7 @@
            {{-- <div class="intro-heading">Seja Bem-Vindo!</div> --}}
 
            <div class="w3-content w3-display-container">
-              <img class="mySlides" src="../public/img/a.jpg">
+              <img class="mySlides" src="../public/img/imageinicial.jpg">
               <div class="w3-center w3-display-bottommiddle" style="width:100%">
                 <div class="w3-left" onclick="plusDivs(-1)">&#10094;</div>
                 <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
