@@ -1,4 +1,4 @@
-# UFOP Faltas - Laravel 5.3
+# Diário de Classe - Laravel 5.3
 
 ![Screenshot](screenshot.png)
 https://www.overleaf.com/8052441qgdhcqmbdbwx
