@@ -27,7 +27,8 @@ class GerenciarFaltaRequest extends FormRequest
             'turma'       => 'required|exists:turmas,id',
             'opcao'       => 'required|in:dia,intervalo',
             'dataInicial' => 'required|date_format:d/m/Y',
-            'dataFinal'   => 'required_if:opcao,intervalo|date_format:d/m/Y'
+            'dataFinal'   => 'required_if:opcao,intervalo|date_format:d/m/Y',
+            'dias[]'      => 'array|in:0,1,2,3,4,5,6'
         ];
     }
 }
