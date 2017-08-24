@@ -80,8 +80,6 @@ class TurmaController extends Controller
      */
     public function importarCSV(CriarTurmaRequest $request)
     {
-        Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
-
         // Transforma o CSV da turma em um array associativo (dicionário)
         $alunos = Excel::load($request->file('file'))->get()->toArray();
         $callback = $this->parseTurma($alunos);
@@ -278,8 +276,6 @@ class TurmaController extends Controller
 
     public static function desmatricular(Usuario $aluno, Turma $turma)
     {
-
-        //dd($aluno);
         try
         {
             DB::table('matriculados')->where('aluno_id', $aluno->id)->where('turma_id', $turma->id)->delete();
@@ -298,8 +294,6 @@ class TurmaController extends Controller
 
     public function atualizarTurma(CriarTurmaRequest $request)
     {
-        Excel::setDelimiter(';'); // Muda o delimitador de campos para ponto-e-vírgula (;)
-
         $turma = Turma::find($request->get('turma'));
 
         // Transforma o CSV da turma em um array associativo (dicionário)
