@@ -1,7 +1,5 @@
 <style type="text/css">
-    table td, table th{
-        border:1px solid black;
-    }
+
 </style>
 <div class="container">
 
@@ -18,16 +16,16 @@
 
                         <thead style="position=fixed;">
                             <tr><tr>
-                                <td colspan="3">UFOP - UNIVERSIDADE FEDERAL DE OURO PRETO<br>DECSI - DEPARTAMENTO DE COMPUTACAO E SISTEMAS<br><br>
-                                    DIÁRIO DE CLASSE</td>
+                                <td colspan="3"><br><br><br><br>UFOP - UNIVERSIDADE FEDERAL DE OURO PRETO<br>DECSI - DEPARTAMENTO DE COMPUTACAO E SISTEMAS<br><br>
+                                    DIÁRIO DE CLASSE 2017/1<br><br><br><br><br><br></td>
 
-                                <td colspan="3">CSI030 - PROGRAMACAO DE COMPUTADORES I&nbsp;
+                                <td colspan="3">{{ $turma->disciplina->codigo }} - {{ $turma->disciplina->nome }}&nbsp;
                                     <table border="0">
                                         <tr>
-                                            <td colspan="3">xxxx</td>
+                                            <td colspan="3"> </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3">yyyy</td>
+                                            <td colspan="3"> </td>
                                         </tr>
 
                                     </table>
@@ -36,31 +34,25 @@
                             </tr>
                         </thead>
 
-
-
-
-
                     <tbody>
-                        <tr><th style="width:0.5px;">ORD</th>
+                        <tr>
                             <th style="width:2px;">MATRÍCULA</th>
                             <th colspan="3">NOME ALUNO(A)</th>
 
-                            <th style="width:0.5px;">TOTAL</th></tr>
+                            <th style="width:0.5px;">TOTAL</th></tr><?php $counter = 0;?>
                         @foreach($matriculados as $matriculado)
+
 
                         <tr>
 
                             @if(!auth()->user()->isAluno())
-                            <td>
-                                <?php $ord = 1; ?>
-                                {!! $ord++ !!}
-                            </td>
                             <td style="width:5px;">{!! $matriculado->aluno->matricula ? $matriculado->aluno->matricula : 'Desconhecida' !!}</td>
 
                             <td colspan="3">{!! $matriculado->aluno->nome !!}</td>
                             @endif
                             <td>
-                                <?php $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
+                                <?php
+                                $qtde = DB::table('faltas')->where('aluno_id', $matriculado->aluno->id)->where('turma_id', $turma->id)->count();?>
                                 {!! $qtde !!}
                             </td>
 
@@ -77,17 +69,17 @@
 												<tr>
 
 														<td width='40%'>
-																PROFESSOR <br>
+																PROFESSOR&nbsp; {!! auth()->user()->nome !!}<br>
 																<table border='0' width='100%'>
 
 																		<tr>
-																				<td>DATA</td><br>
-																				<td> ASS. PROFESSOR</td><br>
-																				<td>DATA</td><br>
-																				<td> ASS. CHEFE DEPTO</td><br>
+																				<td>DATA</td>
+																				<td> ASS. PROFESSOR</td>
+																				<td>DATA</td>
+																				<td> ASS. CHEFE DEPTO</td>
 																		</tr>
 
-																		<td></td>
+																		<td>&nbsp; </td>
 																		<td> &nbsp; </td>
 																		<td>&nbsp;</td>
 																		<td> &nbsp;</td>
@@ -100,10 +92,7 @@
 										</td>
 
 
-										<td rowspan='2' width='60%'>
-
-												LISTAGEM SUJEITA A ALTERAÇÕES DEVIDO A REQUERIMENTOS EM ANDAMENTO. INSTRUÇÕES PARA PREENCHIMENTO: A CHAMADA ORAL É OBRIGATÓRIA. IDENTIFIQUE O TIPO DE AULA COM T=TEÓRICA E P=PRÁTICA. CADA AULA CORRESPONDE A UMA MARCAÇÃO. A PRÓ-REITORIA DE GRADUAÇÃO SOMENTE RECONHECE COMO ALUNO MATRICULADO AQUELE CUJO NOME CONSTA NESTE DIÁRIO.
-
+										<td rowspan='2' width='60%'>LISTAGEM SUJEITA A ALTERAÇÕES DEVIDO A REQUERIMENTOS EM ANDAMENTO. INSTRUÇÕES PARA PREENCHIMENTO: A CHAMADA ORAL É OBRIGATÓRIA. IDENTIFIQUE O TIPO DE AULA COM T=TEÓRICA E P=PRÁTICA. CADA AULA CORRESPONDE A UMA MARCAÇÃO. A PRÓ-REITORIA DE GRADUAÇÃO SOMENTE RECONHECE COMO ALUNO MATRICULADO AQUELE CUJO NOME CONSTA NESTE DIÁRIO.
 										</td>
 
 										</tr>
