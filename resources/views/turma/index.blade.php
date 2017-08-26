@@ -93,11 +93,11 @@
                                     @endif
                                     <td>
                                         @if(!auth()->user()->isAluno())
-                                            <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
+                                            <a href="{{ route('detalheTurma', $vinculo->turma->id) }}" class="btn btn-primary btn-xs" role="button">
                                                 <i class="fa fa-search-plus"></i> Detalhes
                                             </a>
 
-                                            <a href="{{ route('atualizarTurma', $vinculo->turma->id) }}" class="btn btn-ufop btn-xs" role="button">
+                                            <a href="{{ route('atualizarTurma', $vinculo->turma->id) }}" class="btn btn-success btn-xs" role="button">
                                                 <i class="fa fa-refresh"></i> Atualizar
                                             </a>
                                         @endif

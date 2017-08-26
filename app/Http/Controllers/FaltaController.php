@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Falta;
 use App;
+use Maatwebsite\Excel\Facades\Excel;
 use View;
 use Request;
 use PDF;
 use App\Http\Requests\AtualizarFaltaRequest;
+use App\Http\Requests\GerarDiarioRequest;
 use App\Http\Requests\GerenciarFaltaRequest;
 use App\Http\Requests\CreateJustificativaRequest;
 use App\Matriculado;
@@ -82,21 +84,232 @@ class FaltaController extends Controller
     return view('falta.select')->with('turma', $turma);
   }
 
+    /**
+     * Gera uma planilha em formato XLS contendo os dados de frequência dos alnos de uma determinada turma
+     * @param GerarDiarioRequest $request Requisição com os campos validados
+     * @param Turma $turma Turma que terá seu diário de frequência gerado
+     */
+  public function gerarDiario(GerarDiarioRequest $request, Turma $turma)
+  {
+      $form = $request->all();
+      $dataCorrente = Carbon::createFromFormat('d/m/Y', $form['dataInicial']);
+      $dataFinal = Carbon::createFromFormat('d/m/Y', $form['dataFinal']);
 
-  public function pdfview(Turma $turma)
-   {
-       $faltas = DB::table("faltas")->get();
+      $datas = array();
 
-       $matriculados = Matriculado::with('aluno')->where('turma_id', $turma->id)->get();
+      while($dataCorrente <= $dataFinal)
+      {
+          if(isset($form['dias']) && in_array($dataCorrente->dayOfWeek, $form['dias']))
+              $datas[] = $dataCorrente->copy();
+          else if(!isset($form['dias']))
+              $datas[] = $dataCorrente->copy();
 
-       view()->share('faltas',$faltas);
-       view()->share('matriculados',$matriculados);
-       view()->share('turma',$turma);
+          $dataCorrente = $dataCorrente->addDay();
+      }
 
-           $pdf = PDF::loadView('pdfview');
-           return $pdf->download('diario_classe.pdf');
+      $nomeDoArquivo = 'DIARIO-' . $turma->disciplina->codigo . '-' . $turma->disciplina->nome . '-' . $turma->codigo . '-' . $turma->periodo->ano . '-' . $turma->periodo->periodo;
 
-   }
+      $teste = Excel::create($nomeDoArquivo, function ($excel) use($turma, $datas) {
+
+          // Set the title
+          $excel->setTitle('Diario de Frequencia -' . $turma->disciplina->codigo . ' ' . $turma->disciplina->nome . ' T' . $turma->codigo)
+                ->setKeywords("Diario de Frequencia, " . $turma->disciplina->nome . ", " . $turma->disciplina->codigo . ", Turma " . $turma->codigo)
+                ->setLastModifiedBy(auth()->user()->nome);
+
+          $excel->sheet("Diário", function ($sheet) use($turma, $datas) {
+
+              // Sets all borders
+              $sheet->setAllBorders('thin');
+              $sheet->setHeight(1, 35);
+              $sheet->setHeight(2, 35);
+              $sheet->setHeight(3, 35);
+
+              // Informação básica do diário
+              $sheet->cell('A1', function($cell) use ($turma) {
+                  $linha1 = "UNIVERSIDADE FEDERAL DE OURO PRETO";
+                  $linha2 = strtoupper(auth()->user()->grupo_nome);
+                  $linha3 = "DIÁRIO DE CLASSE";
+                  $linha4 = $turma->periodo->ano . "/" . $turma->periodo->periodo;
+
+                  // Insere as linhas com uma quebra entre elas
+                  $cell->setValue($linha1 . "\n" .  $linha2 . "\n" . $linha3 . "\n" . $linha4);
+
+                  // Set font size
+                  $cell->setFontSize(12);
+
+                  // Set font weight to bold
+                  $cell->setFontWeight('bold');
+              });
+
+              // Mescla as cédulas com o cabeçalho do documento, com o departamento, ano e período
+              $sheet->mergeCells('A1:C3');
+              $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
+              $sheet->getStyle('A1')->getAlignment()->setVertical('top');
+
+              // Código e nome da disciplina
+              $sheet->cell('D1', function($cell) use ($turma) {
+                  $cell->setValue($turma->disciplina->codigo . " - " . $turma->disciplina->nome);
+              });
+              $sheet->getStyle('D1')->getAlignment()->setVertical('top');
+
+              // Mescla as cédulas onde está o rótulo do código da disciplina e a turma
+              $sheet->mergeCells('D1:AA1');
+
+              // Cabeçalho informando que essa será a linha com os rótulos das datas
+              $sheet->cell('D2', function($cell) {
+                  $cell->setValue("DIA");
+              });
+              $sheet->getStyle('D2')->getAlignment()->setVertical('top');
+
+              // Rótulo com o tipo de aula (Teórica ou Prática)
+              $sheet->cell('D3', function($cell) {
+                  $cell->setValue("TIPO");
+              });
+              $sheet->getStyle('D3')->getAlignment()->setVertical('top');
+
+              $sheet->getStyle('AB1')->getAlignment()->setWrapText(true);
+              $sheet->getStyle('AB1')->getAlignment()->setHorizontal('center');
+              $sheet->getStyle('AB1')->getAlignment()->setVertical('top');
+
+              // Rótulo do código da turma
+              $sheet->cell('AB1', function($cell) use ($turma) {
+                  $cell->setValue("TURMA \n" . $turma->codigo);
+              });
+
+              // Rótulo da carga horária
+              $sheet->cell('AC1', function($cell) {
+                  $cell->setValue("C.H.");
+              });
+              $sheet->getStyle('AC1')->getAlignment()->setHorizontal('center');
+              $sheet->getStyle('AC1')->getAlignment()->setVertical('top');
+
+              // Rótulo do número da página
+              $sheet->cell('AD1', function($cell) {
+                  $cell->setValue("PÁG.\n1");
+              });
+              $sheet->getStyle('AD1')->getAlignment()->setWrapText(true);
+              $sheet->getStyle('AD1')->getAlignment()->setHorizontal('center');
+              $sheet->getStyle('AD1')->getAlignment()->setVertical('top');
+
+              // Rótulo do número da página
+              $sheet->cell('AD3', function($cell) {
+                  $cell->setValue("C.H. DADA");
+              });
+              $sheet->getStyle('AD3')->getAlignment()->setVertical('top');
+
+              $celulaInicialData = "E";
+
+              // Preenche as cédulas com as datas
+              foreach($datas as $data)
+              {
+                  $sheet->cell($celulaInicialData . '2', function($cell) use ($data) {
+                      $cell->setValue($data->day . "/" . $data->month);
+                  });
+
+                  // Verifica se chegou na divisão das cédulas
+                  if($celulaInicialData == "Z") $celulaInicialData = "AA";
+                  else ++$celulaInicialData;
+              }
+
+              // Cabeçalho da tabela
+              $cabecalhoTabela = ["ORD", "MATRÍCULA", "NOME ALUNO(A)", "CURSO", "CONTROLE DE FREQUÊNCIA"];
+              $sheet->row(4, $cabecalhoTabela);
+
+
+              // Adiciona o rótulo com o total de faltas, a coluna AD terá o total de faltas de cada aluno
+              $sheet->cell('AD4', function($cell) {
+                  $cell->setValue("TOTAL");
+              });
+
+              // Mescla as cédulas de cabeçalho do texto "CONTROLE DE FREQUÊNCIA"
+              $sheet->mergeCells('E4:AC4');
+              $sheet->getStyle('E4')->getAlignment()->setHorizontal('center');
+
+              $contador = 1; // Contador para ser usado como parâmetro no valor da coluna ORD
+
+              // Todas as faltas da turma
+              $faltas = $turma->faltas;
+
+              // Adicionando dados
+              $matriculados = $turma->matriculados()->getResults();
+              foreach ($matriculados as $matriculado)
+              {
+                  $dados = [$contador, $matriculado->aluno->matricula, strtoupper($matriculado->aluno->nome), $matriculado->aluno->grupo_nome];
+
+                  $colunaTotalFaltasDoAluno = "AD" . strval($contador + 4);
+
+                  // Define o valor da cédula que informa a quantidade de faltas do aluno
+                  $alunoFaltas = $faltas->where("aluno_id", $matriculado->aluno_id);
+                  $sheet->cell($colunaTotalFaltasDoAluno , function($cell) use($alunoFaltas) {
+                      $cell->setValue($alunoFaltas->count());
+                  });
+
+                  // Array que terá todas as presenças e faltas de cada dia do aluno
+                  $frequencia = array();
+
+                  // Itera sobre todas as datas e verfica se o aluno faltou naquela data
+                  foreach($datas as $data)
+                  {
+                      if($alunoFaltas->contains('data', $data->toDateString())) $frequencia[] = 'A';
+                      else $frequencia[] = 'P';
+                  }
+
+                  // Concatena a frequência do aluno com os dados do mesmo, pois serão inseridos na planilha juntos
+                  $dados = array_merge($dados, $frequencia);
+
+                  $sheet->row($contador + 4, $dados);
+                  ++$contador;
+              }
+
+              // Inserir rodapé da planilha
+              $linhaRodape = $contador + 5;
+              $sheet->cell("A" . strval($linhaRodape), function($cell) {
+                  $cell->setValue("PROFESSOR\n" . strtoupper(auth()->user()->nome));
+              });
+              $sheet->getStyle('A' . strval($linhaRodape))->getAlignment()->setWrapText(true);
+              $sheet->mergeCells('A' . strval($linhaRodape) . ':C' . ($linhaRodape));
+              $sheet->getStyle('A' . strval($linhaRodape))->getAlignment()->setVertical('top');
+
+              $sheet->cell("D" . strval($linhaRodape), function($cell) {
+                  $cell->setValue("ASS. PROFESSOR");
+                  $cell->setValignment('top');
+              });
+
+              $sheet->setHeight($linhaRodape, 40);
+              $sheet->setHeight(++$linhaRodape, 40);
+
+              $sheet->cell("A" . strval($linhaRodape), function($cell) {
+                  $cell->setValue("DATA ENTREGA");
+              });
+              $sheet->mergeCells('A' . strval($linhaRodape) . ':B' . ($linhaRodape));
+
+              $sheet->cell("C" . strval($linhaRodape), function($cell) {
+                  $cell->setValue("DATA DO PARECER");
+              });
+
+              $sheet->cell("D" . strval($linhaRodape), function($cell) {
+                  $cell->setValue("ASS. CHEFE DEPTO");
+              });
+
+              $sheet->cells('A' . $linhaRodape . ':D' . $linhaRodape, function($cells) {
+                  $cells->setValignment('top');
+              });
+
+              $textoRodape = "LISTAGEM SUJEITA A ALTERAÇÕES DEVIDO A REQUERIMENTOS EM ANDAMENTO. INSTRUÇÕES PARA PREENCHIMENTO: A CHAMADA ORAL É OBRIGATÓRIA. IDENTIFIQUE O TIPO DE AULA COM T=TEÓRICA E P=PRÁTICA. CADA AULA CORRESPONDE A UMA MARCAÇÃO. A PRÓ-REITORIA DE GRADUAÇÃO SOMENTE RECONHECE COMO ALUNO MATRICULADO AQUELE CUJO NOME CONSTA NESTE DIÁRO.";
+
+              $sheet->cell("E" . strval(--$linhaRodape), function($cell) use($textoRodape) {
+                  $cell->setValue($textoRodape);
+              });
+
+              $sheet->mergeCells('E' . strval($linhaRodape) . ':AD' . ($linhaRodape + 1));
+              $sheet->getStyle('E' . strval($linhaRodape))->getAlignment()->setWrapText(true);
+              $sheet->getStyle('E' . strval($linhaRodape))->getAlignment()->setVertical('top');
+          });
+
+      });
+
+      return $teste->export("xls");
+  }
 
   /**
   * Renderiza a view para gerenciar as faltas de uma turma.

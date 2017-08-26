@@ -58,15 +58,15 @@ return array(
     ],
 
     'properties' => [
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
-        'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
-        'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'creator'        => 'UFOP Faltas',
+        'lastModifiedBy' => 'UFOP Faltas',
+        'title'          => 'Diario de Frequencia',
+        'description'    => 'Diario de frequencia gerado automaticamente pelo sistema UFOP Faltas',
+        'subject'        => 'Diario de frequencia',
+        'keywords'       => 'diario de frequencia, UFOP, UFOP Faltas',
+        'category'       => 'Diario de Frequencia',
+        'manager'        => 'UFOP Faltas',
+        'company'        => 'Universidade Federal de Ouro Preto',
     ],
 
     /*
@@ -106,7 +106,7 @@ return array(
     |
     */
 
-    'creator'    => 'Maatwebsite',
+    'creator'    => 'UFOP Faltas',
 
     'csv'        => [
         /*
