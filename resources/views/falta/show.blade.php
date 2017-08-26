@@ -181,7 +181,7 @@
                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                               <h4 class="modal-title">Gerar Diário de Frequência</h4>
                                           </div>
-                                          <form action="{{ route('pdfview', $turma->id) }}" method="POST">
+                                          <form action="{{ route('gerarDiario', $turma->id) }}" method="POST">
                                               {{ csrf_field() }}
                                               <div class="modal-body">
                                                   <p class="text-center">Informe o dia inicial e final a serem considerados no diário:</p>
