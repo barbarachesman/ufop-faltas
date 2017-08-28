@@ -97,4 +97,3 @@ Route::get('/login', ['as' => 'showLogin', 'uses' => 'Auth\LoginController@showL
 Route::get('/home', ['as' => 'home', 'uses' => 'PagesController@home']);
 Route::post('/login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('/sair', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
-Route::get('download', ['as' => 'download', 'uses' => 'FaltaController@download']);
